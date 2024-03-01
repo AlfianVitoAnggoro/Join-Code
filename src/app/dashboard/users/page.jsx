@@ -26,7 +26,7 @@ export default function UsersDashboardPages() {
               <th className="py-3 text-center">NO</th>
               <th className="py-3 text-center">Nama</th>
               <th className="py-3 text-center">Email</th>
-              <th className="py-3 text-center">Point</th>
+              <th className="py-3 text-center">Role</th>
               <th className="py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -39,7 +39,9 @@ export default function UsersDashboardPages() {
               <td className="py-2 text-center whitespace-nowrap">
                 atokemen12@gmail.com
               </td>
-              <td className="py-2 text-center whitespace-nowrap">1000</td>
+              <td className="py-2 text-center whitespace-nowrap">
+                Software Developer
+              </td>
               <td className="py-2 text-center whitespace-nowrap space-x-2">
                 <Link
                   href={'/dashboard/users/detail/1'}

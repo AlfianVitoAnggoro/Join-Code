@@ -22,14 +22,6 @@ export default function NavbarTop() {
         <div className="h-16 flex justify-between items-center">
           <div className="flex justify-start items-center">
             <Link href={'/'} className="flex justify-center items-center">
-              <Image
-                src="/icon.png"
-                width={50}
-                height={50}
-                alt="join-code"
-                className="w-10 h-10 object-cover mr-2"
-                priority
-              />
               <h5
                 className={`${permanent_Marker.className} text-black text-2xl`}
               >
@@ -94,7 +86,7 @@ export default function NavbarTop() {
                 LOGIN
               </Link>
             </div>
-            <div className="relative ml-3">
+            <div className="flex relative ml-3">
               <div className="flex justify-center items-center gap-3">
                 <h4 className="text-black font-semibold text-lg">
                   {session?.user?.fullname || 'Guest'}
@@ -120,7 +112,7 @@ export default function NavbarTop() {
               </div>
 
               <div
-                className={`absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                className={`absolute right-0 z-20 mt-10 w-48 origin-top-right rounded-md bg-white py-1 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none ${
                   isOpen ? 'block' : 'hidden'
                 }`}
                 role="menu"
@@ -128,13 +120,13 @@ export default function NavbarTop() {
                 aria-labelledby="user-menu-button"
               >
                 <Link
-                  href={'/profile/1'}
+                  href={'/profile'}
                   className="block px-4 py-2 text-sm text-black"
                 >
                   Your Profile
                 </Link>
                 <Link
-                  href={'/settings/1'}
+                  href={'/settings/profile'}
                   className="block px-4 py-2 text-sm text-black"
                 >
                   Settings

@@ -46,11 +46,16 @@ export default function Home() {
             Collaboration
           </h2>
           <p className="text-center text-xl text-white">
-            Collaboration is the process of two or more people, entities or
-            organizations working together to complete a task or achieve a goal.
-            Collaboration is similar to cooperation. Most collaboration requires
-            leadership, although the form of leadership can be social within a
-            decentralized and egalitarian group.{' '}
+            Collaboration / Kolaborasi adalah proses bekerja sama dengan orang
+            lain atau kelompok untuk mencapai tujuan bersama atau menyelesaikan
+            suatu tugas. Ini melibatkan individu atau entitas yang menggabungkan
+            upaya, keahlian, dan sumber daya mereka untuk memecahkan masalah,
+            menghasilkan ide, membuat keputusan, atau menghasilkan hasil yang
+            bermanfaat bagi semua pihak yang terlibat. Kolaborasi sering
+            membutuhkan komunikasi yang efektif, saling menghormati, tanggung
+            jawab bersama, dan koordinasi di antara peserta. Ini bisa terjadi
+            dalam berbagai setting, seperti tempat kerja, lembaga pendidikan,
+            proyek penelitian, inisiatif masyarakat, dan usaha kreatif.
           </p>
         </div>
       </div>
@@ -60,11 +65,13 @@ export default function Home() {
             Competition
           </h2>
           <p className="text-center text-xl text-black">
-            Collaboration is the process of two or more people, entities or
-            organizations working together to complete a task or achieve a goal.
-            Collaboration is similar to cooperation. Most collaboration requires
-            leadership, although the form of leadership can be social within a
-            decentralized and egalitarian group.{' '}
+            Competition / Kompetisi adalah situasi di mana dua atau lebih
+            individu, kelompok, atau entitas bersaing untuk mencapai tujuan yang
+            sama atau mendapatkan keunggulan atas yang lain dalam hal tertentu.
+            Ini bisa terjadi dalam berbagai konteks, termasuk olahraga, bisnis,
+            pendidikan, dan lainnya. Dalam konteks bisnis, kompetisi mengacu
+            pada persaingan antara perusahaan untuk memenangkan pangsa pasar,
+            pelanggan, atau sumber daya lainnya.
           </p>
         </div>
       </div>
@@ -74,11 +81,14 @@ export default function Home() {
             Leaderboard
           </h2>
           <p className="text-center text-xl text-black">
-            Leaderboard is the process of two or more people, entities or
-            organizations working together to complete a task or achieve a goal.
-            Collaboration is similar to cooperation. Most collaboration requires
-            leadership, although the form of leadership can be social within a
-            decentralized and egalitarian group.{' '}
+            Leaderboard / Papan peringkat adalah daftar atau tabel yang
+            menampilkan peringkat atau posisi relatif dari peserta dalam suatu
+            kompetisi, permainan, atau aktivitas lainnya berdasarkan kriteria
+            tertentu. Biasanya, leaderboard menampilkan informasi seperti nama
+            peserta, skor, atau pencapaian lainnya, dan diurutkan dari yang
+            terbaik hingga yang terendah. Ini digunakan untuk memotivasi
+            peserta, membangkitkan persaingan sehat, dan memberikan pengakuan
+            atas pencapaian tertinggi.
           </p>
         </div>
       </div>

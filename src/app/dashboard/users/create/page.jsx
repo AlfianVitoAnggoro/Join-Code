@@ -8,73 +8,47 @@ export default function CreateUserPage() {
       </div>
       <div className="p-3 bg-white">
         <form action="" className="space-y-3">
-          <div className="space-y-2">
-            <label className="font-medium">Image</label>
-            <Image
-              src={'/images/test_avatar.png'}
-              width={50}
-              height={50}
-              alt="join-code"
-              priority
-              className="rounded object-cover w-28 h-28"
-            />
-            <input
-              type="file"
-              name="image"
-              id="image"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Image"
-            />
-          </div>
           <div>
-            <label className="font-medium">Name</label>
+            <label className="font-medium">Name User</label>
             <input
               type="text"
               name="name"
               id="name"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Name"
+              placeholder="Name User"
             />
           </div>
           <div>
-            <label className="font-medium">Description</label>
+            <label className="font-medium">Email</label>
             <input
               type="text"
-              name="Description"
-              id="Description"
+              name="email"
+              id="email"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Name"
+              placeholder="Email User"
             />
           </div>
           <div>
-            <label className="font-medium">Instagram Link</label>
+            <label className="font-medium">Password</label>
             <input
-              type="text"
-              name="instagram_link"
-              id="instagram_link"
+              type="password"
+              name="password"
+              id="password"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Instagram Link"
+              placeholder="Password User"
             />
           </div>
           <div>
-            <label className="font-medium">Linkedin Link</label>
-            <input
-              type="text"
-              name="linkedin_link"
-              id="linkedin_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Linkedin Link"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Portofolio Link</label>
-            <input
-              type="text"
-              name="portofolio_link"
-              id="portofolio_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Portofolio Link"
-            />
+            <label className="font-medium">Role</label>
+            <select
+              name="role"
+              id="role"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="software_developer">Software Developer</option>
+              <option value="organization">Organization</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
           <button className="w-full bg-blue-500 text-white py-2 rounded">
             Submit

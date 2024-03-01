@@ -22,7 +22,7 @@ export default function LeaderboardPages() {
                 </thead>
               </table>
             </div>
-            <div className="overflow-y-auto min-h-max max-h-screen">
+            <div className="overflow-y-auto min-h-max max-h-60">
               <table className="table-auto min-w-full rounded-lg">
                 <tbody>
                   <tr className="even:bg-gray-100 odd:bg-gray-200 hover:bg-gray-300 transition-colors duration-200">

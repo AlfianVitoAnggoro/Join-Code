@@ -111,82 +111,91 @@ export default function CollaborationDetailPages() {
           <h2 className="text-black text-3xl font-bold">My Competition</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
             <div className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5">
-              <div className="grid grid-cols-3 gap-3 h-40">
-                <div className="col-span-1 flex justify-center items-center">
-                  <Image
-                    src={'/images/register_software_developer.svg'}
-                    width={50}
-                    height={50}
-                    alt="Software Developer"
-                    priority
-                    className="w-auto h-40 object-cover rounded"
-                  />
-                </div>
-                <div className="col-span-2 p-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex justify-start items-center">
-                      <Image
-                        src={'/images/icon-ok.svg'}
-                        width={25}
-                        height={25}
-                        alt="Ok"
-                      />
-                      <p className="text-xl font-semibold text-green-600 ml-1">
-                        Finish
-                      </p>
+              <Link href={'/competition/detail/1'}>
+                <div className="grid grid-cols-3 gap-3 h-40">
+                  <div className="col-span-1 flex justify-center items-center">
+                    <Image
+                      src={'/images/register_software_developer.svg'}
+                      width={50}
+                      height={50}
+                      alt="Software Developer"
+                      priority
+                      className="w-auto h-40 object-cover rounded"
+                    />
+                  </div>
+                  <div className="col-span-2 p-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex justify-start items-center">
+                        <Image
+                          src={'/images/icon-ok.svg'}
+                          width={25}
+                          height={25}
+                          alt="Ok"
+                        />
+                        <p className="text-xl font-semibold text-green-600 ml-1">
+                          Finish
+                        </p>
+                      </div>
+                      <div className="flex justify-start items-center">
+                        <Image
+                          src={'/images/icon-medal.png'}
+                          width={25}
+                          height={25}
+                          alt="Medal"
+                        />
+                        <p className="text-xl font-semibold text-yellow-600 ml-1">
+                          Juara 1
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex justify-start items-center">
-                      <Image
-                        src={'/images/icon-medal.png'}
-                        width={25}
-                        height={25}
-                        alt="Medal"
-                      />
-                      <p className="text-xl font-semibold text-yellow-600 ml-1">
-                        Juara 1
-                      </p>
+                    <h1 className="text-2xl font-bold my-2">
+                      Competition Name
+                    </h1>
+                    <div className="flex justify-start items-center gap-3">
+                      <div className="flex justify-start items-center gap-1">
+                        <Image
+                          src={'/images/icon-time.svg'}
+                          width={20}
+                          height={20}
+                          alt="Time"
+                        />
+                        <p className="text-md font-semibold text-black">
+                          7 Days
+                        </p>
+                      </div>
+                      <div className="flex justify-start items-center gap-1">
+                        <Image
+                          src={'/images/icon-team.png'}
+                          width={20}
+                          height={20}
+                          alt="Team"
+                        />
+                        <p className="text-md font-semibold text-black">
+                          8 Team
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <h1 className="text-2xl font-bold my-2">Competition Name</h1>
-                  <div className="flex justify-start items-center gap-3">
-                    <div className="flex justify-start items-center gap-1">
-                      <Image
-                        src={'/images/icon-time.svg'}
-                        width={20}
-                        height={20}
-                        alt="Time"
-                      />
-                      <p className="text-md font-semibold text-black">7 Days</p>
-                    </div>
-                    <div className="flex justify-start items-center gap-1">
-                      <Image
-                        src={'/images/icon-team.png'}
-                        width={20}
-                        height={20}
-                        alt="Team"
-                      />
-                      <p className="text-md font-semibold text-black">8 Team</p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div className="w-full py-3 h-56">
-                <p className="text-ellipsis overflow-clip text-lg h-40">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Adipisci, quibusdam quo. Nobis, provident aperiam? Saepe quod,
-                  facilis laboriosam maiores, perferendis ab eum magnam atque
-                  necessitatibus id perspiciatis! Nobis eum debitis, dignissimos
-                  dolor consequatur corrupti veniam quas temporibus nulla neque,
-                  tenetur enim! Vel reiciendis quidem ut qui libero, voluptates
-                  tempore! Ex iure impedit voluptatibus vitae dolor quae odio
-                  cupiditate! Corrupti optio veniam consequuntur eaque, itaque
-                  exercitationem pariatur impedit in fugit soluta quidem est
-                  nisi? Porro, cumque sit aliquam esse rem perferendis? Illo
-                  tempora, delectus assumenda debitis rem, quasi dolore
-                  laudantium rerum omnis voluptatem commodi ad repellendus, est
-                  consequatur nesciunt! Repellendus, voluptates?
-                </p>
-              </div>
+                <div className="w-full py-3 h-56">
+                  <p className="text-ellipsis overflow-clip text-lg h-40">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Adipisci, quibusdam quo. Nobis, provident aperiam? Saepe
+                    quod, facilis laboriosam maiores, perferendis ab eum magnam
+                    atque necessitatibus id perspiciatis! Nobis eum debitis,
+                    dignissimos dolor consequatur corrupti veniam quas
+                    temporibus nulla neque, tenetur enim! Vel reiciendis quidem
+                    ut qui libero, voluptates tempore! Ex iure impedit
+                    voluptatibus vitae dolor quae odio cupiditate! Corrupti
+                    optio veniam consequuntur eaque, itaque exercitationem
+                    pariatur impedit in fugit soluta quidem est nisi? Porro,
+                    cumque sit aliquam esse rem perferendis? Illo tempora,
+                    delectus assumenda debitis rem, quasi dolore laudantium
+                    rerum omnis voluptatem commodi ad repellendus, est
+                    consequatur nesciunt! Repellendus, voluptates?
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

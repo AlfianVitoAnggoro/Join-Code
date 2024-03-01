@@ -111,7 +111,7 @@ export default function ProfilePage({ params }) {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
             <div className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5">
-              <Link href={'/competition/1'}>
+              <Link href={'/competition/detail/1'}>
                 <div className="grid grid-cols-3 gap-3 h-40">
                   <div className="col-span-1 flex justify-center items-center">
                     <Image

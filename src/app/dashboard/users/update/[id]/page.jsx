@@ -33,17 +33,93 @@ export default function UpdateUserPage(params) {
               name="name"
               id="name"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Name"
+              placeholder="Name"
+              value={'Alfian Vito Anggoro'}
             />
           </div>
           <div>
-            <label className="font-medium">Description</label>
+            <label className="font-medium">Email</label>
             <input
               type="text"
-              name="Description"
-              id="Description"
+              name="email"
+              id="email"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Name"
+              placeholder="email user"
+              value={'XsHc4@example.com'}
+            />
+          </div>
+
+          <div>
+            <label className="font-medium">Gender</label>
+            <select
+              name="gender"
+              id="gender"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label className="font-medium">Address</label>
+            <textarea
+              name="address"
+              id="address"
+              cols="10"
+              rows="10"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
+              autem architecto. Delectus unde facere tempora consequatur
+              reiciendis illum dignissimos facilis.
+            </textarea>
+          </div>
+          <div>
+            <label className="font-medium">Description</label>
+            <textarea
+              name="description"
+              id="description"
+              cols="10"
+              rows="10"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
+              autem architecto. Delectus unde facere tempora consequatur
+              reiciendis illum dignissimos facilis.
+            </textarea>
+          </div>
+          <div>
+            <label className="font-medium">Skill Yang Diminati</label>
+            <select
+              multiple
+              name="skill"
+              id="skill"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="web">Web Developer</option>
+              <option value="android">Android Developer</option>
+            </select>
+          </div>
+          <div>
+            <label className="font-medium">Status Collaboration</label>
+            <select
+              name="status_collaboration"
+              id="status_collaboration"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="open">Open</option>
+              <option value="close">Close</option>
+            </select>
+          </div>
+          <div>
+            <label className="font-medium">Portofolio Link</label>
+            <input
+              type="text"
+              name="portofolio_link"
+              id="portofolio_link"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="Portofolio Link"
+              value={'https://github.com/alfianvitoanggoro'}
             />
           </div>
           <div>
@@ -54,6 +130,7 @@ export default function UpdateUserPage(params) {
               id="instagram_link"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Instagram Link"
+              value={'https://github.com/alfianvitoanggoro'}
             />
           </div>
           <div>
@@ -64,18 +141,10 @@ export default function UpdateUserPage(params) {
               id="linkedin_link"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Linkedin Link"
+              value={'https://github.com/alfianvitoanggoro'}
             />
           </div>
-          <div>
-            <label className="font-medium">Portofolio Link</label>
-            <input
-              type="text"
-              name="portofolio_link"
-              id="portofolio_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Portofolio Link"
-            />
-          </div>
+
           <button className="w-full bg-blue-500 text-white py-2 rounded">
             Submit
           </button>
