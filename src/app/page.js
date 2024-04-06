@@ -10,7 +10,7 @@ export const metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
   ),
-  title: 'Join Code',
+  title: 'Home - Join Code',
   description:
     'The Application make a collaboration and competition for software developer',
   authors: [

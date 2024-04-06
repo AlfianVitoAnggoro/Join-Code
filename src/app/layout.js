@@ -3,10 +3,10 @@ import { Inter } from 'next/font/google';
 import NavbarTop from './navbar_top';
 import NavbarBottom from './navbar_bottom';
 import Footer from './footer';
-import { SessionProvider } from '../../node_modules/next-auth/react';
 const inter = Inter({ subsets: ['latin'] });
 import './globals.css';
 import { usePathname } from 'next/navigation';
+import { SessionProvider } from 'next-auth/react';
 
 export default function RootLayout({ children }) {
   const disableNavbar = ['/dashboard'];

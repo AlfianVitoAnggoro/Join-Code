@@ -4,7 +4,7 @@ export default function DeleteUserPage() {
       <div className="pt-3 mb-3">
         <h2 className="text-2xl font-medium">Delete User</h2>
       </div>
-      <div className="p-3 bg-white">
+      <div className="p-3 bg-white rounded-lg">
         <h3 className="font-bold text-sm text-center my-3">
           Are you sure, you want to delete this data ?
         </h3>

@@ -16,14 +16,20 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/core/Modal/index.jsx"
+    "src/components/core/Modal/index.jsx",
+    "src/app/dashboard/competitions/data-table.jsx",
+    "src/app/dashboard/competitions/columns.jsx",
+    "src/app/api/auth/[...nextauth]/route.js"
   ],
   "exclude": ["node_modules"]
 }

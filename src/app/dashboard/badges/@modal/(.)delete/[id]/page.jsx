@@ -1,23 +1,36 @@
-'use client';
 import dynamic from 'next/dynamic';
 const Modal = dynamic(() => import('../../../../../../components/core/Modal'));
+import FormDelete from './FormDelete';
 
-export default function DeleteBadgePage() {
+export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  ),
+  title: 'Delete Badge - Join Code',
+  description:
+    'The Application make a collaboration and competition for software developer',
+  authors: [
+    { name: 'Alfian Vito Anggoro', url: `${process.env.NEXT_PUBLIC_API_URL}` },
+  ],
+  icons: {
+    icon: '/icon.png',
+  },
+  openGraph: {
+    title: 'Delete Badge',
+    description: 'Delete Badge - Join Code',
+    url: `${process.env.NEXT_PUBLIC_API_URL}`,
+    siteName: 'Delete Badge',
+  },
+};
+
+export default function DeleteBadgePage({ params }) {
   return (
     <Modal>
-      <div className="flex-1 bg-white p-3">
+      <div className="flex-1 bg-white p-3 rounded-lg">
         <div className="pt-3 mb-3">
           <h2 className="text-2xl font-medium">Delete Badge</h2>
         </div>
-        <div className="p-3 w-full h-full">
-          <h3 className="font-bold text-sm text-center my-3">
-            Are you sure, you want to delete this data ?
-          </h3>
-          <div className="flex gap-5 justify-center items-center">
-            <button className="p-2 bg-blue-600 text-white">Yes</button>
-            <button className="p-2 bg-red-600 text-white">No</button>
-          </div>
-        </div>
+        <FormDelete badgeId={params.id} />
       </div>
     </Modal>
   );

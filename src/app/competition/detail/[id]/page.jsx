@@ -1,28 +1,49 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { getDetailCompetition } from '@/lib/actions/competitionAction';
+import moment from 'moment';
+import 'moment/locale/id';
 
-export default function DetailCompetition() {
+export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  ),
+  title: 'Detail Competition - Join Code',
+  description:
+    'The Application make a collaboration and competition for software developer',
+  authors: [
+    { name: 'Alfian Vito Anggoro', url: `${process.env.NEXT_PUBLIC_API_URL}` },
+  ],
+  icons: {
+    icon: '/icon.png',
+  },
+  openGraph: {
+    title: 'Detail Competition',
+    description: 'Detail Competition - Join Code',
+    url: `${process.env.NEXT_PUBLIC_API_URL}`,
+    siteName: 'Detail Competition',
+  },
+};
+
+export default async function DetailCompetition({ params }) {
+  moment.locale('id');
+  const responseDetailCompetition = await getDetailCompetition(params.id);
+  const competition = responseDetailCompetition.data;
   return (
     <div className="col-span-5 flex flex-col gap-3">
       <div className="bg-white rounded p-3">
         <Image
-          src={'/icon.png'}
+          src={`/images/avatars/${competition.organization.user.avatar}`}
           width={50}
           height={50}
           priority
           className="rounded object-cover w-24 h-24"
         />
         <div className="my-3">
-          <h1 className="text-2xl font-bold">Competition Name</h1>
-          <p className="text-md text-neutral-500">Organisasi Name</p>
-        </div>
-        <div>
-          <Link
-            href={'/competition/detail/1/submit_project'}
-            className="bg-blue-700 text-white rounded px-4 py-2"
-          >
-            Submit Your Project
-          </Link>
+          <h1 className="text-2xl font-bold">{competition.name}</h1>
+          <p className="text-md text-neutral-500">
+            {competition.organization.user.name}
+          </p>
         </div>
         <div className="py-3">
           <h2 className="text-2xl font-semibold">About Competition</h2>
@@ -37,7 +58,10 @@ export default function DetailCompetition() {
             />
             <div className="flex flex-col">
               <p className="text-black font-semibold">Registration Date</p>
-              <p className="text-base text-black">01 Feb 2024 - 01 Mar 2024</p>
+              <p className="text-base text-black">
+                {moment(competition.registrationStartDate).format('ll')}-{' '}
+                {moment(competition.registrationEndDate).format('ll')}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -52,7 +76,9 @@ export default function DetailCompetition() {
               />
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Registration Fee</p>
-                <p className="text-base text-black">Rp. 20.000</p>
+                <p className="text-base text-black">
+                  Rp. {competition.registrationFee.toLocaleString('id-ID')}
+                </p>
               </div>
             </div>
             <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
@@ -66,7 +92,9 @@ export default function DetailCompetition() {
               />
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Category</p>
-                <p className="text-base text-black">Group</p>
+                <p className="text-base text-black">
+                  {competition.category.name}
+                </p>
               </div>
             </div>
           </div>
@@ -82,7 +110,9 @@ export default function DetailCompetition() {
               />
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Maks Member Team</p>
-                <p className="text-base text-black">4</p>
+                <p className="text-base text-black">
+                  {competition.maxMemberTeam}
+                </p>
               </div>
             </div>
             <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
@@ -96,7 +126,7 @@ export default function DetailCompetition() {
               />
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Maks Team</p>
-                <p className="text-base text-black">8</p>
+                <p className="text-base text-black">{competition.maxTeam}</p>
               </div>
             </div>
           </div>
@@ -112,7 +142,7 @@ export default function DetailCompetition() {
             <div className="flex flex-col">
               <p className="text-black font-semibold">Competition Place</p>
               <p className="text-base text-black">
-                Universitas Singaperbangsa Karawang (Offline)
+                {competition?.place} ({competition?.type?.name})
               </p>
             </div>
           </div>
@@ -127,25 +157,15 @@ export default function DetailCompetition() {
             />
             <div className="flex flex-col">
               <p className="text-black font-semibold">Competition Start Date</p>
-              <p className="text-base text-black">05 Apr 2024 - 01 Mei 2024</p>
+              <p className="text-base text-black">
+                {moment(competition.startDate).format('ll')}-{' '}
+                {moment(competition.endDate).format('ll')}
+              </p>
             </div>
           </div>
           <div className="p-1 my-2 ">
             <h2 className="text-xl font-semibold">Description</h2>
-            <p className="py-1">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-              dicta repudiandae voluptates consequuntur esse, ducimus, libero
-              fugit sint minus error incidunt quidem neque. Facere quo itaque
-              necessitatibus eligendi ab repellendus, amet sint facilis
-              doloremque ducimus labore veniam dicta doloribus aliquid vitae,
-              nam odit nihil cum a sed ea molestias aspernatur natus laboriosam.
-              Eos modi, dicta quo veniam culpa aliquid pariatur voluptatum vel
-              omnis sapiente harum? Sint illo nulla cumque at explicabo maxime
-              rem dicta error quia odit consequuntur sunt odio eaque ipsa
-              recusandae labore provident delectus, suscipit architecto,
-              voluptatibus perspiciatis ipsam facere? Ipsum unde nesciunt ut
-              tempora possimus. Itaque, dolor.
-            </p>
+            <p className="py-1">{competition.description}</p>
           </div>
         </div>
       </div>
@@ -153,7 +173,7 @@ export default function DetailCompetition() {
         <h2 className="text-2xl font-bold">About Organization</h2>
         <div className="flex gap-x-3 py-2">
           <Image
-            src={'/icon.png'}
+            src={`/images/avatars/${competition.organization.user.avatar}`}
             width={50}
             height={50}
             alt="Avatar"
@@ -161,16 +181,28 @@ export default function DetailCompetition() {
             className="rounded object-cover w-24 h-24"
           />
           <div className="flex flex-col">
-            <h3 className="text-lg font-semibold ">Organisasi Name</h3>
-            <p className="text-sm text-black">
-              Universitas Singaperbangsa Karawang
-            </p>
-            <Link
-              href={'https://github.com/alfianvitoanggoro'}
-              className="text-blue-700 text-sm"
-            >
-              https://github.com/alfianvitoanggoro
-            </Link>
+            <h3 className="text-lg font-semibold ">
+              {competition.organization.user.name}
+            </h3>
+            {competition?.organization?.address ? (
+              <p className="text-sm text-black">
+                {competition?.organization?.address}
+              </p>
+            ) : (
+              <p className="text-sm text-neutral-500">alamat tidak tersedia</p>
+            )}
+            {competition?.organization?.organizationLink ? (
+              <Link
+                href={competition?.organization?.organizationLink}
+                className="text-blue-700 text-sm"
+              >
+                {competition?.organization?.organizationLink}
+              </Link>
+            ) : (
+              <p className="text-sm text-neutral-500">
+                link organisasi tidak tersedia
+              </p>
+            )}
           </div>
         </div>
       </div>

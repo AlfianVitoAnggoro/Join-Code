@@ -1,0 +1,217 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId String @default(cuid()) @id
+  name String
+  nickname String @unique
+  email String @unique
+  password String
+  avatar String?
+  isEmailVerified Boolean @default(false)
+  roleId Int
+  softwareDevelopers SoftwareDeveloper?
+  organizations Organization?
+  admins Admin?
+  role Role @relation(fields: [roleId], references: [roleId])
+  @@map(name: "users")
+}
+
+model SoftwareDeveloper {
+  softwareDeveloperId Int @id @default(autoincrement())
+  description String? @db.Text
+  gender Gender?
+  address String? @db.Text
+  portfolioLink String?
+  usernameGithub String?
+  usernameInstagram String?
+  usernameLinkedin String?
+  collaborationId String @default(cuid()) @unique
+  point Int @default(0)
+  userId String @unique
+  badgeId Int? @default(1)
+  statusCollaboration Boolean @default(false)
+  user User @relation(fields: [userId], references: [userId])
+  badge Badge? @relation(fields: [badgeId], references: [badgeId])
+  teams TeamSoftwareDeveloper[]
+  leaderboards LeaderboardSoftwareDeveloper[]
+  skills SkillSoftwareDeveloper[]
+  @@map(name: "softwareDevelopers")
+}
+
+enum Gender {
+  Male
+  Female
+}
+
+model Organization {
+  organizationId Int @id @default(autoincrement())
+  description String? @db.Text
+  address String?
+  organizationLink String?
+  document String?
+  isValidDocument Boolean @default(false)
+  userId String @unique
+  paymentId Int? @unique
+  user User @relation(fields: [userId], references: [userId])
+  payment Payment? @relation(fields: [paymentId], references: [paymentId])
+  competitions Competition[]
+  @@map(name: "organizations")
+}
+
+model Admin {
+  adminId Int @id @default(autoincrement())
+  userId String @unique
+  user User @relation(fields: [userId], references: [userId])
+  @@map(name: "admins")
+}
+
+model Role {
+  roleId Int @id @default(autoincrement())
+  name String
+  users User[]
+  @@map(name: "roles")
+}
+
+model Badge {
+  badgeId Int @id @default(autoincrement())
+  name String
+  image String
+  point Int
+  softwareDevelopers SoftwareDeveloper[]
+  @@map(name: "badges")
+}
+
+model Payment {
+  paymentId Int @id @default(autoincrement())
+  name String?
+  service String?
+  noVirtualAccount String?
+  organization Organization?
+  @@map(name: "payments")
+}
+
+model Competition {
+  competitionId Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  place String? @db.VarChar(255)
+  description String @db.Text
+  maxMemberTeam Int?
+  maxTeam Int?
+  registrationStartDate DateTime
+  registrationEndDate DateTime
+  registrationFee Int?
+  startDate DateTime
+  endDate DateTime
+  isCompleted Boolean @default(false)
+  categoryId Int
+  typeId Int
+  organizationId Int
+  category Category @relation(fields: [categoryId], references: [categoryId])
+  type Type @relation(fields: [typeId], references: [typeId])
+  organization Organization @relation(fields: [organizationId], references: [organizationId])
+  teams TeamCompetition[]
+  @@map(name: "competitions")
+}
+
+model Type {
+  typeId Int @id @default(autoincrement())
+  name String
+  competitions Competition[]
+  @@map(name: "types")
+}
+
+model Category {
+  categoryId Int @id @default(autoincrement())
+  name String
+  competitions Competition[]
+  @@map(name: "categories")
+}
+
+model StatusTeamCompetition {
+  statusTeamCompetitionId Int @id @default(autoincrement())
+  name String
+  teamCompetitions TeamCompetition[]
+  @@map(name: "statusTeamCompetition")
+}
+
+model TeamCompetition {
+  projectLink String?
+  repositoryLink String?
+  ranking Int?
+  proofOfPayment String?
+  isAccepted Boolean @default(false)
+  statusTeamCompetitionId Int @default(1)
+  teamId Int
+  competitionId Int
+  statusTeamCompetition StatusTeamCompetition @relation(fields:[statusTeamCompetitionId],references: [  statusTeamCompetitionId])
+  team Team @relation(fields:[teamId],references: [teamId])
+  competition Competition @relation(fields:[competitionId],references: [competitionId])
+  @@id([teamId, competitionId])
+  @@map(name: "teamCompetition")
+}
+
+model Team {
+  teamId Int @id @default(autoincrement())
+  name String?
+  competitions TeamCompetition[]
+  softwareDevelopers TeamSoftwareDeveloper[]
+  @@map(name: "teams")
+}
+
+model TeamSoftwareDeveloper {
+  teamId Int
+  collaborationId String
+  team Team @relation(fields:[teamId],references: [teamId])
+  softwareDeveloper SoftwareDeveloper @relation(fields:[collaborationId],references: [collaborationId])
+  @@id([teamId, collaborationId])
+  @@map(name: "teamSoftwareDeveloper")
+}
+
+model Leaderboard {
+  leaderboardId Int @id @default(autoincrement())
+  season Int
+  startDate DateTime
+  endDate DateTime
+  softwareDevelopers LeaderboardSoftwareDeveloper[]
+  @@map(name: "leaderboards")
+}
+
+model LeaderboardSoftwareDeveloper {
+  leaderboardId Int
+  softwareDeveloperId Int
+  point_leaderboard Int? @default(0)
+  leaderboard Leaderboard @relation(fields:[leaderboardId],references: [leaderboardId])
+  softwareDeveloper SoftwareDeveloper @relation(fields:[softwareDeveloperId],references: [softwareDeveloperId])
+  @@id([leaderboardId, softwareDeveloperId])
+  @@map(name: "leaderboardSoftwareDeveloper")
+}
+
+model Skill {
+  skillId Int @id @default(autoincrement())
+  name String
+  softwareDevelopers SkillSoftwareDeveloper[]
+  @@map(name: "skills")
+}
+
+model SkillSoftwareDeveloper {
+  skillId Int
+  softwareDeveloperId Int
+  skill Skill @relation(fields:[skillId],references: [skillId])
+  softwareDeveloper SoftwareDeveloper @relation(fields:[softwareDeveloperId],references: [softwareDeveloperId])
+  @@id([skillId, softwareDeveloperId])
+  @@map(name: "skillSoftwareDeveloper")
+}
+

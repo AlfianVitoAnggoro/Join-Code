@@ -1,5 +1,9 @@
 import Image from 'next/image';
 
+export const metadata = {
+  title: 'Create Badges - Join Code',
+  description: 'Dashboard Create Badges - Join Code',
+};
 export default function CreateBadgePage() {
   return (
     <div className="flex-1 bg-mainColor px-3">
@@ -37,43 +41,13 @@ export default function CreateBadgePage() {
             />
           </div>
           <div>
-            <label className="font-medium">Description</label>
+            <label className="font-medium">Minimal Point</label>
             <input
-              type="text"
-              name="Description"
-              id="Description"
+              type="number"
+              name="min_point"
+              id="min_point"
               className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Your Name"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Instagram Link</label>
-            <input
-              type="text"
-              name="instagram_link"
-              id="instagram_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Instagram Link"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Linkedin Link</label>
-            <input
-              type="text"
-              name="linkedin_link"
-              id="linkedin_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Linkedin Link"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Portofolio Link</label>
-            <input
-              type="text"
-              name="portofolio_link"
-              id="portofolio_link"
-              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              placeholder="Portofolio Link"
+              placeholder="Minimal Point"
             />
           </div>
           <button className="w-full bg-blue-500 text-white py-2 rounded">

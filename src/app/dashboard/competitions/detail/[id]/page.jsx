@@ -1,33 +1,37 @@
-import Image from 'next/image';
+import { getDetailCompetition } from '@/lib/actions/competitionAction';
+import Form from './Form';
 
-export default function DetailCompetitionPage(params) {
+export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  ),
+  title: 'Detail Competition - Join Code',
+  description:
+    'The Application make a collaboration and competition for software developer',
+  authors: [
+    { name: 'Alfian Vito Anggoro', url: `${process.env.NEXT_PUBLIC_API_URL}` },
+  ],
+  icons: {
+    icon: '/icon.png',
+  },
+  openGraph: {
+    title: 'Detail Competition',
+    description: 'Detail Competition - Join Code',
+    url: `${process.env.NEXT_PUBLIC_API_URL}`,
+    siteName: 'Detail Competition',
+  },
+};
+
+export default async function DetailCompetitionPage({ params }) {
+  const response = await getDetailCompetition(params.id);
+  const competition = response.data;
+
   return (
-    <div className="flex-1 bg-mainColor px-3">
+    <div className="flex-1 bg-mainColor px-3 mb-5">
       <div className="pt-3 mb-3">
-        <h2 className="text-2xl font-medium">Detail Competition {params.id}</h2>
+        <h2 className="text-2xl font-medium">Detail Competition</h2>
       </div>
-      <div className="p-3 bg-white space-y-3">
-        <div className="flex">
-          <h3>Name :</h3>
-          <h3>Alfian Vito Anggoro</h3>
-        </div>
-        <div className="flex">
-          <h3>Name :</h3>
-          <h3>Alfian Vito Anggoro</h3>
-        </div>
-        <div className="flex">
-          <h3>Name :</h3>
-          <h3>Alfian Vito Anggoro</h3>
-        </div>
-        <div className="flex">
-          <h3>Name :</h3>
-          <h3>Alfian Vito Anggoro</h3>
-        </div>
-        <div className="flex">
-          <h3>Name :</h3>
-          <h3>Alfian Vito Anggoro</h3>
-        </div>
-      </div>
+      <Form competition={competition} id={params.id} />
     </div>
   );
 }

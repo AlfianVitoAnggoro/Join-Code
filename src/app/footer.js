@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { Permanent_Marker } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +9,7 @@ const permanent_Marker = Permanent_Marker({
   variable: '--font-permanent-marker',
 });
 export default function Footer() {
+  const { status } = useSession();
   return (
     <div className="relative mb-20 laptop:mb-0">
       <div className="h-max bg-neutral-900 text-white py-10">
@@ -30,7 +32,9 @@ export default function Footer() {
               <Link href={'/'}>Home</Link>
               <Link href={'/collaboration'}>Collaboration</Link>
               <Link href={'/competition'}>Competition</Link>
-              <Link href={'/leaderboard'}>Leaderboard</Link>
+              {status === 'authenticated' && (
+                <Link href={'/leaderboard'}>Leaderboard</Link>
+              )}
             </div>
             <div className="flex justify-end items-center gap-x-5">
               <Link
