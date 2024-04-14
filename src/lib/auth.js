@@ -2,6 +2,7 @@ import { loginService } from '@/lib/actions/authAction/authService';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
+import { Users } from 'lucide-react';
 const authOptions = {
   session: {
     strategy: 'jwt',
@@ -26,12 +27,15 @@ const authOptions = {
 
         if (user) {
           const passwordConfirm = await compare(password, user.password);
-          if (passwordConfirm) {
-            return user;
+          if (!passwordConfirm) {
+            throw new Error('Email or Password is not valid');
           }
-          throw new Error('Email atau password tidak valid');
+          if (!user.isEmailVerified) {
+            throw new Error('Email has not been verified');
+          }
+          return user;
         }
-        throw new Error('Email atau password tidak valid');
+        throw new Error('Email or password is not valid');
       },
     }),
   ],

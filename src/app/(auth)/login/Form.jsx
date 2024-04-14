@@ -29,7 +29,8 @@ export default function Form() {
       if (!res?.error) {
         if (
           callbackUrl?.includes('register') ||
-          callbackUrl?.includes('login')
+          callbackUrl?.includes('login') ||
+          callbackUrl?.includes('forgot-password')
         ) {
           e.target.reset();
           router.push('/');
@@ -117,24 +118,31 @@ export default function Form() {
         >
           {isLoading ? 'Loading...' : 'Login'}
         </button>
-        <div className="text-sm text-center font-medium text-gray-500 ">
-          Don't have account ? Create account as{' '}
-          <div className="flex justify-evenly items-center gap-2">
-            <Link
-              href="/register/software_developer"
-              className="text-blue-700 hover:underline"
-            >
-              Software Developer
-            </Link>
-            <Link
-              href="/register/organization"
-              className="text-blue-700 hover:underline"
-            >
-              Organization
-            </Link>
-          </div>
-        </div>
       </form>
+      <div className="text-sm font-medium text-gray-500 flex gap-1 my-2">
+        Create account as{' '}
+        <Link
+          href="/register/software_developer"
+          className="text-blue-700 hover:underline"
+        >
+          Software Developer
+        </Link>
+        <span>or</span>
+        <Link
+          href="/register/organization"
+          className="text-blue-700 hover:underline"
+        >
+          Organization
+        </Link>
+      </div>
+      <div className="my-2">
+        <Link
+          href={'/forgot-password'}
+          className="text-blue-700 font-medium hover:underline text-sm text-center"
+        >
+          Forgot password?
+        </Link>
+      </div>
     </div>
   );
 }

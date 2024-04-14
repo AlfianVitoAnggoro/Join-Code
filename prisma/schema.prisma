@@ -29,6 +29,14 @@ model User {
   @@map(name: "users")
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model SoftwareDeveloper {
   softwareDeveloperId Int @id @default(autoincrement())
   description String? @db.Text

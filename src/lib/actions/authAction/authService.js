@@ -135,7 +135,6 @@ async function checkEmailVerifiedService(email) {
   const user = await prisma.user.findUnique({
     where: {
       email: email,
-      isEmailVerified: true,
     },
     select: {
       email: true,
@@ -146,6 +145,19 @@ async function checkEmailVerifiedService(email) {
   return user;
 }
 
+async function changePasswordService(data) {
+  const hashPassword = await bcrypt.hash(data.newPassword, 10);
+  const user = await prisma.user.update({
+    where: {
+      email: data.email,
+    },
+    data: {
+      password: hashPassword,
+    },
+  });
+  return user;
+}
+
 export {
   registerSoftwareDeveloperService,
   registerOrganizationService,
@@ -153,4 +165,5 @@ export {
   updateEmailVerifiedService,
   loginService,
   checkEmailVerifiedService,
+  changePasswordService,
 };

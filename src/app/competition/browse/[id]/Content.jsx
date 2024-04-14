@@ -227,20 +227,31 @@ export default function Content({
               </p>
             </div>
             <div>
-              {checkUserHasBeenRegisteredState ||
-              checkCompetitionIsMaxTeamState ||
-              competition?.isCompleted ? (
+              {checkUserHasBeenRegisteredState && (
                 <p className="text-sm text-neutral-500">
-                  You have not been registered in this competition
+                  You have been registered in this competition
                 </p>
-              ) : (
-                <Link
-                  href={`/competition/browse/registration/${competition?.competitionId}`}
-                  className="bg-blue-700 text-white rounded px-4 py-2"
-                >
-                  Registration
-                </Link>
               )}
+              {checkCompetitionIsMaxTeamState && (
+                <p className="text-sm text-neutral-500">
+                  Competition has fully
+                </p>
+              )}
+              {competition?.isCompleted && (
+                <p className="text-sm text-neutral-500">
+                  Competition has been completed
+                </p>
+              )}
+              {!checkUserHasBeenRegisteredState &&
+                !checkCompetitionIsMaxTeamState &&
+                !competition?.isCompleted && (
+                  <Link
+                    href={`/competition/browse/registration/${competition?.competitionId}`}
+                    className="bg-blue-700 text-white rounded px-4 py-2"
+                  >
+                    Registration
+                  </Link>
+                )}
             </div>
             <div className="py-3 my-2">
               <h2 className="text-2xl font-semibold">About Competition</h2>

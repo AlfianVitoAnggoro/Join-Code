@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { registerSoftwareDeveloper } from '@/lib/actions/authAction';
 import { getUsers } from '../../../../lib/actions/userAction';
+import { signIn } from 'next-auth/react';
 export default function Form() {
   const [users, setUsers] = useState();
   const [name, setName] = useState('');
@@ -36,9 +37,11 @@ export default function Form() {
   useEffect(() => {
     if (password) {
       if (password.length < 6) {
-        setErrorConfirmPassword('Password harus lebih dari 6 karakter');
+        setErrorConfirmPassword('Password must be at least 6 characters');
       } else if (password !== confirmPassword) {
-        setErrorConfirmPassword('Password dan Confirm password tidak cocok');
+        setErrorConfirmPassword(
+          'Password and Confirm Password must be the same',
+        );
       } else {
         setErrorConfirmPassword('');
       }
@@ -49,9 +52,9 @@ export default function Form() {
       const regex = /@gmail\.com$/; // Ekspresi reguler untuk memeriksa apakah email berakhiran dengan "@gmail.com"
       const emailRegex = regex.test(email);
       if (userMatch) {
-        setErrorEmail('Email sudah digunakan');
+        setErrorEmail('Email already used');
       } else if (!emailRegex) {
-        setErrorEmail('Email harus berakhiran dengan "@gmail.com"');
+        setErrorEmail('Email must be ended with "@gmail.com"');
       } else {
         setErrorEmail('');
       }
@@ -62,11 +65,11 @@ export default function Form() {
       const nicnameRegex = regex.test(nickname);
       const nicknameMatch = users.find(user => user.nickname === nickname);
       if (!nicnameRegex) {
-        setErrorNickname('Nickname harus berupa huruf dan tanpa spasi');
+        setErrorNickname('Nickname must be letters and without spaces');
       } else if (nickname.length < 5 || nickname.length > 10) {
-        setErrorNickname('Nickname harus 5 - 10 karakter');
+        setErrorNickname('Nickname must be between 5 and 10 characters');
       } else if (nicknameMatch) {
-        setErrorNickname('Nickname sudah digunakan');
+        setErrorNickname('Nickname already used');
       } else {
         setErrorNickname('');
       }
@@ -76,9 +79,9 @@ export default function Form() {
       const regex = /^[a-zA-Z\s]+$/;
       const nameRegex = regex.test(name);
       if (!nameRegex) {
-        setErrorName('Nama harus berupa huruf');
+        setErrorName('Name must be letters');
       } else if (name.length < 5) {
-        setErrorName('Nama harus lebih dari 5 huruf');
+        setErrorName('Nmae must be more than 5 characters');
       } else {
         setErrorName('');
       }
@@ -98,19 +101,19 @@ export default function Form() {
       nickname == ''
     ) {
       if (name == '') {
-        setErrorName('Nama harus diisi');
+        setErrorName('Name must be filled');
       }
 
       if (nickname == '') {
-        setErrorName('Nickname harus diisi');
+        setErrorName('Nickname must be filled');
       }
 
       if (email == '') {
-        setErrorEmail('Email harus diisi');
+        setErrorEmail('Email must be filled');
       }
 
       if (password == '' || confirmPassword == '') {
-        setErrorConfirmPassword('Password dan Confirm Password harus diisi');
+        setErrorConfirmPassword('Password and Confirm Password must be filled');
       }
       setPopUp(true);
       setSuccess(false);
@@ -156,7 +159,7 @@ export default function Form() {
     setConfirmPassword('');
     setPopUp(true);
     setSuccess(true);
-    setMessage('Success, Account has been created');
+    setMessage('Success, Please check your email for verification !!');
     setIsLoading(false);
     router.refresh();
   };
@@ -202,6 +205,7 @@ export default function Form() {
             id="name"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="Your Name"
+            value={name}
             onChange={e => setName(e.target.value)}
             required
           />
@@ -222,6 +226,7 @@ export default function Form() {
             id="nickname"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="Your Nickname"
+            value={nickname}
             onChange={e => setNickname(e.target.value)}
             required
           />
@@ -242,6 +247,7 @@ export default function Form() {
             id="email"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="name@email.com"
+            value={email}
             onChange={e => setEmail(e.target.value)}
             required
           />
@@ -262,6 +268,7 @@ export default function Form() {
             id="password"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="*******"
+            value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
@@ -284,6 +291,7 @@ export default function Form() {
             id="confirm_password"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="*******"
+            value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             required
           />
@@ -301,25 +309,25 @@ export default function Form() {
         >
           {isLoading ? 'Loading...' : ' Signup Account'}
         </button>
-        <div className="text-sm font-medium text-gray-500">
-          Create account as{' '}
-          <Link
-            href="/register/organization"
-            className="text-blue-700 hover:underline "
-          >
-            Organization
-          </Link>
-        </div>
-        <div className="text-sm font-medium text-gray-500 ">
-          Do you have an account?{' '}
-          <button
-            onClick={() => signIn()}
-            className="text-blue-700 hover:underline "
-          >
-            Signin
-          </button>
-        </div>
       </form>
+      <div className="text-sm font-medium text-gray-500 my-2">
+        Create account as{' '}
+        <Link
+          href="/register/organization"
+          className="text-blue-700 hover:underline"
+        >
+          Organization
+        </Link>
+      </div>
+      <div className="text-sm font-medium text-gray-500 my-2">
+        Do you have an account?{' '}
+        <button
+          onClick={() => signIn()}
+          className="text-blue-700 hover:underline "
+        >
+          Signin
+        </button>
+      </div>
     </div>
   );
 }

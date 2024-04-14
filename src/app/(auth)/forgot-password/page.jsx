@@ -5,7 +5,7 @@ export const metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
   ),
-  title: 'Login - Join Code',
+  title: 'Forgot Password - Join Code',
   description:
     'The Application make a collaboration and competition for software developer',
   authors: [
@@ -15,18 +15,17 @@ export const metadata = {
     icon: '/icon.png',
   },
   openGraph: {
-    title: 'Login',
-    description: 'Login - Join Code',
+    title: 'Forgot Password',
+    description: 'Forgot Password - Join Code',
     url: `${process.env.NEXT_PUBLIC_API_URL}`,
     siteName: 'Login',
   },
 };
 
-export default function LoginPages() {
+export default function Page() {
   return (
     <div className="relative">
       <div className="w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center ">
-        <Form />
         <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">
           <Image
             src="/images/login.svg"
@@ -37,6 +36,7 @@ export default function LoginPages() {
             priority
           />
         </div>
+        <Form />
       </div>
     </div>
   );

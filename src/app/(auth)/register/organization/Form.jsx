@@ -48,9 +48,9 @@ export default function Form() {
       const regex = /^[a-zA-Z\s]+$/;
       const nameRegex = regex.test(name);
       if (!nameRegex) {
-        setErrorName('Nama harus berupa huruf');
+        setErrorName('Name must be letters');
       } else if (name.length < 5) {
-        setErrorName('Nama harus lebih dari 5 huruf');
+        setErrorName('Name must be more than 5 letters');
       } else {
         setErrorName('');
       }
@@ -61,11 +61,11 @@ export default function Form() {
       const nicnameRegex = regex.test(nickname);
       const nicknameMatch = users.find(user => user.nickname === nickname);
       if (!nicnameRegex) {
-        setErrorNickname('Nickname harus berupa huruf dan tanpa spasi');
+        setErrorNickname('Nickname must be letters and without spaces');
       } else if (nickname.length < 5 || nickname.length > 10) {
-        setErrorNickname('Nickname harus 5 - 10 karakter');
+        setErrorNickname('Nickname must be 5 to 10 letters');
       } else if (nicknameMatch) {
-        setErrorNickname('Nickname sudah digunakan');
+        setErrorNickname('Nickname already used');
       } else {
         setErrorNickname('');
       }
@@ -76,9 +76,9 @@ export default function Form() {
       const regex = /@gmail\.com$/; // Ekspresi reguler untuk memeriksa apakah email berakhiran dengan "@gmail.com"
       const emailRegex = regex.test(email);
       if (userMatch) {
-        setErrorEmail('Email sudah digunakan');
+        setErrorEmail('Email already used');
       } else if (!emailRegex) {
-        setErrorEmail('Email harus berakhiran dengan "@gmail.com"');
+        setErrorEmail('Email must end with "@gmail.com"');
       } else {
         setErrorEmail('');
       }
@@ -86,29 +86,28 @@ export default function Form() {
 
     if (password) {
       if (password.length < 6) {
-        setErrorConfirmPassword('Password harus lebih dari 6 karakter');
+        setErrorConfirmPassword('Password must be more than 6 characters');
       } else if (password !== confirmPassword) {
-        setErrorConfirmPassword('Password dan Confirm password tidak cocok');
+        setErrorConfirmPassword('Password and confirm password must be same');
       } else {
         setErrorConfirmPassword('');
       }
     }
-
-    if (documentFile) {
-      if (documentFile.type != 'application/pdf') {
-        setErrorDocument('Tipe file harus PDF');
-      } else if (documentFile.size > 2000000) {
-        setErrorDocument('Ukuran file harus lebih kecil dari 2 MB');
-      } else {
-        setErrorDocument('');
-      }
-    }
-  }, [password, confirmPassword, users, email, name, documentFile, nickname]);
+  }, [password, confirmPassword, users, email, name, nickname]);
 
   const handleChangeDocument = e => {
     const document = e.target.files[0];
-    setDocument(URL.createObjectURL(document));
-    setDocumentFile(document); // Simpan file yang diunggah ke dalam state avatarFile
+    if (document) {
+      if (document?.type != 'application/pdf') {
+        setErrorDocument('Type document file must be pdf!');
+      } else if (document?.size > 1000000) {
+        setErrorDocument('Size document file less than 1 MB!');
+      } else {
+        setDocument(URL.createObjectURL(document));
+        setDocumentFile(document);
+        setErrorDocument('');
+      }
+    }
   };
 
   const handleUploadDocument = async () => {
@@ -149,23 +148,23 @@ export default function Form() {
       nickname == ''
     ) {
       if (name == '') {
-        setErrorName('Nama harus diisi');
+        setErrorName("Name can't be empty");
       }
 
       if (nickname == '') {
-        setErrorName('Nickname harus diisi');
+        setErrorName("Nickname can't be empty");
       }
 
       if (email == '') {
-        setErrorEmail('Email harus diisi');
+        setErrorEmail("Email can't be empty");
       }
 
       if (password == '' || confirmPassword == '') {
-        setErrorConfirmPassword('Password dan Confirm Password harus diisi');
+        setErrorConfirmPassword("Password and Confirm can't be empty");
       }
 
       if (document == '') {
-        setErrorDocument('Document harus diisi');
+        setErrorDocument("Document can't be empty");
       }
       setPopUp(true);
       setSuccess(false);
@@ -216,10 +215,11 @@ export default function Form() {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
-    setDocument(null);
+    setDocument('');
+    setDocumentFile(null);
     setPopUp(true);
     setSuccess(result.success);
-    setMessage(result.message);
+    setMessage('Success, please check your email for verification !!');
     setIsLoading(false);
     router.refresh();
   };
@@ -265,6 +265,7 @@ export default function Form() {
             id="name"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="Organization of Name"
+            value={name}
             onChange={e => setName(e.target.value)}
           />
           {errorName && (
@@ -273,7 +274,7 @@ export default function Form() {
         </div>
         <div>
           <label
-            htmlFor="name"
+            htmlFor="nickname"
             className="text-sm font-medium text-black block mb-2"
           >
             Nickname
@@ -284,6 +285,7 @@ export default function Form() {
             id="nickname"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="Organization Nickname"
+            value={nickname}
             onChange={e => setNickname(e.target.value)}
             required
           />
@@ -304,6 +306,7 @@ export default function Form() {
             id="email"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="name@company.com"
+            value={email}
             onChange={e => setEmail(e.target.value)}
           />
           {errorEmail && (
@@ -323,6 +326,7 @@ export default function Form() {
             id="password"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="*******"
+            value={password}
             onChange={e => setPassword(e.target.value)}
           />
           {errorConfirmPassword && (
@@ -344,6 +348,7 @@ export default function Form() {
             id="confirm_password"
             className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 "
             placeholder="*******"
+            value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
           />
           {errorConfirmPassword && (
@@ -376,6 +381,9 @@ export default function Form() {
             placeholder="Upload your document support as organization"
             onChange={handleChangeDocument}
           />
+          <span className="text-neutral-500 text-sm block">
+            Upload file dengan format pdf, max size 1 MB
+          </span>
           {errorDocument && (
             <span className="text-red-500 text-sm italic">{errorDocument}</span>
           )}
@@ -388,26 +396,26 @@ export default function Form() {
         >
           {isLoading ? 'Loading...' : ' Signup Account'}
         </button>
-        <div className="text-sm font-medium text-gray-500">
-          Create account as{' '}
-          <Link
-            href="/register/software_developer"
-            className="text-blue-700 hover:underline "
-          >
-            Software Developer
-          </Link>
-        </div>
-
-        <div className="text-sm font-medium text-gray-500">
-          Do you have an account?{' '}
-          <button
-            onClick={() => signIn()}
-            className="text-blue-700 hover:underline"
-          >
-            Signin
-          </button>
-        </div>
       </form>
+      <div className="text-sm font-medium text-gray-500 my-2">
+        Create account as{' '}
+        <Link
+          href="/register/software_developer"
+          className="text-blue-700 hover:underline "
+        >
+          Software Developer
+        </Link>
+      </div>
+
+      <div className="text-sm font-medium text-gray-500 my-2">
+        Do you have an account?{' '}
+        <button
+          onClick={() => signIn()}
+          className="text-blue-700 hover:underline"
+        >
+          Signin
+        </button>
+      </div>
     </div>
   );
 }

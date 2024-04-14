@@ -10,6 +10,8 @@ const permanent_Marker = Permanent_Marker({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-permanent-marker',
+  display: 'swap',
+  adjustFontFallback: false,
 });
 
 export default function NavbarTop() {
