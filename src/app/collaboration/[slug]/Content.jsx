@@ -1,37 +1,17 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-export default function Profile({ user }) {
-  const [filter, setFilter] = useState('');
-  const [teams, setTeams] = useState();
+import { useSession, signIn } from 'next-auth/react';
 
-  useEffect(() => {
-    if (filter === '') {
-      setTeams(user?.softwareDevelopers?.teams);
-    } else {
-      const filteredTeams = user?.softwareDevelopers?.teams.map(team => {
-        return {
-          ...team,
-          team: {
-            ...team.team,
-            competitions: team.team.competitions.filter(competition =>
-              competition.statusTeamCompetition.name
-                .toLowerCase()
-                .includes(filter.toLowerCase()),
-            ),
-          },
-        };
-      });
-      setTeams(filteredTeams);
-    }
-  }, [filter, user]);
-
+export default function Content({ user }) {
+  const { status } = useSession();
+  const subject = 'Invited Collaboration Join Code';
+  const message = `Hello, ${user.name} invited you to collaborate on Join Code. Please give your collaboration ID, if you want to join.`;
   return (
     <>
       <div className="bg-black">
-        <div className="w-[1024px] min-h-fit mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
-          <div className="col-span-1 flex justify-center">
+        <div className="w-[1024px] min-h-fit  mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
+          <div className="col-span-1 flex justify-start laptop:justify-center">
             <div className="bg-gray-600 w-56 h-56 rounded-full">
               <Image
                 width={100}
@@ -43,23 +23,22 @@ export default function Profile({ user }) {
               />
             </div>
           </div>
-          <div className="lg:col-span-2 m-10 lg:m-0 lg:mr-10 ">
-            <div className="flex flex-col space-y-2">
+          <div className="col-span-1 laptop:col-span-2 m-0 laptop:mr-10 ">
+            <div className="flex flex-col space-y-3">
               <h2 className="text-5xl font-bold text-white">{user?.name}</h2>
-              {user?.softwareDevelopers?.statusCollaboration == 2 && (
+              {user?.softwareDevelopers?.statusCollaboration && (
                 <p className="text-md bg-green-600 w-fit rounded-full p-1 px-3 mt-1 text-md font-semibold text-white my-2">
                   #OPENTOCOLLABORATE
                 </p>
               )}
-
-              {user?.softwareDevelopers?.skills?.length > 0 ? (
+              {user?.softwareDevelopers?.skills.length > 0 ? (
                 <p className="text-xl text-white mt-1">
                   {user?.softwareDevelopers?.skills
-                    .map(skill => skill.skill.name)
+                    .map(skill => skill?.skill?.name)
                     .join(', ')}
                 </p>
               ) : (
-                <p className="text-xl text-neutral-500 mt-1">
+                <p className="text-neutral-500 mt-1 text-lg">
                   Skills have not been available
                 </p>
               )}
@@ -95,7 +74,7 @@ export default function Profile({ user }) {
                 <div className="flex mt-1">
                   {user?.softwareDevelopers?.usernameInstagram && (
                     <Link
-                      href={`https://www.instagram.com/${user?.softwareDevelopers.usernameInstagram}`}
+                      href={`https://www.instagram.com/${user?.softwareDevelopers?.usernameInstagram}`}
                       target={'_blank'}
                       className={'flex items-center w-10 h-10 mx-2'}
                     >
@@ -110,7 +89,7 @@ export default function Profile({ user }) {
                   )}
                   {user?.softwareDevelopers?.usernameLinkedin && (
                     <Link
-                      href={`https://www.linkedin.com/in/${user?.softwareDevelopers.usernameLinkedin}`}
+                      href={`https://www.linkedin.com/in/${user?.softwareDevelopers?.usernameLinkedin}`}
                       target={'_blank'}
                       className={'flex items-center w-10 h-10 mx-2'}
                     >
@@ -138,31 +117,53 @@ export default function Profile({ user }) {
                       />
                     </Link>
                   )}
-                  {!user?.softwareDevelopers?.usernameGithub &&
+
+                  {!user?.softwareDevelopers?.usernameInstagram &&
                     !user?.softwareDevelopers?.usernameLinkedin &&
-                    !user?.softwareDevelopers?.usernameInstagram && (
+                    !user?.softwareDevelopers?.usernameGithub && (
                       <p className="text-neutral-500 mt-1 text-lg">
-                        Social Medias have not been available
+                        Social Media has not been available
                       </p>
                     )}
                 </div>
-              </div>
-              <div className="flex flex-col mt-2">
-                <h2 className="font-semibold text-2xl text-white">
-                  Portfolio Link
-                </h2>
-                {user?.softwareDevelopers?.portfolioLink ? (
-                  <Link
-                    href={user?.softwareDevelopers?.portfolioLink}
-                    target={'_blank'}
-                    className={'flex items-center mt-1 text-blue-500'}
-                  >
-                    {user?.softwareDevelopers?.portfolioLink}
-                  </Link>
+
+                <div className="flex flex-col mt-2">
+                  <h2 className="font-semibold text-2xl text-white">
+                    Portofolio Link
+                  </h2>
+                  {user?.softwareDevelopers?.portfolioLink ? (
+                    <Link
+                      href={user?.softwareDevelopers?.portfolioLink}
+                      target={'_blank'}
+                      className={'flex items-center mt-1 text-blue-500'}
+                    >
+                      {user?.softwareDevelopers?.portfolioLink}
+                    </Link>
+                  ) : (
+                    <p className="text-neutral-500 mt-1 text-lg">
+                      Portfolio Link has not been available
+                    </p>
+                  )}
+                </div>
+                {status === 'authenticated' ? (
+                  <div className="mt-5">
+                    <Link
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${user.email}&su=${subject}&body=${message}`}
+                      target={'_blank'}
+                      className="bg-white text-black hover:bg-gray-300 hover:text-black rounded-full p-2 font-bold text-xl"
+                    >
+                      Contact Me
+                    </Link>
+                  </div>
                 ) : (
-                  <p className="text-neutral-500 mt-1 text-lg">
-                    Portfolio Link has not been available
-                  </p>
+                  <div className="mt-5">
+                    <button
+                      className="bg-white text-black hover:bg-gray-300 hover:text-black rounded-full p-2 font-bold text-xl"
+                      onClick={() => signIn()}
+                    >
+                      Contact Me
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -172,42 +173,23 @@ export default function Profile({ user }) {
       <div className="bg-mainColor">
         <div className="w-[1024px] min-h-screen mx-auto p-10">
           <h2 className="text-black text-3xl font-bold">My Competition</h2>
-          <div className="flex justify-end items-center gap-3">
-            <label htmlFor="filter" className="text-lg">
-              Tampilkan :{' '}
-            </label>
-            <select
-              name="filter"
-              id="filter"
-              className="py-2 px-3 rounded"
-              onChange={e => setFilter(e.target.value)}
-            >
-              <option value="">See All</option>
-              <option value="Registrant">Registrant</option>
-              <option value="Registered">Registered</option>
-              {/* <option value="Progress">Progress</option> */}
-              <option value="Finish">Finish</option>
-              <option value="Not Finish">Not Finish</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </div>
-          {teams?.length === 0 ? (
+          {user?.softwareDevelopers?.teams.length === 0 ? (
             <p className="text-neutral-500 font-light text-xl mt-10">
-              Belum ada kompetisi yang pernah diikuti..
+              Competitions registered and finished have not been available
             </p>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-              {teams
+              {user?.softwareDevelopers?.teams
                 ?.filter(team => team?.team.competitions?.length > 0)
                 .map((team, index) => (
                   <div className="grid grid-cols-1 gap-5" key={index}>
-                    {team?.team.competitions?.map((competition, idx) => (
+                    {team.team.competitions.map((competition, idx) => (
                       <div
                         className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
                         key={idx}
                       >
                         <Link
-                          href={`/competition/detail/${competition?.competition?.competitionId}/${competition?.teamId}`}
+                          href={`/competition/detail/${competition.competition.competitionId}`}
                         >
                           <div className="grid grid-cols-3 gap-3 h-40">
                             <div className="col-span-1 flex justify-center items-center">
@@ -223,36 +205,17 @@ export default function Profile({ user }) {
                             <div className="col-span-2 p-3">
                               <div className="flex justify-between items-center">
                                 <div className="flex justify-start items-center">
-                                  <p
-                                    className={`text-xl font-semibold ml-1 ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Registrant' &&
-                                      'text-gray-600'
-                                    } ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Registered' &&
-                                      'text-sky-600'
-                                    }
-                                    ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Progress' && 'text-blue-600'
-                                    } ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Finish' && 'text-green-600'
-                                    } ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Not Finish' &&
-                                      'text-yellow-600'
-                                    }
-                                    ${
-                                      competition?.statusTeamCompetition
-                                        ?.name === 'Rejected' && 'text-red-600'
-                                    }`}
-                                  >
-                                    {competition?.statusTeamCompetition?.name}
+                                  <Image
+                                    src="/images/icon-ok.svg"
+                                    width={25}
+                                    height={25}
+                                    alt="Ok"
+                                  />
+                                  <p className="text-xl font-semibold text-green-600 ml-1">
+                                    {competition.statusTeamCompetition.name}
                                   </p>
                                 </div>
-                                {competition?.ranking && (
+                                {competition.ranking && (
                                   <div className="flex justify-start items-center">
                                     <Image
                                       src="/images/icon-medal.png"
@@ -261,19 +224,16 @@ export default function Profile({ user }) {
                                       alt="Medal"
                                     />
                                     <p className="text-xl font-semibold text-yellow-600 ml-1">
-                                      Juara {competition?.ranking}
+                                      Ranking {competition.ranking}
                                     </p>
                                   </div>
                                 )}
                               </div>
                               <h1 className="text-2xl font-bold mt-2 mb-1">
-                                {competition?.competition?.name}
+                                {competition.competition.name}
                               </h1>
                               <h1 className="text-base font-semibold text-slate-600 mb-2">
-                                {
-                                  competition?.competition?.organization?.user
-                                    ?.name
-                                }
+                                {competition.competition.organization.user.name}
                               </h1>
                               <div className="flex justify-start items-center gap-3">
                                 <div className="flex justify-start items-center gap-1">
@@ -303,7 +263,7 @@ export default function Profile({ user }) {
                           </div>
                           <div className="w-full py-5 h-56">
                             <p className="text-ellipsis overflow-clip text-base h-40">
-                              {competition?.competition?.description}
+                              {competition.competition.description}
                             </p>
                           </div>
                         </Link>

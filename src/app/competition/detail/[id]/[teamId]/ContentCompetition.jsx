@@ -66,6 +66,7 @@ export default function ContentCompetition({
           src={`/images/avatars/${competition.organization.user.avatar}`}
           width={50}
           height={50}
+          alt={competition?.organization?.user?.name}
           priority
           className="rounded object-cover w-24 h-24"
         />

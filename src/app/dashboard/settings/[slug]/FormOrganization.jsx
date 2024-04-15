@@ -94,8 +94,36 @@ export default function FormOrganization({ users, user }) {
       } else {
         setErrorOrganizationLink('');
       }
+    } else {
+      setErrorOrganizationLink('');
     }
-  }, [name, email, users, organizationLink]);
+
+    if (paymentName) {
+      const regex = /^[a-zA-Z\s]+$/;
+      const paymentNameRegex = regex.test(paymentName);
+      if (!paymentNameRegex) {
+        setErrorPaymentName('Payment Name must be letters');
+      } else {
+        setErrorPaymentName('');
+      }
+    }
+
+    if (service) {
+      setErrorService('');
+    }
+
+    if (noVirtualAccount) {
+      setErrorNoVirtualAccount('');
+    }
+  }, [
+    name,
+    email,
+    users,
+    organizationLink,
+    paymentName,
+    service,
+    noVirtualAccount,
+  ]);
 
   const handleChangeAvatar = e => {
     const file = e.target.files[0];

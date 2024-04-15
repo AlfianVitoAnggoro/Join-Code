@@ -128,7 +128,7 @@ const sendVerificationEmail = async data => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const res = await resend.emails.send({
     from: 'Admin Join Code <admin@resend.dev>',
-    to: ['atokemen12@gmail.com'],
+    to: [data.identifier],
     subject: 'Verification Email',
     html: generateTemplateHTML({ email: data.identifier, token: data.token }),
   });
@@ -288,7 +288,7 @@ const sendForgotPassword = async data => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const res = await resend.emails.send({
     from: 'Admin Join Code <admin@resend.dev>',
-    to: ['atokemen12@gmail.com'],
+    to: [data.identifier],
     subject: 'Forgot Password',
     html: generateTemplateHTMLForgotPassword({
       email: data.identifier,

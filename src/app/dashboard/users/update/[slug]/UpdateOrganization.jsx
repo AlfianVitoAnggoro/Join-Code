@@ -204,31 +204,13 @@ export default function UpdateOrganization({ users, user }) {
     e.preventDefault();
 
     setIsLoading(true);
-    if (
-      name == '' ||
-      email == '' ||
-      paymentName == '' ||
-      service == '' ||
-      noVirtualAccount == ''
-    ) {
+    if (name == '' || email == '') {
       if (name == '') {
         setErrorName('Name is required');
       }
 
       if (email == '') {
         setErrorEmail('Email is required');
-      }
-
-      if (paymentName == '') {
-        setErrorPaymentName('Payment Name is required');
-      }
-
-      if (service == '') {
-        setErrorService('Service is required');
-      }
-
-      if (noVirtualAccount == '') {
-        setErrorNoVirtualAccount('No Virtual Account is required');
       }
 
       setIsSuccess(false);

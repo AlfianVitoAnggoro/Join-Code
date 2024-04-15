@@ -122,6 +122,7 @@ async function loginService(email) {
     },
     include: {
       role: true,
+      organizations: true,
     },
   });
   if (!user) {

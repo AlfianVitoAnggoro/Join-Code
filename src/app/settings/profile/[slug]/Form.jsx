@@ -62,25 +62,11 @@ export default function Form({ user, skills }) {
       const regex = /^[a-zA-Z\s]+$/;
       const nameRegex = regex.test(name);
       if (!nameRegex) {
-        setErrorName('Nama harus berupa huruf');
+        setErrorName('Name must be letters');
       } else if (name.length < 5) {
-        setErrorName('Nama harus lebih dari 5 huruf');
+        setErrorName('Name must be more than 5 letters');
       } else {
         setErrorName('');
-      }
-    }
-    if (avatarFile) {
-      if (
-        avatarFile.type != 'image/jpeg' &&
-        avatarFile.type != 'image/png' &&
-        avatarFile.type != 'image/webp' &&
-        avatarFile.type != 'image/svg'
-      ) {
-        setErrorAvatar('Type file avatar tidak diperbolehkan!');
-      } else if (avatarFile.size > 1000000) {
-        setErrorAvatar('Size file avatar melebihi 1 MB!');
-      } else {
-        setErrorAvatar('');
       }
     }
 
@@ -95,7 +81,7 @@ export default function Form({ user, skills }) {
         setErrorPortfolioLink('');
       }
     }
-  }, [avatarFile, name, portfolioLink]);
+  }, [name, portfolioLink]);
   const handleUploadFile = async () => {
     if (avatarFile) {
       const formData = new FormData();
@@ -134,9 +120,24 @@ export default function Form({ user, skills }) {
   };
 
   const handleFileChange = e => {
-    const file = e.target.files[0];
-    setAvatar(URL.createObjectURL(file));
-    setAvatarFile(file); // Simpan file yang diunggah ke dalam state avatarFile
+    const avatarFile = e.target.files[0];
+    if (avatarFile) {
+      if (
+        avatarFile?.type != 'image/jpeg' &&
+        avatarFile?.type != 'image/png' &&
+        avatarFile?.type != 'image/webp' &&
+        avatarFile?.type != 'image/svg'
+      ) {
+        setErrorAvatar('Type file is not support!');
+      } else if (avatarFile?.size > 1000000) {
+        setErrorAvatar('Size file must be less than 1 MB!');
+      } else {
+        setAvatar(URL.createObjectURL(avatarFile));
+        setAvatarFile(avatarFile);
+        setErrorAvatar('');
+      }
+    }
+    // Simpan file yang diunggah ke dalam state avatarFile
   };
 
   const router = useRouter();
@@ -147,17 +148,17 @@ export default function Form({ user, skills }) {
 
     if (name == '') {
       if (name == '') {
-        setErrorName('Nama harus diisi');
+        setErrorName('Name is required');
       }
       setSuccess(false);
-      setMessage('Failed, Data tidak boleh kosong ');
+      setMessage('Failed, Any input cannot be empty');
       setIsLoading(false);
       return;
     }
 
     if (errorName != '' || errorAvatar != '') {
       setSuccess(false);
-      setMessage('Failed, Data tidak sesuai persyaratan ');
+      setMessage('Failed, Please check your form again');
       setIsLoading(false);
       return;
     }
@@ -179,7 +180,7 @@ export default function Form({ user, skills }) {
       const { newFileName, successUpload } = await handleUploadFile();
       if (!successUpload) {
         setSuccess(false);
-        setMessage('Failed, Data profile gagal diperbarui');
+        setMessage('Failed, Profile image failed to upload');
         setIsLoading(false);
         return;
       } else {
@@ -187,11 +188,9 @@ export default function Form({ user, skills }) {
       }
     }
 
-    const { success } = await updateSoftwareDeveloper(
-      session?.user?.userId,
-      data,
-    );
-    if (success) {
+    const res = await updateSoftwareDeveloper(session?.user?.userId, data);
+    console.log(res);
+    if (res?.success) {
       // update session
       const dataUpdateSession = {
         name: name,
@@ -202,12 +201,12 @@ export default function Form({ user, skills }) {
       }
 
       update(dataUpdateSession);
-      setSuccess(success);
-      setMessage('Success, Data profile berhasil diperbarui');
+      setSuccess(true);
+      setMessage('Success, Profile has been updated');
       setIsLoading(false);
     } else {
-      setSuccess(success);
-      setMessage('Failed, Data profile gagal diperbarui');
+      setSuccess(false);
+      setMessage('Failed, Profile has not been updated');
       setIsLoading(false);
       return;
     }
@@ -247,7 +246,7 @@ export default function Form({ user, skills }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Upload file dengan format jpeg/svg/webp/png, max size 1 MB
+            Format file must be jpeg/svg/webp/png, and max size 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>
@@ -342,7 +341,7 @@ export default function Form({ user, skills }) {
             name="portfolioLink"
             id="portfolioLink"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Portofolio Link"
+            placeholder="Portfolio Link"
             defaultValue={portfolioLink}
             onChange={e => setPortfolioLink(e.target.value)}
           />
@@ -359,7 +358,7 @@ export default function Form({ user, skills }) {
             name="usernameGithub"
             id="usernameGithub"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Portofolio Link"
+            placeholder="Username Github"
             defaultValue={usernameGithub}
             onChange={e => setUsernameGithub(e.target.value)}
           />
@@ -371,7 +370,7 @@ export default function Form({ user, skills }) {
             name="usernameInstagram"
             id="usernameInstagram"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Instagram Link"
+            placeholder="Username Instagram"
             defaultValue={usernameInstagram}
             onChange={e => setUsernameInstagram(e.target.value)}
           />
@@ -383,7 +382,7 @@ export default function Form({ user, skills }) {
             name="usernameLinkedin"
             id="usernameLinkedin"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Linkedin Link"
+            placeholder="Username Linkedin"
             defaultValue={usernameLinkedin}
             onChange={e => setUsernameLinkedin(e.target.value)}
           />

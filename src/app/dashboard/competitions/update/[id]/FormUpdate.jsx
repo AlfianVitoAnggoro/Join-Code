@@ -271,7 +271,6 @@ export default function FormUpdate({
                 name="max_mamber_of_team"
                 id="max_mamber_of_team"
                 className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                defaultValue={maxMemberTeam}
                 readOnly={maxMemberTeamReadOnly}
                 value={maxMemberTeam}
                 onChange={e => setMaxMemberTeam(e.target.value)}

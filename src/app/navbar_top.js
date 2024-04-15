@@ -60,7 +60,7 @@ export default function NavbarTop() {
             <Link
               href="/collaboration"
               className={`mr-3 cursor-pointer  ${
-                pathname === '/collaboration'
+                pathname.startsWith('/collaboration')
                   ? 'text-black font-semibold'
                   : 'text-black'
               } hover:bg-gray-200 p-1 rounded`}
@@ -70,7 +70,7 @@ export default function NavbarTop() {
             <Link
               href="/competition"
               className={`mr-3 cursor-pointer  ${
-                pathname === '/competition'
+                pathname.startsWith('/competition')
                   ? 'text-black font-semibold'
                   : 'text-black'
               } hover:bg-gray-200 p-1 rounded`}
@@ -82,7 +82,7 @@ export default function NavbarTop() {
               <Link
                 href="/leaderboard"
                 className={`mr-3 cursor-pointer  ${
-                  pathname === '/leaderboard'
+                  pathname.startsWith('/leaderboard')
                     ? 'text-black font-semibold'
                     : 'text-black'
                 } hover:bg-gray-200 p-1 rounded`}
@@ -113,7 +113,7 @@ export default function NavbarTop() {
                       width={50}
                       height={50}
                       src={'/images/avatars/' + session.user.avatar}
-                      alt={session.user.name}
+                      alt="avatar"
                     />
                   </button>
                 </div>
@@ -128,13 +128,21 @@ export default function NavbarTop() {
                 >
                   <Link
                     href={`/profile/${session?.user?.nickname}`}
-                    className="block px-4 py-2 text-sm text-black"
+                    className={`block px-4 py-2 text-sm ${
+                      pathname.startsWith('/profile')
+                        ? 'text-black font-semibold'
+                        : 'text-black'
+                    }`}
                   >
                     Your Profile
                   </Link>
                   <Link
                     href={`/settings/profile/${session?.user?.nickname}`}
-                    className="block px-4 py-2 text-sm text-black"
+                    className={`block px-4 py-2 text-sm ${
+                      pathname.startsWith('/settings')
+                        ? 'text-black font-semibold'
+                        : 'text-black'
+                    }`}
                   >
                     Settings
                   </Link>

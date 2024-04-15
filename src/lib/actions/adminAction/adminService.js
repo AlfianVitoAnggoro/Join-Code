@@ -3,8 +3,11 @@ import prisma from '@/lib/prisma';
 async function updateAdminService(userId, data) {
   const dataUser = {
     name: data.name,
-    isEmailVerified: JSON.parse(data?.isEmailVerified),
   };
+
+  if (data.isEmailVerified != undefined) {
+    dataUser.isEmailVerified = JSON.parse(data?.isEmailVerified);
+  }
 
   if (data.email) {
     dataUser.email = data.email;

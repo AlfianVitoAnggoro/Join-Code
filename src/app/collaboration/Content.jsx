@@ -92,7 +92,7 @@ export default function Content({ softwareDevelopersData }) {
                     </p>
                   ) : (
                     <p className="text-xs text-neutral-500 text-center text-ellipsis overflow-hidden w-52 h-8 mt-1 ">
-                      Belum ada skill yang diminati
+                      Skills have not been available
                     </p>
                   )}
                   <Image

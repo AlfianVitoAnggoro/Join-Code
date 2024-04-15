@@ -229,7 +229,7 @@ export default function Content({
             <div>
               {checkUserHasBeenRegisteredState && (
                 <p className="text-sm text-neutral-500">
-                  You have been registered in this competition
+                  You have been registration in this competition
                 </p>
               )}
               {checkCompetitionIsMaxTeamState && (
@@ -411,6 +411,7 @@ export default function Content({
                 {competition?.organization?.organizationLink ? (
                   <Link
                     href={competition?.organization?.organizationLink}
+                    target="_blank"
                     className="text-blue-700 text-sm"
                   >
                     {competition?.organization?.organizationLink}

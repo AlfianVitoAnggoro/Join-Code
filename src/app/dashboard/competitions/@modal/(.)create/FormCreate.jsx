@@ -72,6 +72,74 @@ export default function FormCreate({ categories, types, organizations }) {
   }, [session, status]);
 
   useEffect(() => {
+    if (name) {
+      setErrorName('');
+    }
+
+    if (place) {
+      setErrorPlace('');
+    }
+
+    if (description) {
+      setErrorDescription('');
+    }
+
+    if (maxMemberTeam) {
+      setErrorMaxMemberTeam('');
+    }
+
+    if (maxTeam) {
+      setErrorMaxTeam('');
+    }
+
+    if (categoryId) {
+      setErrorCategoryId('');
+    }
+
+    if (typeId) {
+      setErrorTypeId('');
+    }
+
+    if (organizationId) {
+      setErrorOrganizationId('');
+    }
+
+    if (registrationFee != '') {
+      setErrorRegistrationFee('');
+    }
+
+    if (registrationStartDate) {
+      setErrorRegistrationStartDate('');
+    }
+
+    if (registrationEndDate) {
+      setErrorRegistrationEndDate('');
+    }
+
+    if (startDate) {
+      setErrorStartDate('');
+    }
+
+    if (endDate) {
+      setErrorEndDate('');
+    }
+  }, [
+    name,
+    place,
+    description,
+    maxMemberTeam,
+    maxTeam,
+    registrationStartDate,
+    registrationEndDate,
+    registrationFee,
+    startDate,
+    endDate,
+    categoryId,
+    typeId,
+    organizationId,
+  ]);
+
+  useEffect(() => {
     if (categoryId == 1) {
       setMaxMemberTeam('1');
       setMaxMemberTeamReadOnly(true);
@@ -302,7 +370,9 @@ export default function FormCreate({ categories, types, organizations }) {
               >
                 <option value="">Select Category</option>
                 {categories.map(category => (
-                  <option value={category.categoryId}>{category.name}</option>
+                  <option value={category.categoryId} key={category.categoryId}>
+                    {category.name}
+                  </option>
                 ))}
               </select>
               {errorCategoryId && (
@@ -322,7 +392,9 @@ export default function FormCreate({ categories, types, organizations }) {
               >
                 <option value="">Select Type</option>
                 {types.map(type => (
-                  <option value={type.typeId}>{type.name}</option>
+                  <option value={type.typeId} key={type.typeId}>
+                    {type.name}
+                  </option>
                 ))}
               </select>
               {errorTypeId && (
@@ -362,7 +434,10 @@ export default function FormCreate({ categories, types, organizations }) {
               >
                 <option value="">Select Organization</option>
                 {organizations.map(organization => (
-                  <option value={organization?.organizationId}>
+                  <option
+                    value={organization?.organizationId}
+                    key={organization?.organizationId}
+                  >
                     {organization.user.name}
                   </option>
                 ))}

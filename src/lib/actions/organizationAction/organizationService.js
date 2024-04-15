@@ -37,8 +37,11 @@ async function getDetailOrganizationService(userId) {
 async function updateOrganizationService(userId, data) {
   const dataUser = {
     name: data.name,
-    isEmailVerified: JSON.parse(data?.isEmailVerified),
   };
+
+  if (data?.isEmailVerified != undefined) {
+    dataUser.isEmailVerified = JSON.parse(data?.isEmailVerified);
+  }
 
   if (data.email) {
     dataUser.email = data.email;
@@ -59,8 +62,11 @@ async function updateOrganizationService(userId, data) {
     description: data.description,
     address: data.address,
     organizationLink: data.organizationLink,
-    isValidDocument: JSON.parse(data.isValidDocument),
   };
+
+  if (data.isValidDocument != undefined) {
+    dataOrganization.isValidDocument = JSON.parse(data.isValidDocument);
+  }
 
   if (data.document) {
     dataOrganization.document = data.document;

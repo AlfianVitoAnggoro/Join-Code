@@ -33,6 +33,14 @@ const authOptions = {
           if (!user.isEmailVerified) {
             throw new Error('Email has not been verified');
           }
+
+          if (user.roleId == 2) {
+            if (!user.organizations.isValidDocument) {
+              throw new Error(
+                'Document support organization has not been verification ',
+              );
+            }
+          }
           return user;
         }
         throw new Error('Email or password is not valid');

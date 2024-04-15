@@ -128,8 +128,11 @@ async function checkSoftwareDeveloperByUserId(userId) {
 async function updateSoftwareDeveloperService(userId, data) {
   const dataUser = {
     name: data.name,
-    isEmailVerified: JSON.parse(data?.isEmailVerified),
   };
+
+  if (data?.isEmailVerified != undefined) {
+    dataUser.isEmailVerified = JSON.parse(data?.isEmailVerified);
+  }
 
   if (data.avatar) {
     dataUser.avatar = data.avatar;

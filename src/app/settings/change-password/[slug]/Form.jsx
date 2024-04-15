@@ -5,9 +5,12 @@ import { changePassword } from '../../../../lib/actions/userAction';
 
 export default function Form() {
   const { data: session, status } = useSession();
-  const [oldPassword, setOldPassword] = useState();
-  const [newPassword, setNewPassword] = useState();
-  const [confirmNewPassword, setConfirmNewPassword] = useState();
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   // Error Handling
   const [errorOldPassword, setErrorOldPassword] = useState();
@@ -22,25 +25,35 @@ export default function Form() {
   useEffect(() => {
     if (newPassword) {
       if (newPassword.length < 6) {
-        setErrorNewPassword('Password harus lebih dari 6 karakter');
+        setErrorNewPassword('Password must be more than 6 characters');
       } else if (newPassword !== confirmNewPassword) {
-        setErrorNewPassword('Password dan Confirm password tidak cocok');
+        setErrorNewPassword('New Password and Confirm Password is not match');
       } else {
         setErrorNewPassword('');
       }
     }
     if (confirmNewPassword) {
       if (newPassword !== confirmNewPassword) {
-        setErrorConfirmNewPassword('Password dan Confirm password tidak cocok');
+        setErrorConfirmNewPassword(
+          'New Password and Confirm Password is not match',
+        );
       } else {
         setErrorConfirmNewPassword('');
       }
     }
-  }, [confirmNewPassword, newPassword]);
+
+    if (oldPassword) {
+      if (oldPassword.length < 6) {
+        setErrorOldPassword('Password must be more than 6 characters');
+      } else {
+        setErrorOldPassword('');
+      }
+    }
+  }, [oldPassword, confirmNewPassword, newPassword]);
 
   const handleSubmit = async e => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (oldPassword === '' || newPassword === '' || confirmNewPassword === '') {
       if (oldPassword === '') {
         setErrorOldPassword('Old Password is required');
@@ -53,44 +66,42 @@ export default function Form() {
       }
 
       setIsSuccess(false);
-      setMessage('Failed, pastikan semua data terisi');
+      setMessage('Failed, ');
       setIsLoading(false);
       return;
     }
 
     if (errorOldPassword || errorNewPassword || errorConfirmNewPassword) {
       setIsSuccess(false);
-      setMessage('Gagal, Pastikan tidak ada kesalahan');
+      setMessage('Failed, Please check your input');
       setIsLoading(false);
       return;
     }
 
     if (oldPassword === newPassword) {
       setIsSuccess(false);
-      setMessage('Gagal, Password baru tidak boleh sama dengan password lama');
+      setMessage('Failed, Old Password and New Password can not be same');
       setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
     const data = {
       oldPassword: oldPassword,
       newPassword: newPassword,
     };
 
-    const { success, message } = await changePassword(
-      session?.user?.userId,
-      data,
-    );
+    const res = await changePassword(session?.user?.userId, data);
 
-    if (!success) {
-      setIsSuccess(success);
-      setMessage(message);
+    if (!res.success) {
+      setIsSuccess(false);
+      setMessage('Failed, Old password is incorrect');
     } else {
-      setIsSuccess(success);
-      setMessage(message);
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      setIsSuccess(true);
+      setMessage('Success, Password have been changed');
     }
-
     setIsLoading(false);
   };
 
@@ -108,17 +119,86 @@ export default function Form() {
           </button>
         </div>
       )}
-      <form action="" className="space-y-3">
+      <form action="handleSubmit" className="space-y-3">
         <div className="mb-5">
           <label className="font-medium">Old Password</label>
-          <input
-            type="password"
-            name="old_password"
-            id="old_password"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="*******"
-            onChange={e => setOldPassword(e.target.value)}
-          />
+          <div className="relative">
+            <input
+              type={showOldPassword ? 'text' : 'password'}
+              name="old_password"
+              id="old_password"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="*******"
+              value={oldPassword}
+              onChange={e => setOldPassword(e.target.value)}
+            />
+            {showOldPassword ? (
+              <button
+                id="toggleOldPasswordFalse"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowOldPassword(false)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6"
+                    transform="rotate(-90 12 12)"
+                  />
+                </svg>
+              </button>
+            ) : (
+              <button
+                id="toggleOldPasswordTrue"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowOldPassword(true)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
           {errorOldPassword && (
             <span className="text-red-500 text-sm italic">
               {errorOldPassword}
@@ -127,14 +207,83 @@ export default function Form() {
         </div>
         <div>
           <label className="font-medium">New Password</label>
-          <input
-            type="password"
-            name="new_password"
-            id="new_password"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="*******"
-            onChange={e => setNewPassword(e.target.value)}
-          />
+          <div className="relative">
+            <input
+              type={showNewPassword ? 'text' : 'password'}
+              name="new_password"
+              id="new_password"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="*******"
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
+            />
+            {showNewPassword ? (
+              <button
+                id="toggleNewPasswordFalse"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowNewPassword(false)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6"
+                    transform="rotate(-90 12 12)"
+                  />
+                </svg>
+              </button>
+            ) : (
+              <button
+                id="toggleNewPasswordTrue"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowNewPassword(true)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
           {errorNewPassword && (
             <span className="text-red-500 text-sm italic">
               {errorNewPassword}
@@ -143,14 +292,83 @@ export default function Form() {
         </div>
         <div>
           <label className="font-medium">Confirm New Password</label>
-          <input
-            type="password"
-            name="confirm_new_password"
-            id="confirm_new_password"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="*******"
-            onChange={e => setConfirmNewPassword(e.target.value)}
-          />
+          <div className="relative">
+            <input
+              type={showConfirmNewPassword ? 'text' : 'password'}
+              name="confirm_new_password"
+              id="confirm_new_password"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="*******"
+              value={confirmNewPassword}
+              onChange={e => setConfirmNewPassword(e.target.value)}
+            />
+            {showConfirmNewPassword ? (
+              <button
+                id="toggleNewConfirmPasswordFalse"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowConfirmNewPassword(false)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6"
+                    transform="rotate(-90 12 12)"
+                  />
+                </svg>
+              </button>
+            ) : (
+              <button
+                id="toggleNewConfirmPasswordTrue"
+                type="button"
+                className="absolute inset-y-0 right-0 px-3 flex items-center"
+                onClick={() => setShowConfirmNewPassword(true)}
+              >
+                <svg
+                  id="eyeIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
           {errorConfirmNewPassword && (
             <span className="text-red-500 text-sm italic">
               {errorConfirmNewPassword}

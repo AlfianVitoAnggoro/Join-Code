@@ -301,6 +301,7 @@ export default function FormCompetitionRegistration({
                   alt="preview-proofOfPayment"
                   width={200}
                   height={200}
+                  className="w-1/4 h-auto object-cover"
                 />
               )}
               <input

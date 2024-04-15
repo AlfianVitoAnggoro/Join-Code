@@ -45,6 +45,7 @@ export default function Footer() {
                   src={'/images/icon-linkedin.svg'}
                   width={50}
                   height={50}
+                  alt="icon-linkedin"
                   className="w-auto h-8 bg-white object-cover rounded-full"
                 />
               </Link>
@@ -56,6 +57,7 @@ export default function Footer() {
                   src={'/images/icon-instagram.svg'}
                   width={50}
                   height={50}
+                  alt="icon-instagram"
                   className="w-auto h-8 bg-white object-cover rounded-full"
                 />
               </Link>
@@ -67,6 +69,7 @@ export default function Footer() {
                   src={'/images/icon-github.svg'}
                   width={50}
                   height={50}
+                  alt="icon-github"
                   className="w-auto h-8 bg-white object-cover rounded-full"
                 />
               </Link>
@@ -75,6 +78,7 @@ export default function Footer() {
                   src={'/images/icon-gmail.svg'}
                   width={50}
                   height={50}
+                  alt="icon-gmail"
                   className="w-auto h-8 bg-white object-cover rounded-full"
                 />
               </Link>

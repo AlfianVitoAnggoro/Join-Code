@@ -107,6 +107,7 @@ export default function TableCompetitions({ competitionsData }) {
         />
         <Link
           href={'/dashboard/competitions/create'}
+          scroll={false}
           className="bg-green-600 px-3 py-2 rounded text-white"
         >
           Create
@@ -152,6 +153,7 @@ export default function TableCompetitions({ competitionsData }) {
                   </Link>
                   <Link
                     href={`/dashboard/competitions/delete/${competition.competitionId}`}
+                    scroll={false}
                     className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
                   >
                     Delete
