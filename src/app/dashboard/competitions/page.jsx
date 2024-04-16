@@ -1,5 +1,6 @@
 import { getCompetition } from '@/lib/actions/competitionAction/index.js';
 import TableCompetitions from './TableCompetitions';
+import { Suspense } from 'react';
 
 export const metadata = {
   metadataBase: new URL(
@@ -27,7 +28,9 @@ export default async function CompetitionsDashboardPages() {
 
   return (
     <div className="flex-1 bg-mainColor">
-      <TableCompetitions competitionsData={competitions} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TableCompetitions competitionsData={competitions} />
+      </Suspense>
     </div>
   );
 }

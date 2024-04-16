@@ -38,7 +38,7 @@ export default function Table({ leaderboard }) {
         setUserLoginLeaderboard(userDataWithRanking);
       }
     }
-  }, [session, status]);
+  }, [session, status, leaderboard?.softwareDevelopers]);
   return (
     <div className="flex flex-col gap-3">
       {/* Header */}

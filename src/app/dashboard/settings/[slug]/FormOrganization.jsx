@@ -123,6 +123,7 @@ export default function FormOrganization({ users, user }) {
     paymentName,
     service,
     noVirtualAccount,
+    user.email,
   ]);
 
   const handleChangeAvatar = e => {

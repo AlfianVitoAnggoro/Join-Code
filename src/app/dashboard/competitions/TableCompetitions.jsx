@@ -61,7 +61,7 @@ export default function TableCompetitions({ competitionsData }) {
     } else {
       setPage(pageUrl ? Number(pageUrl) : 1);
     }
-  }, [searchTerm]);
+  }, [searchTerm, pageUrl]);
 
   useEffect(() => {
     setTotalData(realData.length);
@@ -86,12 +86,12 @@ export default function TableCompetitions({ competitionsData }) {
   useEffect(() => {
     const realDataSlice = realData.slice(startIndex, endIndex);
     setCurrentData(realDataSlice);
-  }, [startIndex, endIndex]);
+  }, [startIndex, endIndex, realData]);
 
   useEffect(() => {
     const realDataSlice = realData.slice(startIndex, endIndex);
     setCurrentData(realDataSlice);
-  }, [realData]);
+  }, [realData, endIndex, startIndex]);
 
   return (
     <>

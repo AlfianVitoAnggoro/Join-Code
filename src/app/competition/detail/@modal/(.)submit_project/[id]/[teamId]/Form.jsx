@@ -32,7 +32,7 @@ export default function Form({ competitionId, teamId }) {
       }
     };
     checkHaveBeenSubmitProject();
-  }, [competitionId, teamId]);
+  }, [competitionId, teamId, router]);
 
   useEffect(() => {
     if (projectLink) {

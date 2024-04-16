@@ -86,7 +86,7 @@ export default function UpdateOrganization({ users, user }) {
         setErrorOrganizationLink('');
       }
     }
-  }, [name, email, users, organizationLink]);
+  }, [name, email, users, organizationLink, user.email]);
 
   const handleChangeAvatar = e => {
     const file = e.target.files[0];

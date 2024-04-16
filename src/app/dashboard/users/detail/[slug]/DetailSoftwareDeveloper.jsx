@@ -118,6 +118,7 @@ export default async function DetailsoftwareDevelopers(props) {
               src={`/images/badges/${user?.softwareDevelopers?.badge?.image}`}
               width={100}
               height={100}
+              alt="image-badge"
               priority
               className="rounded-full object-cover w-16 h-16"
             />

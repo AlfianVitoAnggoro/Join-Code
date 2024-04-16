@@ -69,7 +69,7 @@ export default function FormCreate({ categories, types, organizations }) {
     };
 
     getOrganization();
-  }, [session, status]);
+  }, [session, status, router]);
 
   useEffect(() => {
     if (name) {

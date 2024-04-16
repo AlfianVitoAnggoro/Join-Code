@@ -33,7 +33,7 @@ export default function Form({ competition, id }) {
         }
       }
     }
-  }, [session, status]);
+  }, [session, status, competition?.organization?.user?.nickname, router]);
 
   useEffect(() => {
     const checkAcceptedMaxTeam = competition.teams.filter(team => {

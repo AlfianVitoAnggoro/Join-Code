@@ -60,7 +60,7 @@ export default function ContentCompetition({
         setSubmitProjectButtonByCompetitionDate(isActiveCompetition);
       }
     }
-  }, [session, competition]);
+  }, [session, competition, competitionId, router, status, teamId]);
   return (
     <>
       <div className="bg-white rounded p-3">

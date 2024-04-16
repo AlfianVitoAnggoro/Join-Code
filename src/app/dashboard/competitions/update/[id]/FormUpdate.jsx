@@ -26,7 +26,7 @@ export default function FormUpdate({
         }
       }
     }
-  }, [session, status]);
+  }, [session, status, competition?.organization?.user?.nickname, router]);
 
   const [name, setName] = useState(competition?.name || '');
   const [place, setPlace] = useState(competition?.place || '');

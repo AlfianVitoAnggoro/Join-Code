@@ -46,7 +46,7 @@ export default function FormAdmin({ users, user }) {
         setErrorEmail('');
       }
     }
-  }, [name, email, users]);
+  }, [name, email, users, user.email]);
 
   const router = useRouter();
 

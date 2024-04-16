@@ -94,7 +94,7 @@ export default function UpdateSoftwareDeveloper({ users, user, skills }) {
         setErrorPortfolioLink('');
       }
     }
-  }, [name, email, users, portfolioLink]);
+  }, [name, email, users, portfolioLink, user.email]);
 
   const handleFileChange = e => {
     const file = e.target.files[0];

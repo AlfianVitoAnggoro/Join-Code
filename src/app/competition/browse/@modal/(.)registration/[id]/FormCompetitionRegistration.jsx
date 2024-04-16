@@ -44,7 +44,7 @@ export default function FormCompetitionRegistration({
     };
 
     fetchUserDetail();
-  }, [session]);
+  }, [session, router, status]);
 
   useEffect(() => {
     const updatedMembers = [...members]; // Salin array members
@@ -53,7 +53,7 @@ export default function FormCompetitionRegistration({
     const name = user?.name.indexOf(' ');
     const firstName = user?.name.substring(0, name);
     setName(firstName + ' ' + 'Team');
-  }, [user]);
+  }, [user, members]);
 
   const handleMemberChange = (index, value) => {
     const updatedMembers = [...members]; // Salin array members
@@ -160,7 +160,7 @@ export default function FormCompetitionRegistration({
         setErrorMember('');
       }
     }
-  }, [name, members]);
+  }, [name, members, competition.teams, softwareDevelopers]);
 
   const handleSubmit = async e => {
     e.preventDefault();

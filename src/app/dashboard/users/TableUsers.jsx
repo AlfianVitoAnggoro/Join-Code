@@ -40,7 +40,7 @@ export default function TableUsers({ users }) {
     } else {
       setPage(pageUrl ? Number(pageUrl) : 1);
     }
-  }, [searchTerm]);
+  }, [searchTerm, pageUrl]);
 
   useEffect(() => {
     setTotalData(realData.length);
@@ -65,12 +65,12 @@ export default function TableUsers({ users }) {
   useEffect(() => {
     const realDataSlice = realData.slice(startIndex, endIndex);
     setCurrentData(realDataSlice);
-  }, [startIndex, endIndex]);
+  }, [startIndex, endIndex, realData]);
 
   useEffect(() => {
     const realDataSlice = realData.slice(startIndex, endIndex);
     setCurrentData(realDataSlice);
-  }, [realData]);
+  }, [realData, startIndex, endIndex]);
 
   return (
     <>

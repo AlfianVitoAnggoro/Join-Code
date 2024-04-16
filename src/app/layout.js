@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 import './globals.css';
 import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
+import { Suspense } from 'react';
 
 export default function RootLayout({ children }) {
   const disableNavbar = ['/dashboard'];
@@ -26,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <SessionProvider>
           {!shouldDisableNavbar(pathname) && <NavbarTop />}
-          {children}
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           {!shouldDisableNavbar(pathname) && <Footer />}
           {!shouldDisableNavbar(pathname) && <NavbarBottom />}
         </SessionProvider>

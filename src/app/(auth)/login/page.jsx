@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Form from './Form';
+import { Suspense } from 'react';
 
 export const metadata = {
   metadataBase: new URL(
@@ -26,17 +27,19 @@ export default function LoginPages() {
   return (
     <div className="relative">
       <div className="w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center ">
-        <Form />
-        <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">
-          <Image
-            src="/images/login.svg"
-            width={200}
-            height={200}
-            alt="Login"
-            className="w-auto h-96"
-            priority
-          />
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Form />
+          <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">
+            <Image
+              src="/images/login.svg"
+              width={200}
+              height={200}
+              alt="Login"
+              className="w-auto h-96"
+              priority
+            />
+          </div>
+        </Suspense>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import {
   verificationUser,
   checkEmailVerified,
@@ -109,43 +109,44 @@ export default function Page() {
             </button>
           </div>
         )}
-
-        {loading && <h1>Loading...</h1>}
-        {!loading && !isAvailableEmail && (
-          <h1>Email has not been registered </h1>
-        )}
-        {!loading && isAvailableEmail && isEmailVerified && (
-          <h1>Email has been verified</h1>
-        )}
-        {!loading &&
-          isAvailableEmail &&
-          !isEmailVerified &&
-          !isClickVerifyEmail && (
-            <div className="flex flex-col gap-y-2 justify-center items-center">
-              <h1>Click the button below for verify email</h1>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 font-semibold text-white py-2 px-4 rounded w-max"
-                onClick={handleVerifyEmail}
-              >
-                Verify Email
-              </button>
-            </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          {loading && <h1>Loading...</h1>}
+          {!loading && !isAvailableEmail && (
+            <h1>Email has not been registered </h1>
           )}
-        {!loading &&
-          isAvailableEmail &&
-          !isEmailVerified &&
-          isClickVerifyEmail &&
-          !statusVerificationEmail && (
-            <div className="flex flex-col gap-y-2 justify-center items-center">
-              <h1>Click the button below for resend verify email</h1>
-              <button
-                className="bg-yellow-500 hover:bg-yellow-700 font-semibold text-white py-2 px-4 rounded w-max"
-                onClick={handlerResendVerifyEmail}
-              >
-                Resend Verify Email
-              </button>
-            </div>
+          {!loading && isAvailableEmail && isEmailVerified && (
+            <h1>Email has been verified</h1>
           )}
+          {!loading &&
+            isAvailableEmail &&
+            !isEmailVerified &&
+            !isClickVerifyEmail && (
+              <div className="flex flex-col gap-y-2 justify-center items-center">
+                <h1>Click the button below for verify email</h1>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 font-semibold text-white py-2 px-4 rounded w-max"
+                  onClick={handleVerifyEmail}
+                >
+                  Verify Email
+                </button>
+              </div>
+            )}
+          {!loading &&
+            isAvailableEmail &&
+            !isEmailVerified &&
+            isClickVerifyEmail &&
+            !statusVerificationEmail && (
+              <div className="flex flex-col gap-y-2 justify-center items-center">
+                <h1>Click the button below for resend verify email</h1>
+                <button
+                  className="bg-yellow-500 hover:bg-yellow-700 font-semibold text-white py-2 px-4 rounded w-max"
+                  onClick={handlerResendVerifyEmail}
+                >
+                  Resend Verify Email
+                </button>
+              </div>
+            )}
+        </Suspense>
       </div>
     </>
   );
