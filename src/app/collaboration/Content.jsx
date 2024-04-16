@@ -13,7 +13,7 @@ export default function Content({ softwareDevelopersData }) {
     if (search == '') {
       setSoftwareDevelopers(softwareDevelopersData);
     } else {
-      const filtered = softwareDevelopersData.filter(softwareDeveloper => {
+      const filtered = softwareDevelopersData?.filter(softwareDeveloper => {
         const userNameMatch = softwareDeveloper?.user?.name
           .toLowerCase()
           .includes(search.toLowerCase());
@@ -48,24 +48,26 @@ export default function Content({ softwareDevelopersData }) {
       </div>
       {/* Card */}
       <div className="grid grid-cols-1 xs:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 dekstop:grid-cols-4 gap-3 rounded border-y border-gray-200">
-        {softwareDevelopers.map((softwareDeveloper, index) => {
+        {softwareDevelopers?.map((softwareDeveloper, index) => {
           return (
             <div
               className="bg-white border-2 border-gray-200 rounded-lg hover:shadow-black hover:shadow-md relative w-full"
               key={index}
             >
-              <Link href={`/collaboration/${softwareDeveloper.user.nickname}`}>
+              <Link
+                href={`/collaboration/${softwareDeveloper?.user?.nickname}`}
+              >
                 <div className="w-full h-24 bg-gray-400 rounded-t-lg">
                   <Image
                     width={50}
                     height={50}
                     src="/images/login.svg"
-                    alt={softwareDeveloper.user.name}
+                    alt={softwareDeveloper?.user?.name}
                     priority
                     className="w-full h-full object-cover"
                   />
                 </div>
-                {softwareDeveloper.statusCollaboration && (
+                {softwareDeveloper?.statusCollaboration && (
                   <div className="absolute top-0 left-0 bg-green-700 text-white p-1 px-2 rounded">
                     <p className="text-xs">#OPENTOCOLLABORATE</p>
                   </div>
@@ -74,20 +76,20 @@ export default function Content({ softwareDevelopersData }) {
                   <Image
                     width={50}
                     height={50}
-                    src={`/images/avatars/${softwareDeveloper.user.avatar}`}
-                    alt={softwareDeveloper.user.name}
+                    src={`/images/avatars/${softwareDeveloper?.user?.avatar}`}
+                    alt={softwareDeveloper?.user?.name}
                     priority
                     className="rounded-full w-24 h-24 object-cover"
                   />
                 </div>
                 <div className="flex justify-center items-center flex-col mt-12 m-2">
                   <h3 className="font-bold text-center">
-                    {softwareDeveloper.user.name}
+                    {softwareDeveloper?.user?.name}
                   </h3>
-                  {softwareDeveloper.skills.length > 0 ? (
+                  {softwareDeveloper?.skills?.length > 0 ? (
                     <p className="text-xs text-black text-center text-ellipsis overflow-hidden w-52 h-8 mt-1">
-                      {softwareDeveloper.skills
-                        .map(skill => skill.skill.name)
+                      {softwareDeveloper?.skills
+                        .map(skill => skill?.skill?.name)
                         .join(', ')}
                     </p>
                   ) : (

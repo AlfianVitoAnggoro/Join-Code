@@ -84,14 +84,14 @@ export default function Content({ competitionsData }) {
         <div
           className={`col-span-5 laptop:col-span-2 overflow-scroll flex flex-col h-screen`}
         >
-          {competitions.length == 0 ? (
+          {competitions?.length == 0 ? (
             <div className="flex justify-center mt-10">
               <p className="text-neutral-500 text-center text-base">
                 no competitions available at this time{' '}
               </p>
             </div>
           ) : (
-            competitions.map((competition, index) => {
+            competitions?.map((competition, index) => {
               return (
                 <div key={index}>
                   <Link
@@ -119,21 +119,21 @@ export default function Content({ competitionsData }) {
                         </p>
                         <div className="flex space-x-2">
                           <p className="text-sm text-neutral-500">
-                            {competition.place} ({competition.type.name})
+                            {competition?.place} ({competition?.type?.name})
                           </p>
                         </div>
                         <div className="flex justify-between space-x-3">
                           <p className="text-sm text-neutral-500">
-                            {competition.category.name}
+                            {competition?.category?.name}
                           </p>
-                          {competition.registrationFee == 0 ? (
+                          {competition?.registrationFee == 0 ? (
                             <p className="text-sm text-black font-medium">
                               Free
                             </p>
                           ) : (
                             <p className="text-sm text-black font-medium">
                               Rp.{' '}
-                              {competition.registrationFee.toLocaleString(
+                              {competition?.registrationFee.toLocaleString(
                                 'id-ID',
                               )}
                             </p>

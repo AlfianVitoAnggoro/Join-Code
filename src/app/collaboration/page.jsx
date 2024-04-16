@@ -24,7 +24,7 @@ export const metadata = {
 
 export default async function CollaborationPages() {
   const responseSoftwareDevelopers = await getSoftwareDevelopers();
-  const softwareDevelopers = responseSoftwareDevelopers.data;
+  const softwareDevelopers = responseSoftwareDevelopers?.data;
 
   return (
     <div className="relative min-h-screen py-3 laptop:mt-20">

@@ -2,8 +2,10 @@ import { loginService } from '@/lib/actions/authAction/authService';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
-import { Users } from 'lucide-react';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import prisma from './prisma';
 const authOptions = {
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
     maxAge: Number(process.env.NEXTAUTH_MAX_AGE_TOKEN),

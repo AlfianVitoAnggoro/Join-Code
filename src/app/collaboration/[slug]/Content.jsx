@@ -6,7 +6,7 @@ import { useSession, signIn } from 'next-auth/react';
 export default function Content({ user }) {
   const { status } = useSession();
   const subject = 'Invited Collaboration Join Code';
-  const message = `Hello, ${user.name} invited you to collaborate on Join Code. Please give your collaboration ID, if you want to join.`;
+  const message = `Hello, ${user?.name} invited you to collaborate on Join Code. Please give your collaboration ID, if you want to join.`;
   return (
     <>
       <div className="bg-black">
@@ -180,16 +180,16 @@ export default function Content({ user }) {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
               {user?.softwareDevelopers?.teams
-                ?.filter(team => team?.team.competitions?.length > 0)
+                ?.filter(team => team?.team?.competitions?.length > 0)
                 .map((team, index) => (
                   <div className="grid grid-cols-1 gap-5" key={index}>
-                    {team.team.competitions.map((competition, idx) => (
+                    {team?.team?.competitions?.map((competition, idx) => (
                       <div
                         className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
                         key={idx}
                       >
                         <Link
-                          href={`/competition/detail/${competition.competition.competitionId}`}
+                          href={`/competition/detail/${competition?.competition?.competitionId}`}
                         >
                           <div className="grid grid-cols-3 gap-3 h-40">
                             <div className="col-span-1 flex justify-center items-center">
@@ -212,10 +212,10 @@ export default function Content({ user }) {
                                     alt="Ok"
                                   />
                                   <p className="text-xl font-semibold text-green-600 ml-1">
-                                    {competition.statusTeamCompetition.name}
+                                    {competition?.statusTeamCompetition?.name}
                                   </p>
                                 </div>
-                                {competition.ranking && (
+                                {competition?.ranking && (
                                   <div className="flex justify-start items-center">
                                     <Image
                                       src="/images/icon-medal.png"
@@ -224,16 +224,19 @@ export default function Content({ user }) {
                                       alt="Medal"
                                     />
                                     <p className="text-xl font-semibold text-yellow-600 ml-1">
-                                      Ranking {competition.ranking}
+                                      Ranking {competition?.ranking}
                                     </p>
                                   </div>
                                 )}
                               </div>
                               <h1 className="text-2xl font-bold mt-2 mb-1">
-                                {competition.competition.name}
+                                {competition?.competition?.name}
                               </h1>
                               <h1 className="text-base font-semibold text-slate-600 mb-2">
-                                {competition.competition.organization.user.name}
+                                {
+                                  competition?.competition?.organization?.user
+                                    ?.name
+                                }
                               </h1>
                               <div className="flex justify-start items-center gap-3">
                                 <div className="flex justify-start items-center gap-1">
@@ -263,7 +266,7 @@ export default function Content({ user }) {
                           </div>
                           <div className="w-full py-5 h-56">
                             <p className="text-ellipsis overflow-clip text-base h-40">
-                              {competition.competition.description}
+                              {competition?.competition?.description}
                             </p>
                           </div>
                         </Link>

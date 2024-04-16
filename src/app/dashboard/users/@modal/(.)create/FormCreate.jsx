@@ -69,7 +69,7 @@ export default function FormCreate({ roles }) {
     if (nickname) {
       const regex = /^[a-zA-Z]+$/;
       const nicnameRegex = regex.test(nickname);
-      const nicknameMatch = users.find(user => user.nickname === nickname);
+      const nicknameMatch = users.find(user => user?.nickname === nickname);
       if (!nicnameRegex) {
         setErrorNickname('Nickname must be letters and without spaces');
       } else if (nickname.length < 5 || nickname.length > 10) {
