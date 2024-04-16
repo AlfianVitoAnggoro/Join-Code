@@ -1,6 +1,6 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
-import { startWithRequirePath } from '.';
+import { startWithRequirePath } from './index';
 
 const authPaths = ['/register**', '/login'];
 const onlySoftwareDeveloperPath = [
@@ -14,7 +14,7 @@ const onlySoftwareDeveloperPath = [
 // const onlyOrganizationPath = ['/dashboard/settings/organization**'];
 const onlyAdminPath = ['/dashboard/users**', '/dashboard/badges**'];
 
-export default withAuth = (middleware, requireAuth) => {
+const withAuth = (middleware, requireAuth) => {
   return async (req, next) => {
     const { pathname } = req.nextUrl;
     const token = await getToken({
@@ -82,3 +82,5 @@ export default withAuth = (middleware, requireAuth) => {
     return middleware(req, next);
   };
 };
+
+export default withAuth;
