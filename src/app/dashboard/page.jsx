@@ -1,4 +1,4 @@
-import Content from './content';
+import Content from './Content';
 export const metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
