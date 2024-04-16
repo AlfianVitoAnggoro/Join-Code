@@ -247,6 +247,7 @@ export default function Content({
                 !competition?.isCompleted && (
                   <Link
                     href={`/competition/browse/registration/${competition?.competitionId}`}
+                    scroll={false}
                     className="bg-blue-700 text-white rounded px-4 py-2"
                   >
                     Registration

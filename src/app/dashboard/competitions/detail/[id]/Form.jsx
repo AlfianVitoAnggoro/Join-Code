@@ -58,7 +58,6 @@ export default function Form({ competition, id }) {
   const handleAcceptTeam = async teamId => {
     setIsLoading(true);
     const res = await acceptTeamCompetition(id, teamId);
-    console.log(res);
     if (!res.success) {
       setSuccess(false);
       setMessage('Failed, Team cannot be accepted');
@@ -281,16 +280,18 @@ export default function Form({ competition, id }) {
                       'Yes'
                     ) : (
                       <button
+                        disabled={isLoading}
                         className="px-2 py-1 bg-green-600 text-white rounded"
                         onClick={() => handleAcceptTeam(team.teamId)}
                       >
-                        Accepted
+                        {isLoading ? 'Loading...' : 'Accepted'}
                       </button>
                     )}
                   </td>
                   <td className="py-2 text-center whitespace-nowrap space-x-2">
                     <Link
                       href={`/dashboard/competitions/detail/team-competition/${id}/${team?.teamId}`}
+                      scroll={false}
                       className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
                     >
                       Detail
@@ -311,6 +312,7 @@ export default function Form({ competition, id }) {
                     {!competition?.isCompleted && (
                       <Link
                         href={`/dashboard/competitions/detail/team-competition/delete/${id}/${team?.teamId}`}
+                        scroll={false}
                         className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
                       >
                         Delete
@@ -333,6 +335,7 @@ export default function Form({ competition, id }) {
         <div>
           <Link
             href={`/dashboard/competitions/detail/complete-competition/${id}`}
+            scroll={false}
             className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
           >
             Complete The Competition

@@ -313,7 +313,7 @@ export default function FormCompetitionRegistration({
                 onChange={handleProofOfPaymentChange}
               />
               <span className="text-neutral-500 text-sm block">
-                Upload file dengan format jpeg/svg/webp/png, max size 1 MB
+                Format file must be jpeg/svg/webp/png, max size 1 MB
               </span>
               {errorProofOfPaymentFile && (
                 <span className="text-red-500 text-sm italic">

@@ -26,9 +26,11 @@ export default function ContentCompetition({
   useEffect(() => {
     if (session && status === 'authenticated') {
       const checkUser = async () => {
-        const data = await getCollaborationId(session?.user?.userId);
-        if (data.success) {
-          const user = data.data;
+        const resCollaboration = await getCollaborationId(
+          session?.user?.userId,
+        );
+        if (resCollaboration?.success) {
+          const user = resCollaboration?.data;
           const res = await checkAvailableUserInTeamCompetititon(
             competitionId,
             teamId,
@@ -83,6 +85,7 @@ export default function ContentCompetition({
           <div>
             <Link
               href={`/competition/detail/submit_project/${competitionId}/${teamId}`}
+              scroll={false}
               className="bg-blue-700 text-white rounded px-4 py-2"
             >
               Submit Project

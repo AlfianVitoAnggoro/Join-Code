@@ -73,7 +73,7 @@ export default function FormSubmit({ teamCompetitions, id }) {
     router.refresh();
   };
   return (
-    <div className="p-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
+    <div className="py-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
       {message !== '' && (
         <div
           className={`rounded-md ${
@@ -86,43 +86,49 @@ export default function FormSubmit({ teamCompetitions, id }) {
           </button>
         </div>
       )}
-      <form action="" className="space-y-3">
-        <div className="flex flex-col gap-3">
-          {teamCompetitions.slice(0, 3).map((teamCompetition, index) => (
-            <div key={index}>
-              <label className="font-medium">{`Ranking ${index + 1}`}</label>
-              <select
-                name={`ranking${index + 1}`}
-                id={`ranking${index + 1}`}
-                className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                placeholder={`Select team competition ranking ${index + 1}`}
-                value={ranking[index] || ''} // Set the selected value
-                onChange={e => handleRankingChange(index, e.target.value)} // Use onChange to handle changes
-              >
-                <option value="">
-                  Select team competition ranking {index + 1}
-                </option>
-                {teamCompetitions.map(teamCompetition => (
-                  <option
-                    key={teamCompetition.teamId}
-                    value={teamCompetition.teamId}
-                  >
-                    {teamCompetition.team.name}
+      {teamCompetitions.length === 0 ? (
+        <p className="text-neutral-500 italic text-lg pb-2">
+          Nothing team have finished or submit project
+        </p>
+      ) : (
+        <form action="" className="space-y-3">
+          <div className="flex flex-col gap-3">
+            {teamCompetitions.slice(0, 3).map((teamCompetition, index) => (
+              <div key={index}>
+                <label className="font-medium">{`Ranking ${index + 1}`}</label>
+                <select
+                  name={`ranking${index + 1}`}
+                  id={`ranking${index + 1}`}
+                  className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  placeholder={`Select team competition ranking ${index + 1}`}
+                  value={ranking[index] || ''} // Set the selected value
+                  onChange={e => handleRankingChange(index, e.target.value)} // Use onChange to handle changes
+                >
+                  <option value="">
+                    Select team competition ranking {index + 1}
                   </option>
-                ))}
-              </select>
-            </div>
-          ))}
-        </div>
+                  {teamCompetitions.map(teamCompetition => (
+                    <option
+                      key={teamCompetition.teamId}
+                      value={teamCompetition.teamId}
+                    >
+                      {teamCompetition.team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
 
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={e => handleSubmit(e)}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
-      </form>
+          <button
+            disabled={isLoading}
+            className="w-full bg-blue-500 text-white py-2 rounded"
+            onClick={e => handleSubmit(e)}
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        </form>
+      )}
     </div>
   );
 }
