@@ -9,20 +9,20 @@ export default function Table({ leaderboard }) {
 
   useEffect(() => {
     if (session && status === 'authenticated') {
-      const userLoginLeaderboardFilter = leaderboard.softwareDevelopers.find(
+      const userLoginLeaderboardFilter = leaderboard?.softwareDevelopers?.find(
         softwareDeveloper =>
-          softwareDeveloper.softwareDeveloper.user.nickname ===
-          session.user.nickname,
+          softwareDeveloper?.softwareDeveloper?.user?.nickname ===
+          session?.user?.nickname,
       );
-      const sortedLeaderboard = leaderboard.softwareDevelopers.sort(
-        (a, b) => b.point_leaderboard - a.point_leaderboard,
+      const sortedLeaderboard = leaderboard?.softwareDevelopers?.sort(
+        (a, b) => b?.point_leaderboard - a?.point_leaderboard,
       );
 
       // Temukan data pengguna berdasarkan softwareDeveloperId
       const targetUserIndex = sortedLeaderboard.findIndex(
         softwareDeveloper =>
-          softwareDeveloper.softwareDeveloper.user.nickname ===
-          session.user.nickname,
+          softwareDeveloper?.softwareDeveloper?.user?.nickname ===
+          session?.user?.nickname,
       );
 
       // Jika data pengguna ditemukan, hitung peringkatnya
@@ -44,18 +44,18 @@ export default function Table({ leaderboard }) {
       {/* Header */}
       <div className="bg-white rounded py-5 px-3">
         <h1 className="text-3xl font-bold m-3">
-          Leaderboard Season {leaderboard.season}
+          Leaderboard Season {leaderboard?.season}
         </h1>
       </div>
       {/* Card */}
       <div>
         <div>
           <table className="table-auto min-w-full rounded-lg">
-            <thead className="bg-black text-white font-bold text-sm text-left uppercase tracking-wider">
+            <thead className="bg-black text-white text-xs tablet:text-sm text-left tracking-wider w-full">
               <tr>
-                <th className="px-6 py-3 w-[15%]">Peringkat</th>
-                <th className="px-6 py-3 w-[65%]">Software Developer</th>
-                <th className="px-6 py-3 w-[20%]">Point</th>
+                <th className="px-2 tablet:px-6 py-3 w-[15%]">Rank</th>
+                <th className="px-2 tablet:px-6 py-3 w-[65%]">Name</th>
+                <th className="px-2 tablet:px-6 py-3 w-[20%]">Point</th>
               </tr>
             </thead>
           </table>
@@ -69,10 +69,10 @@ export default function Table({ leaderboard }) {
                     className="even:bg-gray-100 odd:bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
                     key={index}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap w-[15%]">
+                    <td className="px-2 tablet:px-6 py-4 whitespace-nowrap w-[15%]">
                       {index + 1}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap w-[65%]">
+                    <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
                       <div className="flex items-center gap-3">
                         <Image
                           src={`/images/avatars/${softwareDeveloper?.softwareDeveloper?.user?.avatar}`}
@@ -80,19 +80,23 @@ export default function Table({ leaderboard }) {
                           height={50}
                           alt="Avatar"
                           priority
-                          className="rounded-full object-cover w-10 h-10"
+                          className="rounded-full object-cover w-5 h-5 tablet:w-10 tablet:h-10"
                         />
                         <div className="flex flex-col gap-1">
-                          <p className="text-base font-semibold">
-                            {softwareDeveloper?.softwareDeveloper?.user?.name}
+                          <p className="text-sm tablet:text-base font-semibold text-wrap">
+                            {
+                              softwareDeveloper?.softwareDeveloper?.user?.name
+                                .trim()
+                                .split(' ')[0]
+                            }
                           </p>
-                          <p className="text-sm text-neutral-400">
+                          <p className="text-xs tablet:text-base text-neutral-400 hidden tablet:block">
                             {softwareDeveloper?.softwareDeveloper?.user?.email}
                           </p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap w-[20%]">
+                    <td className="text-xs tablet:text-sm px-2 tablet:px-6 py-4 whitespace-nowrap w-[20%]">
                       {softwareDeveloper?.point_leaderboard}
                     </td>
                   </tr>
@@ -105,10 +109,10 @@ export default function Table({ leaderboard }) {
           <table className="table-auto min-w-full rounded-lg">
             <tfoot>
               <tr className="bg-neutral-700 text-white hover:bg-neutral-800 font-bold text-left tracking-wider transition-colors duration-200">
-                <td className="px-6 py-4 whitespace-nowrap w-[15%]">
+                <td className="px-2 tablet:px-6 py-4 whitespace-nowrap w-[15%]">
                   {userLoginLeaderboard?.ranking}{' '}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap w-[65%]">
+                <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
                   <div className="flex items-center gap-3">
                     <Image
                       src={`/images/avatars/${
@@ -118,20 +122,24 @@ export default function Table({ leaderboard }) {
                       width={50}
                       height={50}
                       alt="Avatar"
-                      className="rounded-full object-cover w-10 h-10"
+                      className="rounded-full object-cover w-5 h-5 tablet:w-10 tablet:h-10"
                       priority
                     />
                     <div className="flex flex-col gap-1">
-                      <p className="text-base font-semibold">
-                        {userLoginLeaderboard?.softwareDeveloper?.user?.name}
+                      <p className="text-sm tablet:text-base font-semibold text-wrap">
+                        {
+                          userLoginLeaderboard?.softwareDeveloper?.user?.name
+                            .trim()
+                            .split(' ')[0]
+                        }
                       </p>
-                      <p className="text-sm text-neutral-400">
+                      <p className="text-xs tablet:text-sm text-neutral-400 text-wrap hidden tablet:block">
                         {userLoginLeaderboard?.softwareDeveloper?.user?.email}
                       </p>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap w-[20%]">
+                <td className="text-xs tablet:text-sm px-2 tablet:px-6 py-4 whitespace-nowrap w-[20%]">
                   {userLoginLeaderboard?.point_leaderboard}
                 </td>
               </tr>

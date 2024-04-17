@@ -15,7 +15,7 @@ export default function NavbarBottom() {
   const pathname = usePathname();
   const { status } = useSession();
   return (
-    <div className="h-20 py-2 bg-white border-b-2 border-gray-200 fixed w-full bottom-0 left-0 z-30 laptop:hidden">
+    <div className="fixed laptop:hidden h-20 py-2 bg-white border-b-2 border-gray-200 w-full bottom-0 left-0 z-30 ">
       <div className="max-w-[1024px] px-5 mx-auto">
         <div className="flex justify-between items-center h-16">
           <Link
@@ -32,7 +32,7 @@ export default function NavbarBottom() {
               className="w-6 h-6 object-cover"
               priority
             />
-            <p>Home</p>
+            <p className="hidden tablet:block">Home</p>
           </Link>
           <Link
             href="/collaboration"
@@ -50,7 +50,7 @@ export default function NavbarBottom() {
               className="w-6 h-6 object-cover"
               priority
             />
-            <p>Collaboration</p>
+            <p className="hidden tablet:block">Collaboration</p>
           </Link>
           <Link
             href="/competition"
@@ -68,7 +68,7 @@ export default function NavbarBottom() {
               className="w-6 h-6 object-cover"
               priority
             />
-            <p>Competition</p>
+            <p className="hidden tablet:block">Competition</p>
           </Link>
           {status === 'authenticated' && (
             <Link
@@ -87,7 +87,7 @@ export default function NavbarBottom() {
                 className="w-6 h-6 object-cover"
                 priority
               />
-              <p>Leaderboard</p>
+              <p className="hidden tablet:block">Leaderboard</p>
             </Link>
           )}
         </div>

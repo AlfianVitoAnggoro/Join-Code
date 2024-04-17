@@ -10,10 +10,10 @@ export default function Sidebar() {
   return (
     <div className="col-span-9 laptop:col-span-3 space-y-2 bg-white rounded p-3 h-max">
       <h1 className="text-3xl font-semibold mb-5">Settings</h1>
-      <div className="flex w-full justify-between items-center laptop:flex-col laptop:space-y-2">
+      <div className="flex w-full justify-between items-center flex-col laptop:space-y-2">
         <Link
           href={`/settings/profile/${session?.user?.nickname}`}
-          className={` p-3 rounded w-full flex justify-center laptop:justify-start items-center gap-3 ${
+          className={` p-3 rounded w-full flex justify-start items-center gap-3 ${
             pathname.startsWith('/settings/profile')
               ? 'bg-blue-500 text-white'
               : 'text-black bg-gray-300'
@@ -31,7 +31,7 @@ export default function Sidebar() {
         </Link>
         <Link
           href={`/settings/change-password/${session?.user?.nickname}`}
-          className={` p-3 rounded w-full flex justify-center laptop:justify-start items-center gap-3 ${
+          className={` p-3 rounded w-full flex justify-start items-center gap-3 ${
             pathname.startsWith('/settings/change-password')
               ? 'bg-blue-500 text-white'
               : 'text-black bg-gray-300'

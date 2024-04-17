@@ -34,11 +34,14 @@ export default function ContentCompetition({
           const res = await checkAvailableUserInTeamCompetititon(
             competitionId,
             teamId,
-            user.softwareDevelopers.collaborationId,
+            user?.softwareDevelopers?.collaborationId,
           );
-          if (res.success) {
-            const teamCompetition = res.data;
-            if (teamCompetition.projectLink && teamCompetition.repositoryLink) {
+          if (res?.success) {
+            const teamCompetition = res?.data;
+            if (
+              teamCompetition?.projectLink &&
+              teamCompetition?.repositoryLink
+            ) {
               setTeamHaveSubmitProject(true);
             }
             setTeamCompetition(teamCompetition);
@@ -49,10 +52,10 @@ export default function ContentCompetition({
       };
       checkUser();
 
-      if (competition.startDate && competition.endDate) {
+      if (competition?.startDate && competition?.endDate) {
         const currentDate = new Date();
-        const startDate = new Date(competition.startDate);
-        const endDate = new Date(competition.endDate);
+        const startDate = new Date(competition?.startDate);
+        const endDate = new Date(competition?.endDate);
 
         const isActiveCompetition =
           currentDate >= startDate && currentDate <= endDate;
@@ -65,7 +68,7 @@ export default function ContentCompetition({
     <>
       <div className="bg-white rounded p-3">
         <Image
-          src={`/images/avatars/${competition.organization.user.avatar}`}
+          src={`/images/avatars/${competition?.organization?.user?.avatar}`}
           width={50}
           height={50}
           alt={competition?.organization?.user?.name}
@@ -73,13 +76,13 @@ export default function ContentCompetition({
           className="rounded object-cover w-24 h-24"
         />
         <div className="my-3">
-          <h1 className="text-2xl font-bold">{competition.name}</h1>
+          <h1 className="text-2xl font-bold">{competition?.name}</h1>
           <p className="text-md text-neutral-500">
-            {competition.organization.user.name}
+            {competition?.organization?.user?.name}
           </p>
         </div>
         {teamCompetition &&
-        teamCompetition.statusTeamCompetition.name == 'Registered' &&
+        teamCompetition?.statusTeamCompetition?.name == 'Registered' &&
         submitProjectButtonByCompetitionDate &&
         !teamHaveSubmitProject ? (
           <div>
@@ -110,12 +113,12 @@ export default function ContentCompetition({
             <div className="flex flex-col">
               <p className="text-black font-semibold">Registration Date</p>
               <p className="text-base text-black">
-                {moment(competition.registrationStartDate).format('ll')}-{' '}
-                {moment(competition.registrationEndDate).format('ll')}
+                {moment(competition?.registrationStartDate).format('ll')}-{' '}
+                {moment(competition?.registrationEndDate).format('ll')}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col tablet:flex-row tablet:items-center gap-2">
             <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
               <Image
                 src={'/images/icons-rupiah.png'}
@@ -136,7 +139,7 @@ export default function ContentCompetition({
                 )}
               </div>
             </div>
-            <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+            <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
               <Image
                 src={'/images/icons-group.png'}
                 width={40}
@@ -148,13 +151,13 @@ export default function ContentCompetition({
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Category</p>
                 <p className="text-base text-black">
-                  {competition.category.name}
+                  {competition?.category?.name}
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+          <div className="flex flex-col tablet:flex-row tablet:items-center gap-2">
+            <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
               <Image
                 src={'/images/icons-member.png'}
                 width={40}
@@ -166,11 +169,11 @@ export default function ContentCompetition({
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Maks Member Team</p>
                 <p className="text-base text-black">
-                  {competition.maxMemberTeam}
+                  {competition?.maxMemberTeam}
                 </p>
               </div>
             </div>
-            <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+            <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
               <Image
                 src={'/images/icons-team.png'}
                 width={40}
@@ -181,7 +184,7 @@ export default function ContentCompetition({
               />
               <div className="flex flex-col">
                 <p className="text-black font-semibold">Maks Team</p>
-                <p className="text-base text-black">{competition.maxTeam}</p>
+                <p className="text-base text-black">{competition?.maxTeam}</p>
               </div>
             </div>
           </div>
@@ -197,7 +200,7 @@ export default function ContentCompetition({
             <div className="flex flex-col">
               <p className="text-black font-semibold">Competition Place</p>
               <p className="text-base text-black">
-                {competition.place} ({competition?.type.name})
+                {competition?.place} ({competition?.type?.name})
               </p>
             </div>
           </div>
@@ -213,14 +216,14 @@ export default function ContentCompetition({
             <div className="flex flex-col">
               <p className="text-black font-semibold">Competition Start Date</p>
               <p className="text-base text-black">
-                {moment(competition.startDate).format('ll')}-{' '}
-                {moment(competition.endDate).format('ll')}
+                {moment(competition?.startDate).format('ll')}-{' '}
+                {moment(competition?.endDate).format('ll')}
               </p>
             </div>
           </div>
           <div className="p-1 my-2 ">
             <h2 className="text-xl font-semibold">Description</h2>
-            <p className="py-1">{competition.description}</p>
+            <p className="py-1">{competition?.description}</p>
           </div>
         </div>
       </div>

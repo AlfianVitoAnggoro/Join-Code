@@ -26,9 +26,9 @@ export const metadata = {
 export default function Page() {
   return (
     <div className="relative">
-      <div className="w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center gap-2">
+      <div className="max-w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center gap-2">
         <Suspense fallback={<div>Loading...</div>}>
-          <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">
+          <div className="w-full tablet:w-3/6 laptop:flex justify-center items-center hidden my-5">
             <Image
               src="/images/forgot_password.svg"
               width={200}

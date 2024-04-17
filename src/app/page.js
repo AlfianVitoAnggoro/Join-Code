@@ -30,22 +30,24 @@ export const metadata = {
 export default function Home() {
   return (
     <div className="relative min-h-screen laptop:mt-20">
-      <div className="w-[1024px] h-screen px-10 mx-auto flex flex-col items-center justify-center">
-        <h1 className={`${permanent_Marker.className} text-8xl text-center`}>
+      <div className="max-w-[1024px] min-h-screen mx-auto flex flex-col items-center justify-center">
+        <h1
+          className={`${permanent_Marker.className} text-2xl tablet:text-8xl text-center`}
+        >
           JOIN CODE
         </h1>
-        <p className="text-xl text-center text-wrap mt-4">
+        <p className="text-base tablet:text-xl text-center text-wrap mt-4">
           Up Your Skill With{' '}
           <span className="font-bold"> Collaboration and Competition </span>
           For Make Amazing Inovation Together
         </p>
       </div>
-      <div className="bg-black h-screen flex justify-center items-center">
-        <div className="w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
-          <h2 className="font-semibold mb-3 text-5xl text-center text-white">
+      <div className="bg-black min-h-screen flex justify-center items-center">
+        <div className="max-w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
+          <h2 className="font-semibold mb-3 text-2xl tablet:text-5xl text-center text-white">
             Collaboration
           </h2>
-          <p className="text-center text-xl text-white">
+          <p className="text-center text-base tablet:text-xl text-white">
             Collaboration / Kolaborasi adalah proses bekerja sama dengan orang
             lain atau kelompok untuk mencapai tujuan bersama atau menyelesaikan
             suatu tugas. Ini melibatkan individu atau entitas yang menggabungkan
@@ -59,12 +61,12 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="bg-white h-screen flex justify-center items-center">
-        <div className="w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
-          <h2 className="font-semibold mb-3 text-5xl text-center text-black">
+      <div className="bg-white min-h-screen flex justify-center items-center">
+        <div className="max-w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
+          <h2 className="font-semibold mb-3 text-2xl tablet:text-5xl text-center text-black">
             Competition
           </h2>
-          <p className="text-center text-xl text-black">
+          <p className="text-center text-base tablet:text-xl text-black">
             Competition / Kompetisi adalah situasi di mana dua atau lebih
             individu, kelompok, atau entitas bersaing untuk mencapai tujuan yang
             sama atau mendapatkan keunggulan atas yang lain dalam hal tertentu.
@@ -75,12 +77,12 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="bg-neutral-200 h-screen flex justify-center items-center">
-        <div className="w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
-          <h2 className="font-semibold mb-3 text-5xl text-center text-black">
+      <div className="bg-neutral-200 min-h-screen flex justify-center items-center">
+        <div className="max-w-[1024px] p-10 mx-auto flex flex-col justify-center items-center">
+          <h2 className="font-semibold mb-3 text-2xl tablet:text-5xl text-center text-black">
             Leaderboard
           </h2>
-          <p className="text-center text-xl text-black">
+          <p className="text-center text-base tablet:text-xl text-black">
             Leaderboard / Papan peringkat adalah daftar atau tabel yang
             menampilkan peringkat atau posisi relatif dari peserta dalam suatu
             kompetisi, permainan, atau aktivitas lainnya berdasarkan kriteria

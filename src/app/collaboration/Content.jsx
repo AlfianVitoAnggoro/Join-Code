@@ -17,10 +17,10 @@ export default function Content({ softwareDevelopersData }) {
         const userNameMatch = softwareDeveloper?.user?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const skillNameMatch = softwareDeveloper.skills.some(skill =>
+        const skillNameMatch = softwareDeveloper?.skills?.some(skill =>
           skill.skill.name.toLowerCase().includes(search.toLowerCase()),
         );
-        const badgeNameMatch = softwareDeveloper.badge.name
+        const badgeNameMatch = softwareDeveloper?.badge?.name
           .toLowerCase()
           .includes(search.toLowerCase());
 
@@ -40,7 +40,7 @@ export default function Content({ softwareDevelopersData }) {
             type="text"
             name="search"
             id="search"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 "
+            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 max-w-full tablet:w-96"
             placeholder="Search"
             onChange={e => setSearch(e.target.value)}
           />
@@ -49,12 +49,12 @@ export default function Content({ softwareDevelopersData }) {
       {/* Card */}
       <div
         className={`grid ${
-          softwareDevelopers.length == 0
+          softwareDevelopers?.length == 0
             ? 'grid-cols-1'
-            : 'grid-cols-1 xs:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 dekstop:grid-cols-4'
+            : 'grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 dekstop:grid-cols-4'
         }  gap-3 rounded border-y border-gray-200`}
       >
-        {softwareDevelopers.length == 0 && (
+        {softwareDevelopers?.length == 0 && (
           <div className="flex justify-center mt-10">
             <p className="text-neutral-500 text-center text-base italic">
               Software Developers are not available for collaboration at this

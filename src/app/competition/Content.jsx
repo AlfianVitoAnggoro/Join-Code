@@ -31,16 +31,16 @@ export default function Content({ competitionsData }) {
       setCompetitions(competitionsData);
     } else {
       const filtered = competitionsData.filter(competition => {
-        const competitionNameMatch = competition.name
+        const competitionNameMatch = competition?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const organizationNameMatch = competition.organization.user.name
+        const organizationNameMatch = competition?.organization?.user?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const typeNameMatch = competition.type.name
+        const typeNameMatch = competition?.type?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const categoryNameMatch = competition.category.name
+        const categoryNameMatch = competition?.category?.name
           .toLowerCase()
           .includes(search.toLowerCase());
 
@@ -73,7 +73,7 @@ export default function Content({ competitionsData }) {
             type="text"
             name="search"
             id="search"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 "
+            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-full tablet:w-96 p-2.5 "
             placeholder="Search"
             onChange={e => setSearch(e.target.value)}
           />

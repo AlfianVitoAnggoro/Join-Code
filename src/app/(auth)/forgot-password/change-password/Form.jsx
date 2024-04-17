@@ -99,7 +99,7 @@ export default function Form() {
     return;
   };
   return (
-    <div className="w-3/6 bg-white shadow-md border border-gray-200 rounded-e-sm p-4 sm:p-6 lg:p-8 my-5">
+    <div className="w-full tablet:w-3/6 bg-white shadow-md border border-gray-200 rounded-e-sm p-4 sm:p-6 lg:p-8 my-5">
       <h3 className="text-xl font-medium text-black my-3">Forgot Password</h3>
       {message != '' && (
         <div
@@ -301,7 +301,7 @@ export default function Form() {
           {isLoading ? 'Loading...' : 'Submit'}
         </button>
       </form>
-      <div className="text-sm font-medium text-gray-500 flex gap-1 my-2">
+      <div className="text-sm font-medium text-gray-500 flex flex-wrap gap-1 my-2">
         Create account as{' '}
         <Link
           href="/register/software_developer"

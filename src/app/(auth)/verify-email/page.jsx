@@ -92,8 +92,8 @@ export default function Page() {
     setLoading(false);
   };
   return (
-    <>
-      <div className="h-screen flex flex-col items-center justify-center">
+    <div className="relative">
+      <div className="max-w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex flex-col justify-center items-center">
         {message != '' && (
           <div
             className={`rounded-md ${
@@ -148,6 +148,6 @@ export default function Page() {
             )}
         </Suspense>
       </div>
-    </>
+    </div>
   );
 }

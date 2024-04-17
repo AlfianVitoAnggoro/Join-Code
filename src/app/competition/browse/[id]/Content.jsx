@@ -46,16 +46,16 @@ export default function Content({
       setCompetitions(competitionsData);
     } else {
       const filtered = competitionsData.filter(competition => {
-        const competitionNameMatch = competition.name
+        const competitionNameMatch = competition?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const organizationNameMatch = competition.organization.user.name
+        const organizationNameMatch = competition?.organization?.user?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const typeNameMatch = competition.type.name
+        const typeNameMatch = competition?.type?.name
           .toLowerCase()
           .includes(search.toLowerCase());
-        const categoryNameMatch = competition.category.name
+        const categoryNameMatch = competition?.category?.name
           .toLowerCase()
           .includes(search.toLowerCase());
 
@@ -81,9 +81,9 @@ export default function Content({
     const checkUser = async () => {
       try {
         if (session && status === 'authenticated') {
-          const data = await getDetailUser(session?.user?.nickname);
-          const user = data.data;
-          if (data.success) {
+          const res = await getDetailUser(session?.user?.nickname);
+          if (res?.success) {
+            const user = res?.data;
             const checkUserHasBeenRegistered =
               user?.softwareDevelopers?.teams?.some(team =>
                 team?.team?.competitions?.some(
@@ -102,11 +102,11 @@ export default function Content({
     checkUser();
 
     const checkCompetitionIsMax = () => {
-      const checkTeamIsAccepted = competition.teams.filter(teams => {
-        return teams.isAccepted === true;
+      const checkTeamIsAccepted = competition?.teams?.filter(teams => {
+        return teams?.isAccepted === true;
       });
 
-      if (checkTeamIsAccepted.length === competition?.maxTeam) {
+      if (checkTeamIsAccepted?.length === competition?.maxTeam) {
         setCheckCompetitionIsMaxTeamState(true);
       }
     };
@@ -132,7 +132,7 @@ export default function Content({
             type="text"
             name="search"
             id="search"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 "
+            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block maax-w-full tablet:w-96 p-2.5 "
             placeholder="Search"
             onChange={e => setSearch(e.target.value)}
           />
@@ -143,14 +143,14 @@ export default function Content({
         <div
           className={`col-span-5 hidden laptop:col-span-2 overflow-scroll laptop:flex flex-col h-screen`}
         >
-          {competitions.length == 0 ? (
+          {competitions?.length == 0 ? (
             <div className="flex justify-center mt-10">
               <p className="text-neutral-500 text-center text-base italic">
                 Competitions are not available at this time{' '}
               </p>
             </div>
           ) : (
-            competitions.map((competition, index) => {
+            competitions?.map((competition, index) => {
               return (
                 <div key={index}>
                   <Link
@@ -182,21 +182,21 @@ export default function Content({
                         </p>
                         <div className="flex space-x-2">
                           <p className="text-sm text-neutral-500">
-                            {competition.place} ({competition.type.name})
+                            {competition?.place} ({competition?.type?.name})
                           </p>
                         </div>
                         <div className="flex justify-between space-x-3">
                           <p className="text-sm text-neutral-500">
-                            {competition.category.name}
+                            {competition?.category?.name}
                           </p>
-                          {competition.registrationFee == 0 ? (
+                          {competition?.registrationFee == 0 ? (
                             <p className="text-sm text-black font-medium">
                               Free
                             </p>
                           ) : (
                             <p className="text-sm text-black font-medium">
                               Rp.{' '}
-                              {competition.registrationFee.toLocaleString(
+                              {competition?.registrationFee?.toLocaleString(
                                 'id-ID',
                               )}
                             </p>
@@ -268,13 +268,13 @@ export default function Content({
                 <div className="flex flex-col">
                   <p className="text-black font-semibold">Registration Date</p>
                   <p className="text-base text-black">
-                    {moment(competition.registrationStartDate).format('ll')} -{' '}
-                    {moment(competition.registrationEndDate).format('ll')}
+                    {moment(competition?.registrationStartDate).format('ll')} -{' '}
+                    {moment(competition?.registrationEndDate).format('ll')}
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+              <div className="flex flex-col tablet:flex-row tablet:items-center gap-2">
+                <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
                   <Image
                     src={'/images/icons-rupiah.png'}
                     width={40}
@@ -295,7 +295,7 @@ export default function Content({
                     )}
                   </div>
                 </div>
-                <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+                <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
                   <Image
                     src={'/images/icons-group.png'}
                     width={40}
@@ -307,13 +307,13 @@ export default function Content({
                   <div className="flex flex-col">
                     <p className="text-black font-semibold">Category</p>
                     <p className="text-base text-black">
-                      {competition.category.name}
+                      {competition?.category?.name}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+              <div className="flex flex-col tablet:flex-row tablet:items-center gap-2">
+                <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
                   <Image
                     src={'/images/icons-member.png'}
                     width={40}
@@ -325,11 +325,11 @@ export default function Content({
                   <div className="flex flex-col">
                     <p className="text-black font-semibold">Max Member Team</p>
                     <p className="text-base text-black">
-                      {competition.maxMemberTeam}
+                      {competition?.maxMemberTeam}
                     </p>
                   </div>
                 </div>
-                <div className="w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
+                <div className="w-full tablet:w-1/2 flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
                   <Image
                     src={'/images/icons-team.png'}
                     width={40}
@@ -341,7 +341,7 @@ export default function Content({
                   <div className="flex flex-col">
                     <p className="text-black font-semibold">Max Team</p>
                     <p className="text-base text-black">
-                      {competition.maxTeam}
+                      {competition?.maxTeam}
                     </p>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ export default function Content({
                 <div className="flex flex-col">
                   <p className="text-black font-semibold">Competition Place</p>
                   <p className="text-base text-black">
-                    {competition.place} ({competition.type.name})
+                    {competition?.place} ({competition?.type?.name})
                   </p>
                 </div>
               </div>
@@ -374,22 +374,22 @@ export default function Content({
                 <div className="flex flex-col">
                   <p className="text-black font-semibold">Competition Date</p>
                   <p className="text-base text-black">
-                    {moment(competition.startDate).format('ll')} -{' '}
-                    {moment(competition.endDate).format('ll')}
+                    {moment(competition?.startDate).format('ll')} -{' '}
+                    {moment(competition?.endDate).format('ll')}
                   </p>
                 </div>
               </div>
               <div className="p-1 my-2 ">
                 <h2 className="text-xl font-semibold">Description</h2>
-                <p className="py-1">{competition.description}</p>
+                <p className="py-1">{competition?.description}</p>
               </div>
             </div>
           </div>
           <div className="bg-white rounded p-3">
             <h2 className="text-2xl font-bold">About Organization</h2>
-            <div className="flex gap-x-3 py-2">
+            <div className="flex flex-col tablet:flex-row gap-y-2 tablet:gap-y-0 tablet:gap-x-3 py-2">
               <Image
-                src={`/images/avatars/${competition.organization.user.avatar}`}
+                src={`/images/avatars/${competition?.organization?.user?.avatar}`}
                 width={50}
                 height={50}
                 alt="Avatar"
@@ -397,29 +397,29 @@ export default function Content({
                 className="rounded-full object-cover w-24 h-24"
               />
               <div className="flex flex-col">
-                <h3 className="text-lg font-semibold ">
-                  {competition.organization.user.name}
+                <h3 className="text-lg font-semibold text-wrap">
+                  {competition?.organization?.user?.name}
                 </h3>
                 {competition?.organization?.address ? (
-                  <p className="text-sm text-black">
+                  <p className="text-sm text-black text-wrap">
                     {competition?.organization?.address}
                   </p>
                 ) : (
                   <p className="text-sm text-neutral-500">
-                    alamat tidak tersedia
+                    Address is not available
                   </p>
                 )}
                 {competition?.organization?.organizationLink ? (
                   <Link
                     href={competition?.organization?.organizationLink}
                     target="_blank"
-                    className="text-blue-700 text-sm"
+                    className="text-blue-700 text-sm text-wrap"
                   >
                     {competition?.organization?.organizationLink}
                   </Link>
                 ) : (
                   <p className="text-sm text-neutral-500">
-                    link organisasi tidak tersedia
+                    Organization Link is not available
                   </p>
                 )}
               </div>

@@ -26,7 +26,7 @@ export default async function Page({ params }) {
   const res = await getDetailUser(params.slug);
   const user = res.data;
   return (
-    <div className="relative min-h-screen laptop:mt-20">
+    <div className="relative laptop:mt-20">
       <Profile user={user} />
     </div>
   );

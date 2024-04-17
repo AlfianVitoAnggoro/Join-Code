@@ -11,10 +11,10 @@ const permanent_Marker = Permanent_Marker({
 export default function Footer() {
   const { status } = useSession();
   return (
-    <div className="relative mb-20 laptop:mb-0">
-      <div className="h-max bg-neutral-900 text-white py-10">
-        <div className="w-[1024px] mx-auto px-3 flex mb-20">
-          <div className="w-1/3 flex justify-center gap-x-2 items-center">
+    <div className="relative mb-20 laptop:mb-0 bg-neutral-900">
+      <div className="h-max max-w-[1024px] mx-auto text-white py-20">
+        <div className="mx-auto flex flex-col tablet:flex-row justify-center items-center laptop:justify-between gap-y-10 mb-32 px-2">
+          <div className="tablet:w-1/3 flex justify-center gap-x-2 items-center">
             <Image
               src="/icon.png"
               width={50}
@@ -27,8 +27,8 @@ export default function Footer() {
               JOIN CODE
             </h4>
           </div>
-          <div className="w-2/3 px-3">
-            <div className="flex justify-end items-center gap-x-10 mb-5">
+          <div className="tablet:w-2/3 px-3">
+            <div className="flex flex-wrap justify-center tablet:justify-end items-center gap-x-2 tablet:gap-x-10 gap-y-2 mb-5">
               <Link href={'/'}>Home</Link>
               <Link href={'/collaboration'}>Collaboration</Link>
               <Link href={'/competition'}>Competition</Link>
@@ -36,7 +36,7 @@ export default function Footer() {
                 <Link href={'/leaderboard'}>Leaderboard</Link>
               )}
             </div>
-            <div className="flex justify-end items-center gap-x-5">
+            <div className="flex flex-wrap justify-center tablet:justify-end items-center gap-x-5 ">
               <Link
                 href={'https://www.linkedin.com/in/alfianvitoanggoro/'}
                 target="_blank"
@@ -85,7 +85,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="w-[1024px] mx-auto">
+        <div className="mx-auto">
           <p className="text-white text-center">
             Copyright © 2024 JOIN CODE Developed by Alfian Vito Anggoro All
             right reserved

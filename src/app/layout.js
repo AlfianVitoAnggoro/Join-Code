@@ -21,8 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={`${inter.className} ${
-          !shouldDisableNavbar(pathname) &&
-          'bg-mainColor absolute laptop:w-full'
+          !shouldDisableNavbar(pathname) && 'bg-mainColor absolute w-full'
         } `}
       >
         <SessionProvider>

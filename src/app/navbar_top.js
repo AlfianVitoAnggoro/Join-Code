@@ -36,7 +36,7 @@ export default function NavbarTop() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className="bg-white h-20 py-2 border-b-2 border-gray-200 relative laptop:fixed top-0 left-0 right-0 z-30">
+    <nav className="relative laptop:fixed bg-white h-20 py-2 border-b-2 border-gray-200 top-0 left-0 right-0 z-30">
       <div className="max-w-[1024px] px-5 mx-auto">
         <div className="h-16 flex justify-between items-center">
           <div className="flex justify-start items-center">

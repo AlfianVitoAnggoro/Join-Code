@@ -10,13 +10,13 @@ export default function Profile({ user }) {
     if (filter === '') {
       setTeams(user?.softwareDevelopers?.teams);
     } else {
-      const filteredTeams = user?.softwareDevelopers?.teams.map(team => {
+      const filteredTeams = user?.softwareDevelopers?.teams?.map(team => {
         return {
           ...team,
           team: {
             ...team.team,
-            competitions: team.team.competitions.filter(competition =>
-              competition.statusTeamCompetition.name
+            competitions: team?.team?.competitions?.filter(competition =>
+              competition?.statusTeamCompetition?.name
                 .toLowerCase()
                 .includes(filter.toLowerCase()),
             ),
@@ -30,22 +30,24 @@ export default function Profile({ user }) {
   return (
     <>
       <div className="bg-black">
-        <div className="w-[1024px] min-h-fit mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
-          <div className="col-span-1 flex justify-center">
-            <div className="bg-gray-600 w-56 h-56 rounded-full">
+        <div className="max-w-[1024px] min-h-fit mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
+          <div className="col-span-1 flex justify-start laptop:justify-center">
+            <div className="bg-gray-600 w-36 h-36 tablet:w-56 tablet:h-56 rounded-full">
               <Image
                 width={100}
                 height={100}
                 src={`/images/avatars/${user?.avatar}`}
                 alt={user?.name}
                 priority
-                className="rounded-full w-56 h-56 object-cover"
+                className="rounded-full w-36 h-36 tablet:w-56 tablet:h-56 object-cover"
               />
             </div>
           </div>
-          <div className="lg:col-span-2 m-10 lg:m-0 lg:mr-10 ">
-            <div className="flex flex-col space-y-2">
-              <h2 className="text-5xl font-bold text-white">{user?.name}</h2>
+          <div className="col-span-1 laptop:col-span-2 m-0 laptop:mr-10">
+            <div className="flex flex-col space-y-3">
+              <h2 className="text-2xl tablet:text-5xl font-bold text-white">
+                {user?.name}
+              </h2>
               {user?.softwareDevelopers?.statusCollaboration == 2 && (
                 <p className="text-md bg-green-600 w-fit rounded-full p-1 px-3 mt-1 text-md font-semibold text-white my-2">
                   #OPENTOCOLLABORATE
@@ -55,11 +57,11 @@ export default function Profile({ user }) {
               {user?.softwareDevelopers?.skills?.length > 0 ? (
                 <p className="text-xl text-white mt-1">
                   {user?.softwareDevelopers?.skills
-                    .map(skill => skill.skill.name)
+                    .map(skill => skill?.skill?.name)
                     .join(', ')}
                 </p>
               ) : (
-                <p className="text-xl text-neutral-500 mt-1">
+                <p className="text-lg text-neutral-500 mt-1">
                   Skills have not been available
                 </p>
               )}
@@ -110,7 +112,7 @@ export default function Profile({ user }) {
                   )}
                   {user?.softwareDevelopers?.usernameLinkedin && (
                     <Link
-                      href={`https://www.linkedin.com/in/${user?.softwareDevelopers.usernameLinkedin}`}
+                      href={`https://www.linkedin.com/in/${user?.softwareDevelopers?.usernameLinkedin}`}
                       target={'_blank'}
                       className={'flex items-center w-10 h-10 mx-2'}
                     >
@@ -142,7 +144,7 @@ export default function Profile({ user }) {
                     !user?.softwareDevelopers?.usernameLinkedin &&
                     !user?.softwareDevelopers?.usernameInstagram && (
                       <p className="text-neutral-500 mt-1 text-lg">
-                        Social Medias have not been available
+                        Socials Media have not been available
                       </p>
                     )}
                 </div>
@@ -170,11 +172,11 @@ export default function Profile({ user }) {
         </div>
       </div>
       <div className="bg-mainColor">
-        <div className="w-[1024px] min-h-screen mx-auto p-10">
+        <div className="maax-w-[1024px] min-h-screen mx-auto p-10">
           <h2 className="text-black text-3xl font-bold">My Competition</h2>
           <div className="flex justify-end items-center gap-3">
             <label htmlFor="filter" className="text-lg">
-              Tampilkan :{' '}
+              Tampilkan:{' '}
             </label>
             <select
               name="filter"
@@ -196,20 +198,20 @@ export default function Profile({ user }) {
               Belum ada kompetisi yang pernah diikuti..
             </p>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 tablet:gap-5 mt-5">
               {teams
-                ?.filter(team => team?.team.competitions?.length > 0)
+                ?.filter(team => team?.team?.competitions?.length > 0)
                 .map((team, index) => (
                   <div className="grid grid-cols-1 gap-5" key={index}>
-                    {team?.team.competitions?.map((competition, idx) => (
+                    {team?.team?.competitions?.map((competition, idx) => (
                       <div
-                        className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
+                        className="bg-white max-w-full max-h-fit tablet:h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
                         key={idx}
                       >
                         <Link
                           href={`/competition/detail/${competition?.competition?.competitionId}/${competition?.teamId}`}
                         >
-                          <div className="grid grid-cols-3 gap-3 h-40">
+                          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-3">
                             <div className="col-span-1 flex justify-center items-center">
                               <Image
                                 src={`/images/avatars/${competition?.competition?.organization?.user?.avatar}`}
@@ -217,14 +219,14 @@ export default function Profile({ user }) {
                                 height={50}
                                 alt="Software Developer"
                                 priority
-                                className="w-auto h-40 object-cover rounded"
+                                className="w-40 h-40 object-cover rounded"
                               />
                             </div>
-                            <div className="col-span-2 p-3">
-                              <div className="flex justify-between items-center">
+                            <div className="col-span-1 tablet:col-span-2 tablet:p-3">
+                              <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
                                 <div className="flex justify-start items-center">
                                   <p
-                                    className={`text-xl font-semibold ml-1 ${
+                                    className={`text-xl font-semibold ${
                                       competition?.statusTeamCompetition
                                         ?.name === 'Registrant' &&
                                       'text-gray-600'
@@ -259,9 +261,10 @@ export default function Profile({ user }) {
                                       width={25}
                                       height={25}
                                       alt="Medal"
+                                      className="hidden tablet:block"
                                     />
-                                    <p className="text-xl font-semibold text-yellow-600 ml-1">
-                                      Juara {competition?.ranking}
+                                    <p className="text-xl font-semibold text-yellow-600 tablet:ml-1">
+                                      Ranking {competition?.ranking}
                                     </p>
                                   </div>
                                 )}

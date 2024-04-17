@@ -52,7 +52,7 @@ export default function Form() {
     }
   };
   return (
-    <div className="w-3/6 bg-white shadow-md border border-gray-200 rounded-e-sm p-4 sm:p-6 lg:p-8 my-5">
+    <div className="w-full tablet:w-3/6 bg-white shadow-md border border-gray-200 rounded-e-sm p-4 sm:p-6 lg:p-8 my-5">
       {popUp && !success && (
         <div className="rounded-md bg-red-600 py-2 px-3 text-sm text-white flex justify-between items-center mb-2">
           <p className="text-wrap">{message}</p>{' '}
@@ -188,7 +188,7 @@ export default function Form() {
           {isLoading ? 'Loading...' : 'Login'}
         </button>
       </form>
-      <div className="text-sm font-medium text-gray-500 flex gap-1 my-2">
+      <div className="text-sm font-medium text-gray-500 flex flex-wrap gap-1 my-2">
         Create account as{' '}
         <Link
           href="/register/software_developer"

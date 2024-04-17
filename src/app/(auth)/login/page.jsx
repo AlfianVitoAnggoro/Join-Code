@@ -26,7 +26,7 @@ export const metadata = {
 export default function LoginPages() {
   return (
     <div className="relative">
-      <div className="w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center ">
+      <div className="max-w-[1024px] min-h-screen max-h-fit mx-auto px-10 flex justify-center items-center">
         <Suspense fallback={<div>Loading...</div>}>
           <Form />
           <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">

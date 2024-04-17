@@ -27,7 +27,7 @@ export default async function CollaborationDetailPages({ params }) {
   const user = responseSoftwareDeveloper.data;
 
   return (
-    <div className="relative min-h-screen laptop:mt-20">
+    <div className="relative laptop:mt-20">
       <Content user={user} />
     </div>
   );

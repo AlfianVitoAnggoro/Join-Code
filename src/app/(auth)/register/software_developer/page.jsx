@@ -25,8 +25,8 @@ export const metadata = {
 export default async function RegisterSoftwareDeveloperPages() {
   return (
     <div className="relative laptop:mt-20">
-      <div className="w-[1024px] mx-auto px-10 min-h-full flex justify-center items-center">
-        <div className="w-3/6 laptop:flex justify-center items-center hidden my-5">
+      <div className="max-w-[1024px] mx-auto px-10 min-h-full flex justify-center items-center">
+        <div className="w-full tablet:w-3/6 laptop:flex justify-center items-center hidden my-5">
           <Image
             src="/images/register_software_developer.svg"
             width={200}
@@ -36,7 +36,7 @@ export default async function RegisterSoftwareDeveloperPages() {
             priority
           />
         </div>
-        <div className="w-3/6 my-5">
+        <div className="w-full tablet:w-3/6 my-5">
           <Form />
         </div>
       </div>

@@ -28,7 +28,7 @@ export default async function LeaderboardPages() {
   const leaderboard = response.data;
   return (
     <div className="relative min-h-screen py-3 laptop:mt-20">
-      <div className="w-[1024px] mx-auto px-10">
+      <div className="max-w-[1024px] mx-auto px-10">
         <Table leaderboard={leaderboard} />
       </div>
     </div>

@@ -10,22 +10,24 @@ export default function Content({ user }) {
   return (
     <>
       <div className="bg-black">
-        <div className="w-[1024px] min-h-fit  mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
+        <div className="max-w-[1024px] min-h-fit mx-auto p-10 grid gap-5 grid-cols-1 laptop:grid-cols-3">
           <div className="col-span-1 flex justify-start laptop:justify-center">
-            <div className="bg-gray-600 w-56 h-56 rounded-full">
+            <div className="bg-gray-600 w-36 h-36 tablet:w-56 tablet:h-56 rounded-full">
               <Image
                 width={100}
                 height={100}
                 src={`/images/avatars/${user?.avatar}`}
                 alt={user?.name}
                 priority
-                className="rounded-full w-56 h-56 object-cover"
+                className="rounded-full w-36 h-36 tablet:w-56 tablet:h-56 object-cover"
               />
             </div>
           </div>
-          <div className="col-span-1 laptop:col-span-2 m-0 laptop:mr-10 ">
+          <div className="col-span-1 laptop:col-span-2 m-0 laptop:mr-10">
             <div className="flex flex-col space-y-3">
-              <h2 className="text-5xl font-bold text-white">{user?.name}</h2>
+              <h2 className="text-2xl tablet:text-5xl font-bold text-white">
+                {user?.name}
+              </h2>
               {user?.softwareDevelopers?.statusCollaboration && (
                 <p className="text-md bg-green-600 w-fit rounded-full p-1 px-3 mt-1 text-md font-semibold text-white my-2">
                   #OPENTOCOLLABORATE
@@ -122,7 +124,7 @@ export default function Content({ user }) {
                     !user?.softwareDevelopers?.usernameLinkedin &&
                     !user?.softwareDevelopers?.usernameGithub && (
                       <p className="text-neutral-500 mt-1 text-lg">
-                        Social Media has not been available
+                        Socials Media have not been available
                       </p>
                     )}
                 </div>
@@ -148,7 +150,7 @@ export default function Content({ user }) {
                 {status === 'authenticated' ? (
                   <div className="mt-5">
                     <Link
-                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${user.email}&su=${subject}&body=${message}`}
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${user?.email}&su=${subject}&body=${message}`}
                       target={'_blank'}
                       className="bg-white text-black hover:bg-gray-300 hover:text-black rounded-full p-2 font-bold text-xl"
                     >
@@ -171,27 +173,27 @@ export default function Content({ user }) {
         </div>
       </div>
       <div className="bg-mainColor">
-        <div className="w-[1024px] min-h-screen mx-auto p-10">
+        <div className="max-w-[1024px] min-h-screen mx-auto p-10">
           <h2 className="text-black text-3xl font-bold">My Competition</h2>
           {user?.softwareDevelopers?.teams.length === 0 ? (
             <p className="text-neutral-500 font-light text-xl mt-10">
               Competitions registered and finished have not been available
             </p>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 tablet:gap-5 mt-5">
               {user?.softwareDevelopers?.teams
                 ?.filter(team => team?.team?.competitions?.length > 0)
                 .map((team, index) => (
                   <div className="grid grid-cols-1 gap-5" key={index}>
                     {team?.team?.competitions?.map((competition, idx) => (
                       <div
-                        className="bg-white w-full h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
+                        className="bg-white max-w-full max-h-fit tablet:h-96 border border-slate-300 hover:shadow-2xl rounded p-5"
                         key={idx}
                       >
                         <Link
                           href={`/competition/detail/${competition?.competition?.competitionId}`}
                         >
-                          <div className="grid grid-cols-3 gap-3 h-40">
+                          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-3">
                             <div className="col-span-1 flex justify-center items-center">
                               <Image
                                 src={`/images/avatars/${competition?.competition?.organization?.user?.avatar}`}
@@ -199,11 +201,11 @@ export default function Content({ user }) {
                                 height={50}
                                 alt="Software Developer"
                                 priority
-                                className="w-auto h-40 object-cover rounded"
+                                className="w-40 h-40 object-cover rounded"
                               />
                             </div>
-                            <div className="col-span-2 p-3">
-                              <div className="flex justify-between items-center">
+                            <div className="col-span-1 tablet:col-span-2 tablet:p-3">
+                              <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
                                 <div className="flex justify-start items-center">
                                   <Image
                                     src="/images/icon-ok.svg"
