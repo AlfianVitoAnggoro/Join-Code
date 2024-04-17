@@ -127,8 +127,8 @@ const generateRandomTokenOTP = () => {
 const sendVerificationEmail = async data => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const res = await resend.emails.send({
-    from: 'Admin Join Code <admin@resend.dev>',
-    to: [data.identifier],
+    from: process.env.RESEND_FROM_EMAIL,
+    to: data.identifier,
     subject: 'Verification Email',
     html: generateTemplateHTML({ email: data.identifier, token: data.token }),
   });
@@ -287,8 +287,8 @@ const forgotPassword = async email => {
 const sendForgotPassword = async data => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const res = await resend.emails.send({
-    from: 'Admin Join Code <admin@resend.dev>',
-    to: [data.identifier],
+    from: process.env.RESEND_FROM_EMAIL,
+    to: data.identifier,
     subject: 'Forgot Password',
     html: generateTemplateHTMLForgotPassword({
       email: data.identifier,

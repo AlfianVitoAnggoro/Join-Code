@@ -122,9 +122,9 @@ export default function Content({
           shouldDisableLayoutDetail(pathname) && 'hidden'
         }`}
       >
-        <h1 className="text-3xl font-bold m-3">Competition</h1>
+        <h1 className="text-3xl font-bold">Competition</h1>
         <div
-          className={`ml-3 mt-3 ${
+          className={`mt-3 ${
             shouldDisableLayout(pathname) && 'laptop:flex hidden'
           }`}
         >
@@ -145,8 +145,8 @@ export default function Content({
         >
           {competitions.length == 0 ? (
             <div className="flex justify-center mt-10">
-              <p className="text-neutral-500 text-center text-base">
-                no competitions available at this time{' '}
+              <p className="text-neutral-500 text-center text-base italic">
+                Competitions are not available at this time{' '}
               </p>
             </div>
           ) : (

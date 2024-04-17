@@ -47,7 +47,21 @@ export default function Content({ softwareDevelopersData }) {
         </div>
       </div>
       {/* Card */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 dekstop:grid-cols-4 gap-3 rounded border-y border-gray-200">
+      <div
+        className={`grid ${
+          softwareDevelopers.length == 0
+            ? 'grid-cols-1'
+            : 'grid-cols-1 xs:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 dekstop:grid-cols-4'
+        }  gap-3 rounded border-y border-gray-200`}
+      >
+        {softwareDevelopers.length == 0 && (
+          <div className="flex justify-center mt-10">
+            <p className="text-neutral-500 text-center text-base italic">
+              Software Developers are not available for collaboration at this
+              time{' '}
+            </p>
+          </div>
+        )}
         {softwareDevelopers?.map((softwareDeveloper, index) => {
           return (
             <div
