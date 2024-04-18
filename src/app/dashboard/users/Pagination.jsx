@@ -28,7 +28,7 @@ export default function Pagination({
 
   return (
     <div className="mx-3 px-3 flex items-center justify-between border-t border-gray-200 bg-white py-3">
-      <div className="flex flex-1 justify-between sm:hidden">
+      <div className="flex flex-col xs:flex-row flex-1 justify-between sm:hidden">
         <Link
           href={`/dashboard/users?page=${
             currentPage > 1 ? currentPage - 1 : 1
@@ -41,7 +41,7 @@ export default function Pagination({
           href={`/dashboard/users?page=${
             currentPage < totalPages ? currentPage + 1 : totalPages
           }`}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative ml-0 tablet:ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Next
         </Link>

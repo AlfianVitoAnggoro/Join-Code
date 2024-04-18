@@ -233,9 +233,9 @@ export default function Form({ competition, id }) {
           </p>
         )}
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full overflow-auto">
         <h3 className="text-lg font-medium">Team Competition :</h3>
-        <table className="table-auto min-w-full">
+        <table className="table-auto overflow-x-auto w-full">
           <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
             <tr>
               <th className="py-3 text-center">NO</th>

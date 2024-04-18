@@ -55,7 +55,9 @@ export default async function TeamCompetitionPage(props) {
                 )}
               </div>
               <div className="flex flex-col">
-                <h3 className="text-lg font-medium">Link Project :</h3>
+                <h3 className="text-lg font-medium text-wrap">
+                  Link Project :
+                </h3>
                 {teamCompetition?.projectLink ? (
                   <p className="text-base font-normal">
                     {teamCompetition?.projectLink}
@@ -67,7 +69,9 @@ export default async function TeamCompetitionPage(props) {
                 )}
               </div>
               <div className="flex flex-col">
-                <h3 className="text-lg font-medium">Link Repository :</h3>
+                <h3 className="text-lg font-medium whitespace-pre-wrap">
+                  Link Repository :
+                </h3>
                 {teamCompetition?.repositoryLink ? (
                   <p className="text-base font-normal">
                     {teamCompetition?.repositoryLink}

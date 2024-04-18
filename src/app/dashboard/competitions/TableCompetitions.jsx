@@ -95,12 +95,12 @@ export default function TableCompetitions({ competitionsData }) {
 
   return (
     <>
-      <div className="px-3 py-5 flex justify-between items-center">
+      <div className="px-3 py-5 flex flex-col tablet:flex-row tablet:justify-between items-start tablet:items-center justify-start gap-y-2 tablet:gap-y-0">
         <input
           type="text"
           name="search"
           id="search"
-          className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 "
+          className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-full p-2.5"
           placeholder="Search"
           defaultValue={searchTerm}
           onChange={handleSearch}
@@ -114,12 +114,12 @@ export default function TableCompetitions({ competitionsData }) {
         </Link>
       </div>
       <div className="px-3 overflow-auto w-full h-min-screen ">
-        <table className="table-auto min-w-full">
+        <table className="table-auto w-full overflow-x-auto">
           <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
             <tr>
-              <th className="py-3 text-center">NO</th>
-              <th className="py-3 text-center">Competition Name</th>
-              <th className="py-3 text-center">Organization</th>
+              <th className="py-3">NO</th>
+              <th className="py-3">Name</th>
+              <th className="py-3">Organization</th>
               <th className="py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -129,32 +129,32 @@ export default function TableCompetitions({ competitionsData }) {
                 className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
                 key={index}
               >
-                <td className="py-2 text-center whitespace-nowrap">
+                <td className="py-2 whitespace-nowrap">
                   {startIndex + index + 1}
                 </td>
-                <td className="py-2 text-center whitespace-nowrap">
+                <td className="py-2 whitespace-nowrap text-wrap">
                   {competition.name}
                 </td>
-                <td className="py-2 text-center whitespace-nowrap">
+                <td className="py-2 whitespace-nowrap text-wrap">
                   {competition.organization.user.name}
                 </td>
-                <td className="py-2 text-center whitespace-nowrap space-x-2">
+                <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
                   <Link
                     href={`/dashboard/competitions/detail/${competition.competitionId}`}
-                    className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
+                    className="px-1 py-2 rounded bg-yellow-600 text-white text-xs tablet:text-sm"
                   >
                     Detail
                   </Link>
                   <Link
                     href={`/dashboard/competitions/update/${competition.competitionId}`}
-                    className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
+                    className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
                   >
                     Update
                   </Link>
                   <Link
                     href={`/dashboard/competitions/delete/${competition.competitionId}`}
                     scroll={false}
-                    className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
+                    className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
                   >
                     Delete
                   </Link>

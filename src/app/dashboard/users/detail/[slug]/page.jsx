@@ -28,7 +28,7 @@ export default async function DetailUserPage({ params }) {
   const user = response.data;
 
   return (
-    <div className="flex-1 bg-mainColor px-3">
+    <div className="flex-1 min-h-screen bg-mainColor px-3">
       <div className="pt-3 mb-3">
         <h2 className="text-2xl font-medium">Detail User</h2>
       </div>

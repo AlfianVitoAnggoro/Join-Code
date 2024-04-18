@@ -40,7 +40,7 @@ export default function Form({ slug }) {
       <h3 className="font-bold text-sm text-center my-3">
         Are you sure, you want to delete this data ?
       </h3>
-      <div className="flex gap-5 justify-end items-center">
+      <div className="flex gap-5 justify-center tablet:justify-end items-center">
         <button
           disabled={isLoading}
           className="px-2 py-1 bg-blue-600 text-white rounded"

@@ -320,7 +320,7 @@ export default function FormCreate({ categories, types, organizations }) {
                 </span>
               )}
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex flex-col tablet:flex-row tablet:gap-x-2 gap-y-2 tablet:gap-y-0">
               <div className="basis-1/2">
                 <label className="font-medium">Max Member of team</label>
                 <input
@@ -448,7 +448,7 @@ export default function FormCreate({ categories, types, organizations }) {
                 </span>
               )}
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex flex-col tablet:flex-row tablet:gap-x-2 gap-y-2 tablet:gap-y-0">
               <div className="basis-1/2">
                 <label className="font-medium">Registration Start Date</label>
                 <input
@@ -484,7 +484,7 @@ export default function FormCreate({ categories, types, organizations }) {
                 )}
               </div>
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex flex-col tablet:flex-row tablet:gap-x-2 gap-y-2 tablet:gap-y-0">
               <div className="basis-1/2">
                 <label className="font-medium">Competition Start Date</label>
                 <input

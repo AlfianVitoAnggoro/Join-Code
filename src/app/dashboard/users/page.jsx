@@ -28,7 +28,7 @@ export default async function UsersDashboardPages() {
   const users = res.data;
 
   return (
-    <div className="flex-1 bg-mainColor">
+    <div className="flex-1 min-h-screen bg-mainColor">
       <Suspense fallback={<div>Loading...</div>}>
         <TableUsers users={users} />
       </Suspense>

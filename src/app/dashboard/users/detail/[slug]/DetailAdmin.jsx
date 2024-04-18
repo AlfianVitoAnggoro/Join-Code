@@ -4,7 +4,7 @@ export default async function DetailOrganization(props) {
   const { user } = props;
   return (
     <div className="grid grid-cols-5 gap-2">
-      <div className="col-span-1">
+      <div className="col-span-5 tablet:col-span-1">
         <Image
           src={`/images/avatars/${user.avatar}`}
           width={50}
@@ -14,7 +14,7 @@ export default async function DetailOrganization(props) {
           className="rounded-full object-cover w-36 h-36"
         />
       </div>
-      <div className="col-span-4 flex flex-col gap-y-1">
+      <div className="col-span-5 tablet:col-span-4 flex flex-col gap-y-1">
         <div className="flex flex-col">
           <h3 className="text-lg font-medium">Nama :</h3>
           {user?.name ? (

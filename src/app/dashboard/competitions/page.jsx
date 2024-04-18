@@ -27,7 +27,7 @@ export default async function CompetitionsDashboardPages() {
   const competitions = competitionsData.data;
 
   return (
-    <div className="flex-1 bg-mainColor">
+    <div className="flex-1 min-h-screen bg-mainColor">
       <Suspense fallback={<div>Loading...</div>}>
         <TableCompetitions competitionsData={competitions} />
       </Suspense>

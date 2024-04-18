@@ -73,31 +73,32 @@ export default function TableBadges({ badges }) {
   }, [realData, endIndex, startIndex]);
   return (
     <>
-      <div className="px-3 py-5 flex justify-between items-center">
+      <div className="px-3 py-5 flex flex-col tablet:flex-row tablet:justify-between items-start tablet:items-center justify-start gap-y-2 tablet:gap-y-0">
         <input
           type="text"
           name="search"
           id="search"
-          className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 "
+          className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-full p-2.5 "
           placeholder="Search"
           onChange={handleSearch}
           defaultValue={searchTerm}
         />
         <Link
           href={'/dashboard/badges/create'}
+          scroll={false}
           className="bg-green-600 px-3 py-2 rounded text-white"
         >
           Create
         </Link>
       </div>
       <div className="px-3 overflow-auto w-full h-min-screen ">
-        <table className="table-auto min-w-full">
+        <table className="table-auto overflow-x-auto w-full">
           <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
             <tr>
               <th className="py-3 text-center">NO</th>
-              <th className="py-3 text-center">Image</th>
-              <th className="py-3 text-center">Name</th>
-              <th className="py-3 text-center">Min Point</th>
+              <th className="py-3">Image</th>
+              <th className="py-3">Name</th>
+              <th className="py-3">Min Point</th>
               <th className="py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -115,27 +116,25 @@ export default function TableBadges({ badges }) {
                     src={`/images/badges/${badge.image}`}
                     alt={`${badge.name}`}
                     priority
-                    className="w-30 h-30 object-cover"
-                    width={100}
-                    height={100}
-                  ></Image>
+                    className="w-auto h-auto object-cover"
+                    width={80}
+                    height={80}
+                  />
                 </td>
-                <td className="py-2 text-center whitespace-nowrap">
-                  {badge.name}
-                </td>
-                <td className="py-2 text-center whitespace-nowrap">
-                  {badge.point}
-                </td>
-                <td className="py-2 text-center whitespace-nowrap space-x-2">
+                <td className="py-2 whitespace-nowrap">{badge.name}</td>
+                <td className="py-2 whitespace-nowrap">{badge.point}</td>
+                <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
                   <Link
                     href={`/dashboard/badges/update/${badge.badgeId}`}
-                    className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
+                    scroll={false}
+                    className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
                   >
                     Update
                   </Link>
                   <Link
                     href={`/dashboard/badges/delete/${badge.badgeId}`}
-                    className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
+                    scroll={false}
+                    className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
                   >
                     Delete
                   </Link>
