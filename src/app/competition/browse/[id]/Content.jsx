@@ -41,6 +41,14 @@ export default function Content({
   const [checkCompetitionIsMaxTeamState, setCheckCompetitionIsMaxTeamState] =
     useState(false);
 
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
+    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
+    setPageLoaded(true);
+  }, []);
+
   useEffect(() => {
     if (search === '') {
       setCompetitions(competitionsData);
@@ -242,7 +250,8 @@ export default function Content({
                   Competition has been completed
                 </p>
               )}
-              {!checkUserHasBeenRegisteredState &&
+              {isPageLoaded &&
+                !checkUserHasBeenRegisteredState &&
                 !checkCompetitionIsMaxTeamState &&
                 !competition?.isCompleted && (
                   <Link

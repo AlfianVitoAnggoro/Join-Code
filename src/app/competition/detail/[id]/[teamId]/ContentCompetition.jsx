@@ -22,6 +22,13 @@ export default function ContentCompetition({
     setSubmitProjectButtonByCompetitionDate,
   ] = useState(false);
   const [teamHaveSubmitProject, setTeamHaveSubmitProject] = useState(false);
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
+    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
+    setPageLoaded(true);
+  }, []);
 
   useEffect(() => {
     if (session && status === 'authenticated') {
@@ -81,7 +88,8 @@ export default function ContentCompetition({
             {competition?.organization?.user?.name}
           </p>
         </div>
-        {teamCompetition &&
+        {isPageLoaded &&
+        teamCompetition &&
         teamCompetition?.statusTeamCompetition?.name == 'Registered' &&
         submitProjectButtonByCompetitionDate &&
         !teamHaveSubmitProject ? (

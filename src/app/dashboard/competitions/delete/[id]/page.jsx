@@ -1,22 +1,36 @@
-export default function DeleteCompetitionPage() {
+import dynamic from 'next/dynamic';
+const Modal = dynamic(() => import('@/components/core/Modal'));
+import Form from './Form';
+
+export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  ),
+  title: 'Delete Competition - Join Code',
+  description:
+    'The Application make a collaboration and competition for software developer',
+  authors: [
+    { name: 'Alfian Vito Anggoro', url: `${process.env.NEXT_PUBLIC_API_URL}` },
+  ],
+  icons: {
+    icon: '/icon.png',
+  },
+  openGraph: {
+    title: 'Delete Competition',
+    description: 'Delete Competition - Join Code',
+    url: `${process.env.NEXT_PUBLIC_API_URL}`,
+    siteName: 'Delete Competition',
+  },
+};
+
+export default function DeleteCompetitionPage(props) {
+  const { params } = props;
   return (
     <div className="flex-1 bg-white p-3 rounded-lg">
       <div className="pt-3 mb-3">
-        <h2 className="text-2xl font-medium">Delete Competitions</h2>
+        <h2 className="text-2xl font-medium">Delete Competition</h2>
       </div>
-      <div className=" w-full h-full">
-        <h3 className="font-bold text-sm text-center my-3">
-          Are you sure, you want to delete this data ?
-        </h3>
-        <div className="flex gap-5 justify-end items-center">
-          <button className="px-2 py-1 bg-blue-600 text-white rounded">
-            Yes
-          </button>
-          <button className="px-2 py-1 bg-red-600 text-white rounded">
-            No
-          </button>
-        </div>
-      </div>
+      <Form id={params.id} />
     </div>
   );
 }

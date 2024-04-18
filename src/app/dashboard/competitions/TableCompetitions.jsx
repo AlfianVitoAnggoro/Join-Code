@@ -17,6 +17,13 @@ export default function TableCompetitions({ competitionsData }) {
   const [currentData, setCurrentData] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
+  const [isPageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
+    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
+    setPageLoaded(true);
+  }, []);
 
   useEffect(() => {
     const checkOrganization = () => {
@@ -105,13 +112,15 @@ export default function TableCompetitions({ competitionsData }) {
           defaultValue={searchTerm}
           onChange={handleSearch}
         />
-        <Link
-          href={'/dashboard/competitions/create'}
-          scroll={false}
-          className="bg-green-600 px-3 py-2 rounded text-white"
-        >
-          Create
-        </Link>
+        {isPageLoaded && (
+          <Link
+            href={'/dashboard/competitions/create'}
+            scroll={false}
+            className="bg-green-600 px-3 py-2 rounded text-white"
+          >
+            Create
+          </Link>
+        )}
       </div>
       <div className="px-3 overflow-auto w-full h-min-screen ">
         <table className="table-auto w-full overflow-x-auto">
@@ -151,13 +160,15 @@ export default function TableCompetitions({ competitionsData }) {
                   >
                     Update
                   </Link>
-                  <Link
-                    href={`/dashboard/competitions/delete/${competition.competitionId}`}
-                    scroll={false}
-                    className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
-                  >
-                    Delete
-                  </Link>
+                  {isPageLoaded && (
+                    <Link
+                      href={`/dashboard/competitions/delete/${competition.competitionId}`}
+                      scroll={false}
+                      className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
+                    >
+                      Delete
+                    </Link>
+                  )}
                 </td>
               </tr>
             ))}

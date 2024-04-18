@@ -28,7 +28,11 @@ export default function FormCreate({ roles }) {
   const getUsersData = async () => {
     try {
       const result = await getUsers();
-      setUsers(result.data);
+      if (result.success) {
+        setUsers(result.data);
+      } else {
+        setUsers([]);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -41,9 +45,9 @@ export default function FormCreate({ roles }) {
   useEffect(() => {
     if (password) {
       if (password.length < 6) {
-        setErrorConfirmPassword('Password harus lebih dari 6 karakter');
+        setErrorConfirmPassword('Password must be at least 6 characters long');
       } else if (password !== confirmPassword) {
-        setErrorConfirmPassword('Password dan Confirm password tidak cocok');
+        setErrorConfirmPassword('Password and Confirm Password  do not match');
       } else {
         setErrorConfirmPassword('');
       }
@@ -54,24 +58,24 @@ export default function FormCreate({ roles }) {
       const regex = /@gmail\.com$/; // Ekspresi reguler untuk memeriksa apakah email berakhiran dengan "@gmail.com"
       const emailRegex = regex.test(email);
       if (userMatch) {
-        setErrorEmail('Email sudah digunakan');
+        setErrorEmail('Email already exists');
       } else if (!emailRegex) {
-        setErrorEmail('Email harus berakhiran dengan "@gmail.com"');
+        setErrorEmail('Email must be ended with "@gmail.com"');
       } else {
         setErrorEmail('');
       }
     }
 
     if (nickname) {
-      const regex = /^[a-zA-Z\s]+$/;
+      const regex = /^[a-zA-Z]+$/;
       const nicnameRegex = regex.test(nickname);
-      const nicknameMatch = users.find(user => user.nickname === nickname);
+      const nicknameMatch = users.find(user => user?.nickname === nickname);
       if (!nicnameRegex) {
-        setErrorName('Nama harus berupa huruf');
-      } else if (nickname.length < 5) {
-        setErrorNickname('nickname harus lebih dari 5 karakter');
+        setErrorNickname('Nickname must be letters and without spaces');
+      } else if (nickname.length < 5 || nickname.length > 10) {
+        setErrorNickname('Nickname must be between 5 - 10 characters');
       } else if (nicknameMatch) {
-        setErrorNickname('nickname sudah digunakan');
+        setErrorNickname('Nickname already exist');
       } else {
         setErrorNickname('');
       }
@@ -81,9 +85,9 @@ export default function FormCreate({ roles }) {
       const regex = /^[a-zA-Z\s]+$/;
       const nameRegex = regex.test(name);
       if (!nameRegex) {
-        setErrorName('Nama harus berupa huruf');
+        setErrorName('Name must be letters');
       } else if (name.length < 5) {
-        setErrorName('Nama harus lebih dari 5 huruf');
+        setErrorName('Name must be at least 5 characters long');
       } else {
         setErrorName('');
       }
@@ -104,23 +108,23 @@ export default function FormCreate({ roles }) {
       nickname == ''
     ) {
       if (name == '') {
-        setErrorName('Nama harus diisi');
+        setErrorName('Name is required');
       }
 
       if (nickname == '') {
-        setErrorNickname('Nickname harus diisi');
+        setErrorNickname('Nickname is required');
       }
 
       if (email == '') {
-        setErrorEmail('Email harus diisi');
+        setErrorEmail('Email is required');
       }
 
       if (password == '' || confirmPassword == '') {
-        setErrorConfirmPassword('Password dan Confirm password harus diisi');
+        setErrorConfirmPassword('Password and Confirm password is required');
       }
 
       if (role == '') {
-        setErrorRole('Role harus diisi');
+        setErrorRole('Role is required');
       }
       setSuccess(false);
       setMessage('Failed, Form cannot be empty');
@@ -152,10 +156,10 @@ export default function FormCreate({ roles }) {
 
     if (success) {
       setSuccess(true);
-      setMessage('Success, User was created');
+      setMessage('Success, User has been created');
     } else {
       setSuccess(false);
-      setMessage('Failed, User cannot be created');
+      setMessage('Failed, Something went wrong');
       setIsLoading(false);
       return;
     }
@@ -167,10 +171,12 @@ export default function FormCreate({ roles }) {
     setConfirmPassword('');
     setRole('');
     setIsLoading(false);
+    router.push('/dashboard/users');
+    router.refresh();
   };
 
   return (
-    <div className="p-3">
+    <div className="p-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
       {message !== '' && (
         <div
           className={`rounded-md ${

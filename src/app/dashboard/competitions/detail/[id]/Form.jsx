@@ -22,6 +22,13 @@ export default function Form({ competition, id }) {
   const [success, setSuccess] = useState();
   const [message, setMessage] = useState('');
 
+  const [isPageLoaded, setPageLoaded] = useState(false);
+  useEffect(() => {
+    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
+    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
+    setPageLoaded(true);
+  }, []);
+
   const router = useRouter();
   useEffect(() => {
     if (session && status === 'authenticated') {
@@ -289,13 +296,16 @@ export default function Form({ competition, id }) {
                     )}
                   </td>
                   <td className="py-2 text-center whitespace-nowrap space-x-2">
-                    <Link
-                      href={`/dashboard/competitions/detail/team-competition/${id}/${team?.teamId}`}
-                      scroll={false}
-                      className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
-                    >
-                      Detail
-                    </Link>
+                    {isPageLoaded && (
+                      <Link
+                        href={`/dashboard/competitions/detail/team-competition/${id}/${team?.teamId}`}
+                        scroll={false}
+                        className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
+                      >
+                        Detail
+                      </Link>
+                    )}
+
                     {/* {team?.isAccepted &&
                       !competition?.isCompleted &&
                       team?.statusTeamCompetitionId == 2 &&
@@ -309,7 +319,7 @@ export default function Form({ competition, id }) {
                           Update
                         </button>
                       )} */}
-                    {!competition?.isCompleted && (
+                    {isPageLoaded && !competition?.isCompleted && (
                       <Link
                         href={`/dashboard/competitions/detail/team-competition/delete/${id}/${team?.teamId}`}
                         scroll={false}
@@ -331,7 +341,7 @@ export default function Form({ competition, id }) {
           </tbody>
         </table>
       </div>
-      {!competition?.isCompleted && (
+      {isPageLoaded && !competition?.isCompleted && (
         <div>
           <Link
             href={`/dashboard/competitions/detail/complete-competition/${id}`}

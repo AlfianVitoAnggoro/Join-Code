@@ -1,14 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { updateBadge } from '@/lib/actions/badgeAction';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-
-export default function FormUpdate({ badge }) {
+import { createBadge } from '@/lib/actions/badgeAction';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useEffect } from 'react';
+export default function FormCreate() {
   const [image, setImage] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [name, setName] = useState(badge?.name || '');
-  const [point, setPoint] = useState(badge?.point || '');
+  const [name, setName] = useState('');
+  const [point, setPoint] = useState('');
+  const router = useRouter('');
 
   // Error Handling
   const [errorImageFile, setErrorImageFile] = useState('');
@@ -18,6 +19,24 @@ export default function FormUpdate({ badge }) {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState();
   const [message, setMessage] = useState('');
+
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (
+      file.type != 'image/jpeg' &&
+      file.type != 'image/png' &&
+      file.type != 'image/webp' &&
+      file.type != 'image/svg'
+    ) {
+      setErrorImageFile('Type file avatar is not supported!');
+    } else if (file.size > 1000000) {
+      setErrorImageFile('Size file avatar must be less than 1 MB!');
+    } else {
+      setErrorImageFile('');
+      setImage(URL.createObjectURL(file));
+      setImageFile(file);
+    } // Simpan file yang diunggah ke dalam state avatarFile
+  };
 
   const handleUploadImage = async () => {
     if (imageFile) {
@@ -36,20 +55,6 @@ export default function FormUpdate({ badge }) {
 
         const resUploadImage = await res.json(); // Ambil nama file dari respons JSON
 
-        if (resUploadImage.success) {
-          // DELETE AVATAR BEFORE
-          if (badge?.image) {
-            formData.append('nowFile', badge?.image);
-            const res = await fetch('/api/upload/badge', {
-              method: 'DELETE',
-              body: formData,
-            });
-            if (!res.ok) {
-              throw new Error(await res.text());
-            }
-          }
-        }
-
         return { newFileName: resUploadImage.data, success: true };
       } catch (error) {
         return { success: false, message: error.message };
@@ -57,39 +62,20 @@ export default function FormUpdate({ badge }) {
     }
   };
 
-  const handleImageChange = e => {
-    const file = e.target.files[0];
-    if (
-      file?.type != 'image/jpeg' &&
-      file?.type != 'image/png' &&
-      file?.type != 'image/webp' &&
-      file?.type != 'image/svg'
-    ) {
-      setErrorImageFile('Type file avatar is not supported!');
-    } else if (file?.size > 1000000) {
-      setErrorImageFile('Size file avatar must be less than 1 MB!');
-    } else {
-      setErrorImageFile('');
-      setImage(URL.createObjectURL(file));
-      setImageFile(file);
-    } // Simpan file yang diunggah ke dalam state avatarFile
-  };
-
   useEffect(() => {
     if (name) {
       const regex = /^[a-zA-Z\s]+$/;
       const nameRegex = regex.test(name);
       if (!nameRegex) {
-        setErrorName('Nama harus berupa huruf');
+        setErrorName('Name must be letters');
       } else if (name.length < 3) {
-        setErrorName('Nama harus lebih dari 3 huruf');
+        setErrorName('Name must be more than 3 letters');
       } else {
         setErrorName('');
       }
     }
   }, [name]);
 
-  const router = useRouter();
   const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);
@@ -117,7 +103,7 @@ export default function FormUpdate({ badge }) {
       const responseUploadImage = await handleUploadImage();
       if (!responseUploadImage.success) {
         setSuccess(false);
-        setMessage('Failed, File image cannot be updated');
+        setMessage('Failed, File image cannot be created');
         setIsLoading(false);
         return;
       } else {
@@ -125,8 +111,8 @@ export default function FormUpdate({ badge }) {
       }
     }
 
-    const responseUUpdateBadge = await updateBadge(badge?.badgeId, data);
-    if (!responseUUpdateBadge.success) {
+    const responseCreateBadge = await createBadge(data);
+    if (!responseCreateBadge.success) {
       setSuccess(false);
       setMessage('Failed, Something went wrong');
       setIsLoading(false);
@@ -134,12 +120,11 @@ export default function FormUpdate({ badge }) {
     }
 
     setSuccess(true);
-    setMessage('Success, Badge has been updated');
+    setMessage('Success, Badge was created');
     setIsLoading(false);
-    router.push(`/dashboard/badges`);
+    router.push('/dashboard/badges');
     router.refresh();
   };
-
   return (
     <div className="p-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
       {message !== '' && (
@@ -157,14 +142,16 @@ export default function FormUpdate({ badge }) {
       <form action="" className="space-y-3">
         <div className="space-y-2">
           <label className="font-medium">Image</label>
-          <Image
-            src={image ? image : `/images/badges/${badge?.image}`}
-            width={50}
-            height={50}
-            alt={badge?.name}
-            priority
-            className="rounded object-cover w-28 h-28"
-          />
+          {image && (
+            <Image
+              src={image}
+              width={50}
+              height={50}
+              alt="join-code"
+              priority
+              className="rounded object-cover w-28 h-28"
+            />
+          )}
           <input
             type="file"
             name="image"
@@ -190,7 +177,6 @@ export default function FormUpdate({ badge }) {
             id="name"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder="Your Name"
-            defaultValue={name}
             onChange={e => setName(e.target.value)}
           />
           {errorName && (
@@ -198,14 +184,13 @@ export default function FormUpdate({ badge }) {
           )}
         </div>
         <div>
-          <label className="font-medium">Point</label>
+          <label className="font-medium">Minimal Point</label>
           <input
             type="number"
-            name="point"
-            id="point"
+            name="min_point"
+            id="min_point"
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Point"
-            defaultValue={point}
+            placeholder="Minimal Point"
             onChange={e => setPoint(e.target.value)}
           />
         </div>
