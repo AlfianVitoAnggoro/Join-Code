@@ -102,11 +102,11 @@ export default function Content({ competitionsData }) {
                     >
                       <div className="col-span-1 flex justify-center mt-1">
                         <Image
-                          src={`/images/avatars/${competition?.organization?.user?.avatar}`}
+                          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.organization?.user?.avatar}`}
                           width={50}
                           height={50}
                           priority
-                          alt={competition?.organization?.user?.name}
+                          alt={'avatar'}
                           className="rounded-full object-cover w-14 h-14"
                         />
                       </div>

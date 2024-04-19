@@ -8,7 +8,7 @@ export default function FormUpdate({ badge }) {
   const [image, setImage] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [name, setName] = useState(badge?.name || '');
-  const [point, setPoint] = useState(badge?.point || '');
+  const [point, setPoint] = useState(badge?.point || 0);
 
   // Error Handling
   const [errorImageFile, setErrorImageFile] = useState('');
@@ -59,12 +59,7 @@ export default function FormUpdate({ badge }) {
 
   const handleImageChange = e => {
     const file = e.target.files[0];
-    if (
-      file?.type != 'image/jpeg' &&
-      file?.type != 'image/png' &&
-      file?.type != 'image/webp' &&
-      file?.type != 'image/svg'
-    ) {
+    if (file?.type != 'image/jpeg') {
       setErrorImageFile('Type file avatar is not supported!');
     } else if (file?.size > 1000000) {
       setErrorImageFile('Size file avatar must be less than 1 MB!');
@@ -158,7 +153,11 @@ export default function FormUpdate({ badge }) {
         <div className="space-y-2">
           <label className="font-medium">Image</label>
           <Image
-            src={image ? image : `/images/badges/${badge?.image}`}
+            src={
+              image
+                ? image
+                : `https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${badge?.image}`
+            }
             width={50}
             height={50}
             alt={badge?.name}
@@ -174,7 +173,7 @@ export default function FormUpdate({ badge }) {
             onChange={handleImageChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Upload file dengan format jpeg/svg/webp/png, max size 1 MB
+            Format file must be jpg, max size 1 MB
           </span>
           {errorImageFile && (
             <span className="text-red-500 text-sm italic">

@@ -2,10 +2,14 @@ import { join } from 'path';
 import { writeFile, unlink, mkdir } from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 import { existsSync } from 'fs';
-
+import { createClient } from '@supabase/supabase-js';
+const supabase = createClient(
+  process.env.SUPABASE_PROJECT_URL,
+  process.env.SUPABASE_PUBLIC_ANON_KEY,
+);
 export async function POST(request) {
-  const data = await request.formData();
-  const file = data.get('file');
+  const formData = await request.formData();
+  const file = formData.get('file');
 
   if (!file) {
     return new Response(JSON.stringify({ success: false }), {
@@ -13,13 +17,7 @@ export async function POST(request) {
     });
   }
 
-  const acceptedImageTypes = [
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp',
-    'image/svg',
-  ];
+  const acceptedImageTypes = ['image/jpeg'];
 
   if (!acceptedImageTypes.includes(file.type)) {
     return new Response(
@@ -39,31 +37,51 @@ export async function POST(request) {
     );
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  // Generate random name for file
   const fileName = `${uuidv4()}_${file.name}`;
-
-  const path = join('public', 'images', 'proofOfPayments', fileName);
-
-  if (!existsSync(join('public', 'images', 'proofOfPayments'))) {
-    // If the directory doesn't exist, create it
-    await mkdir(join('public', 'images', 'proofOfPayments'), {
-      recursive: true,
+  // SupabaseStorage
+  const { data, error } = await supabase.storage
+    .from('proofOfPayments')
+    .upload('public/' + fileName, file, {
+      cacheControl: '3600',
+      upsert: false,
     });
+
+  if (data == null) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: error.message,
+      }),
+    );
   }
 
-  await writeFile(path, buffer);
+  const splitFileName = data.path.split('/').pop();
 
-  return new Response(JSON.stringify({ data: fileName, success: true }), {
+  // const bytes = await file.arrayBuffer();
+  // const buffer = Buffer.from(bytes);
+
+  // // Generate random name for file
+  // const fileName = `${uuidv4()}_${file.name}`;
+
+  // const path = join('public', 'images', 'proofOfPayments', fileName);
+
+  // if (!existsSync(join('public', 'images', 'proofOfPayments'))) {
+  //   // If the directory doesn't exist, create it
+  //   await mkdir(join('public', 'images', 'proofOfPayments'), {
+  //     recursive: true,
+  //   });
+  // }
+
+  // await writeFile(path, buffer);
+
+  return new Response(JSON.stringify({ data: splitFileName, success: true }), {
     headers: { 'Content-Type': 'application/json' },
   });
 }
 
 export async function DELETE(request) {
-  const data = await request.formData();
-  const fileName = data.get('nowFile');
+  const formData = await request.formData();
+  const fileName = formData.get('nowFile');
 
   if (!fileName) {
     return new Response(
@@ -74,19 +92,33 @@ export async function DELETE(request) {
     );
   }
 
-  const path = join('public', 'images', 'proofOfPayments', fileName);
-  try {
-    await unlink(path);
-    return new Response(JSON.stringify({ success: true }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    console.error('Error deleting file:', error);
+  const { data, error } = await supabase.storage
+    .from('proofOfPayments')
+    .remove('public/' + fileName);
+
+  if (error != '') {
     return new Response(
-      JSON.stringify({ success: false, message: 'Error deleting file' }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-      },
+      JSON.stringify({ success: false, message: 'File name is required' }),
     );
   }
+
+  return new Response(JSON.stringify({ data: data.fullpath, success: true }), {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  // const path = join('public', 'images', 'proofOfPayments', fileName);
+  // try {
+  //   await unlink(path);
+  //   return new Response(JSON.stringify({ success: true }), {
+  //     headers: { 'Content-Type': 'application/json' },
+  //   });
+  // } catch (error) {
+  //   console.error('Error deleting file:', error);
+  //   return new Response(
+  //     JSON.stringify({ success: false, message: 'Error deleting file' }),
+  //     {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     },
+  //   );
+  // }
 }

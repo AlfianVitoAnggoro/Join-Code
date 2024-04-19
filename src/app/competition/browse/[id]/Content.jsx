@@ -173,11 +173,14 @@ export default function Content({
                     >
                       <div className="col-span-1 flex justify-center mt-1">
                         <Image
-                          src={`/images/avatars/${competition?.organization?.user?.avatar}`}
+                          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                            competition?.organization?.user?.avatar ||
+                            'default-avatar.png'
+                          }`}
                           width={50}
                           height={50}
                           priority
-                          alt={competition?.organization?.user?.name}
+                          alt="avatar"
                           className="rounded-full object-cover w-14 h-14"
                         />
                       </div>
@@ -221,11 +224,13 @@ export default function Content({
         <div className="col-span-5 laptop:col-span-3 flex flex-col gap-3">
           <div className="bg-white rounded p-3">
             <Image
-              src={`/images/avatars/${competition?.organization?.user?.avatar}`}
+              src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                competition?.organization?.user?.avatar || 'default-avatar.png'
+              }`}
               width={50}
               height={50}
               priority
-              alt={competition?.organization?.user?.name}
+              alt="avatar"
               className="rounded-full object-cover w-24 h-24"
             />
             <div className="my-3">
@@ -398,7 +403,10 @@ export default function Content({
             <h2 className="text-2xl font-bold">About Organization</h2>
             <div className="flex flex-col tablet:flex-row gap-y-2 tablet:gap-y-0 tablet:gap-x-3 py-2">
               <Image
-                src={`/images/avatars/${competition?.organization?.user?.avatar}`}
+                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                  competition?.organization?.user?.avatar ||
+                  'default-avatar.png'
+                }`}
                 width={50}
                 height={50}
                 alt="Avatar"

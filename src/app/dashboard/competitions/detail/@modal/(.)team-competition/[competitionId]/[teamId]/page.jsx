@@ -86,7 +86,7 @@ export default async function TeamCompetitionPage(props) {
                 <h3 className="text-lg font-medium">Bukti Pembayaran :</h3>
                 {teamCompetition?.proofOfPayment ? (
                   <a
-                    href={`/images/proofOfPayments/${teamCompetition?.proofOfPayment}`}
+                    href={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/proofOfPayments/public/${teamCompetition?.proofOfPayment}`}
                     className="text-base font-normal text-blue-500"
                     target="_blank"
                   >

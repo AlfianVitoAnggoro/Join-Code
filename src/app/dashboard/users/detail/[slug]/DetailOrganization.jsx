@@ -74,7 +74,7 @@ export default async function DetailOrganization(props) {
           <h3 className="text-lg font-medium">Document Support :</h3>
           {user?.organizations?.document ? (
             <Link
-              href={`/documents/${user?.organizations?.document}`}
+              href={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/documents/public/${user?.organizations?.document}`}
               target="_blank"
               className="text-base font-normal text-blue-500"
             >

@@ -53,7 +53,7 @@ export default function FormCompetitionRegistration({
     const name = user?.name.indexOf(' ');
     const firstName = user?.name.substring(0, name);
     setName(firstName + ' ' + 'Team');
-  }, [user, members]);
+  }, [user]);
 
   const handleMemberChange = (index, value) => {
     const updatedMembers = [...members]; // Salin array members
@@ -87,12 +87,7 @@ export default function FormCompetitionRegistration({
 
   const handleProofOfPaymentChange = e => {
     const file = e.target.files[0];
-    if (
-      file?.type != 'image/jpeg' &&
-      file?.type != 'image/png' &&
-      file?.type != 'image/webp' &&
-      file?.type != 'image/svg'
-    ) {
+    if (file?.type != 'image/jpeg') {
       setErrorProofOfPaymentFile('Type file is not supported!');
     } else if (file?.size > 1000000) {
       setErrorProofOfPaymentFile('Size file must be less than 1 MB!');
@@ -313,7 +308,7 @@ export default function FormCompetitionRegistration({
                 onChange={handleProofOfPaymentChange}
               />
               <span className="text-neutral-500 text-sm block">
-                Format file must be jpeg/svg/webp/png, max size 1 MB
+                Format file must be jpg, max size 1 MB
               </span>
               {errorProofOfPaymentFile && (
                 <span className="text-red-500 text-sm italic">

@@ -98,12 +98,7 @@ export default function UpdateSoftwareDeveloper({ users, user, skills }) {
 
   const handleFileChange = e => {
     const file = e.target.files[0];
-    if (
-      file.type != 'image/jpeg' &&
-      file.type != 'image/png' &&
-      file.type != 'image/webp' &&
-      file.type != 'image/svg'
-    ) {
+    if (file.type != 'image/jpeg') {
       setErrorAvatar('Type file avatar is not supported!');
     } else if (file.size > 1000000) {
       setErrorAvatar('Size file avatar must be less than 1 MB!');
@@ -242,7 +237,11 @@ export default function UpdateSoftwareDeveloper({ users, user, skills }) {
         <div className="space-y-2">
           <label className="font-medium">Avatar</label>
           <Image
-            src={avatar ? avatar : `/images/avatars/${user?.avatar}`}
+            src={
+              avatar
+                ? avatar
+                : `https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`
+            }
             width={50}
             height={50}
             alt="avatar-user"
@@ -258,7 +257,7 @@ export default function UpdateSoftwareDeveloper({ users, user, skills }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Upload file dengan format jpeg/svg/webp/png, max size 1 MB
+            Format file must be jpg, max size 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>

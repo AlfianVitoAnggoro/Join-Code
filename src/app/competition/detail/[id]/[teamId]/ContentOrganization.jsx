@@ -8,10 +8,10 @@ export default function ContentOrganization({ competition }) {
         <h2 className="text-2xl font-bold">About Organization</h2>
         <div className="flex flex-col tablet:flex-row gap-y-2 tablet:gap-y-0 tablet:gap-x-3 py-2">
           <Image
-            src={`/images/avatars/${competition?.organization?.user?.avatar}`}
+            src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.organization?.user?.avatar}`}
             width={50}
             height={50}
-            alt="Avatar"
+            alt="avatar"
             priority
             className="rounded-full object-cover w-24 h-24"
           />

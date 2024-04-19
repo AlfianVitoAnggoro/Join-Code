@@ -16,8 +16,8 @@ export default function Content({ user }) {
               <Image
                 width={100}
                 height={100}
-                src={`/images/avatars/${user?.avatar}`}
-                alt={user?.name}
+                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`}
+                alt="avatar"
                 priority
                 className="rounded-full w-36 h-36 tablet:w-56 tablet:h-56 object-cover"
               />
@@ -46,15 +46,17 @@ export default function Content({ user }) {
               )}
 
               <div className="flex justify-start items-center gap-3 mt-2">
-                <Image
-                  src={`/images/badges/${user?.softwareDevelopers?.badge?.image}`}
-                  alt={user?.softwareDevelopers?.badge?.name}
-                  width={200}
-                  height={200}
-                  className="w-20 h-20 object-contain my-1"
-                ></Image>
+                {user?.softwareDevelopers?.badge?.image && (
+                  <Image
+                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${user?.softwareDevelopers?.badge?.image}`}
+                    alt="badges"
+                    width={200}
+                    height={200}
+                    className="w-20 h-20 object-contain my-1"
+                  ></Image>
+                )}
                 <p className="text-xl font-semibold text-white">
-                  {user?.softwareDevelopers?.point} XP
+                  {user?.softwareDevelopers?.point || '0'} XP
                 </p>
               </div>
               <div className="mt-2">
@@ -196,12 +198,12 @@ export default function Content({ user }) {
                           <div className="grid grid-cols-1 tablet:grid-cols-3 gap-3">
                             <div className="col-span-1 flex justify-center items-center">
                               <Image
-                                src={`/images/avatars/${competition?.competition?.organization?.user?.avatar}`}
+                                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.competition?.organization?.user?.avatar}`}
                                 width={50}
                                 height={50}
-                                alt="Software Developer"
+                                alt="avatar"
                                 priority
-                                className="w-40 h-40 object-cover rounded"
+                                className="w-32 h-32 object-cover rounded-full"
                               />
                             </div>
                             <div className="col-span-1 tablet:col-span-2 tablet:p-3">

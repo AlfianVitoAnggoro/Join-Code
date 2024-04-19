@@ -36,7 +36,7 @@ export default function Profile({ user }) {
               <Image
                 width={100}
                 height={100}
-                src={`/images/avatars/${user?.avatar}`}
+                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`}
                 alt={user?.name}
                 priority
                 className="rounded-full w-36 h-36 tablet:w-56 tablet:h-56 object-cover"
@@ -214,12 +214,12 @@ export default function Profile({ user }) {
                           <div className="grid grid-cols-1 tablet:grid-cols-3 gap-3">
                             <div className="col-span-1 flex justify-center items-center">
                               <Image
-                                src={`/images/avatars/${competition?.competition?.organization?.user?.avatar}`}
+                                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.competition?.organization?.user?.avatar}`}
                                 width={50}
                                 height={50}
-                                alt="Software Developer"
+                                alt="Avatar"
                                 priority
-                                className="w-40 h-40 object-cover rounded"
+                                className="w-32 h-32 object-cover rounded-full"
                               />
                             </div>
                             <div className="col-span-1 tablet:col-span-2 tablet:p-3">

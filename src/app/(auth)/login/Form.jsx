@@ -35,10 +35,15 @@ export default function Form() {
         ) {
           e.target.reset();
           router.push('/');
+          router.refresh();
           setIsLoading(false);
           return;
         }
+        e.target.reset();
         router.push(callbackUrl);
+        router.refresh();
+        setIsLoading(false);
+        return;
       } else {
         setPopUp(true);
         setSuccess(false);

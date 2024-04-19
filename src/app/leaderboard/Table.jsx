@@ -75,7 +75,7 @@ export default function Table({ leaderboard }) {
                     <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
                       <div className="flex items-center gap-3">
                         <Image
-                          src={`/images/avatars/${softwareDeveloper?.softwareDeveloper?.user?.avatar}`}
+                          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${softwareDeveloper?.softwareDeveloper?.user?.avatar}`}
                           width={50}
                           height={50}
                           alt="Avatar"
@@ -115,7 +115,7 @@ export default function Table({ leaderboard }) {
                 <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
                   <div className="flex items-center gap-3">
                     <Image
-                      src={`/images/avatars/${
+                      src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
                         userLoginLeaderboard?.softwareDeveloper?.user?.avatar ||
                         'default-avatar.png'
                       }`}

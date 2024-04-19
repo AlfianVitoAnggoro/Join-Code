@@ -122,8 +122,8 @@ export default function TableBadges({ badges }) {
                 </td>
                 <td className="py-2 whitespace-nowrap flex justify-center">
                   <Image
-                    src={`/images/badges/${badge.image}`}
-                    alt={`${badge.name}`}
+                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${badge.image}`}
+                    alt="badge-images"
                     priority
                     className="w-auto h-auto object-cover"
                     width={80}
@@ -131,7 +131,7 @@ export default function TableBadges({ badges }) {
                   />
                 </td>
                 <td className="py-2 whitespace-nowrap">{badge.name}</td>
-                <td className="py-2 whitespace-nowrap">{badge.point}</td>
+                <td className="py-2 whitespace-nowrap">{badge.point || '0'}</td>
                 <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
                   {isPageLoaded && (
                     <Link

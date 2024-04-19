@@ -112,7 +112,7 @@ export default function NavbarTop() {
                       className="h-8 w-8 rounded-full object-cover"
                       width={50}
                       height={50}
-                      src={'/images/avatars/' + session.user.avatar}
+                      src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${session?.user?.avatar}`}
                       alt="avatar"
                     />
                   </button>

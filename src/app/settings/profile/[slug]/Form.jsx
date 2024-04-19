@@ -8,6 +8,7 @@ import { updateSoftwareDeveloper } from '../../../../lib/actions/softwareDevelop
 
 export default function Form({ user, skills }) {
   const { data: session, update } = useSession();
+  // Create a single supabase client for interacting with your database
   const [avatar, setAvatar] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [name, setName] = useState(user?.name || '');
@@ -82,6 +83,7 @@ export default function Form({ user, skills }) {
       }
     }
   }, [name, portfolioLink]);
+
   const handleUploadFile = async () => {
     if (avatarFile) {
       const formData = new FormData();
@@ -122,13 +124,8 @@ export default function Form({ user, skills }) {
   const handleFileChange = e => {
     const avatarFile = e.target.files[0];
     if (avatarFile) {
-      if (
-        avatarFile?.type != 'image/jpeg' &&
-        avatarFile?.type != 'image/png' &&
-        avatarFile?.type != 'image/webp' &&
-        avatarFile?.type != 'image/svg'
-      ) {
-        setErrorAvatar('Type file is not support!');
+      if (avatarFile?.type != 'image/jpeg') {
+        setErrorAvatar('Type file is not supported!');
       } else if (avatarFile?.size > 1000000) {
         setErrorAvatar('Size file must be less than 1 MB!');
       } else {
@@ -230,7 +227,11 @@ export default function Form({ user, skills }) {
         <div className="space-y-2">
           <label className="font-medium">Avatar</label>
           <Image
-            src={avatar ? avatar : `/images/avatars/${user?.avatar}`}
+            src={
+              avatar
+                ? avatar
+                : `https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`
+            }
             width={50}
             height={50}
             alt={user?.name}
@@ -246,7 +247,7 @@ export default function Form({ user, skills }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Format file must be jpeg/svg/webp/png, and max size 1 MB
+            Format file must be jpg, and max size 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>

@@ -90,8 +90,8 @@ export default function Content({ softwareDevelopersData }) {
                   <Image
                     width={50}
                     height={50}
-                    src={`/images/avatars/${softwareDeveloper?.user?.avatar}`}
-                    alt={softwareDeveloper?.user?.name}
+                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${softwareDeveloper?.user?.avatar}`}
+                    alt="avatar"
                     priority
                     className="rounded-full w-24 h-24 object-cover"
                   />
@@ -112,7 +112,7 @@ export default function Content({ softwareDevelopersData }) {
                     </p>
                   )}
                   <Image
-                    src={`/images/badges/${softwareDeveloper?.badge?.image}`}
+                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${softwareDeveloper?.badge?.image}`}
                     alt={softwareDeveloper?.badge?.name}
                     width={150}
                     height={150}
