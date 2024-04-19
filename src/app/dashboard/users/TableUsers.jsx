@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Pagination from './Pagination';
 import { useSearchParams } from 'next/navigation';
+import { getUsers } from '@/lib/actions/userAction/index.js';
 
-export default function TableUsers({ users }) {
+export default function TableUsers() {
   const searchParams = useSearchParams();
   const pageUrl = searchParams.get('page');
+  const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(Number(pageUrl) ? Number(pageUrl) : 1);
   const [totalData, setTotalData] = useState(0);
@@ -21,6 +23,21 @@ export default function TableUsers({ users }) {
     // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
     setPageLoaded(true);
   }, []);
+
+  useEffect(() => {
+    const getUsersFunction = async () => {
+      try {
+        const res = await getUsers();
+        if (res.success) {
+          setUsers(res.data);
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUsersFunction();
+  }, [pageUrl]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);

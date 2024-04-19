@@ -1,6 +1,5 @@
-import { getUsers } from '@/lib/actions/userAction/index.js';
-import TableUsers from './TableUsers';
 import { Suspense } from 'react';
+import TableUsers from './TableUsers';
 
 export const metadata = {
   metadataBase: new URL(
@@ -24,13 +23,10 @@ export const metadata = {
 };
 
 export default async function UsersDashboardPages() {
-  const res = await getUsers();
-  const users = res.data;
-
   return (
     <div className="flex-1 min-h-screen bg-mainColor">
       <Suspense fallback={<div>Loading...</div>}>
-        <TableUsers users={users} />
+        <TableUsers />
       </Suspense>
     </div>
   );
