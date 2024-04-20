@@ -170,9 +170,8 @@ export default function FormCreate({ roles }) {
     setPassword('');
     setConfirmPassword('');
     setRole('');
+    router.back();
     setIsLoading(false);
-    router.push('/dashboard/users');
-    router.refresh();
   };
 
   return (
@@ -283,12 +282,21 @@ export default function FormCreate({ roles }) {
             <span className="text-red-500 text-sm italic">{errorRole}</span>
           )}
         </div>
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
+        <div className="flex flex-col tablet:flex-row justify-start gap-3">
+          <button
+            disabled={isLoading}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        </div>
       </form>
     </div>
   );

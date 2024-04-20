@@ -2,10 +2,11 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Pagination from './Pagination';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getUsers } from '@/lib/actions/userAction/index.js';
 
 export default function TableUsers() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pageUrl = searchParams.get('page');
   const [users, setUsers] = useState([]);
@@ -17,12 +18,6 @@ export default function TableUsers() {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
   const [isPageLoaded, setPageLoaded] = useState(false);
-
-  useEffect(() => {
-    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
-    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
-    setPageLoaded(true);
-  }, []);
 
   useEffect(() => {
     const getUsersFunction = async () => {
@@ -37,7 +32,10 @@ export default function TableUsers() {
       }
     };
     getUsersFunction();
-  }, [pageUrl]);
+    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
+    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
+    setPageLoaded(true);
+  }, [users]);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
@@ -118,6 +116,7 @@ export default function TableUsers() {
           </Link>
         )}
       </div>
+
       <div className="px-3 overflow-auto w-full h-min-screen ">
         <table className="table-auto w-full overflow-x-auto">
           <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
@@ -129,7 +128,18 @@ export default function TableUsers() {
               <th className="py-3 text-center">Action</th>
             </tr>
           </thead>
+
           <tbody>
+            {currentData?.length == 0 && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Not any users at this time
+                </td>
+              </tr>
+            )}
             {currentData?.map((user, index) => (
               <tr
                 className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"

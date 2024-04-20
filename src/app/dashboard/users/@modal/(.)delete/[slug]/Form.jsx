@@ -20,8 +20,8 @@ export default function Form({ slug }) {
       setIsLoading(false);
       return;
     }
-    router.push('/dashboard/users');
-    router.refresh();
+    router.back();
+    setIsLoading(false);
   };
   return (
     <div className=" w-full h-full">
@@ -40,20 +40,20 @@ export default function Form({ slug }) {
       <h3 className="font-bold text-sm text-center my-3">
         Are you sure, you want to delete this data ?
       </h3>
-      <div className="flex gap-5 justify-center tablet:justify-end items-center">
+      <div className="flex flex-col tablet:flex-row justify-start gap-3">
         <button
           disabled={isLoading}
-          className="px-2 py-1 bg-blue-600 text-white rounded"
           onClick={handleDelete}
+          className="w-fit bg-blue-500 text-white p-2 rounded"
         >
-          Yes
+          {isLoading ? 'Loading...' : 'Submit'}
         </button>
         <button
           disabled={isLoading}
-          className="px-2 py-1 bg-red-600 text-white rounded"
           onClick={() => router.back()}
+          className="w-fit bg-red-500 text-white p-2 rounded"
         >
-          No
+          {isLoading ? 'Loading...' : 'Cancel'}
         </button>
       </div>
     </div>
