@@ -20,8 +20,11 @@ export default function Form({ slug }) {
       setIsLoading(false);
       return;
     }
-    router.back();
     setIsLoading(false);
+    router.push('/dashboard/users');
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
   return (
     <div className=" w-full h-full">

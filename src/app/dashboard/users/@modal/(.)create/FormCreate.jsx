@@ -170,8 +170,11 @@ export default function FormCreate({ roles }) {
     setPassword('');
     setConfirmPassword('');
     setRole('');
-    router.back();
     setIsLoading(false);
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
 
   return (
@@ -188,7 +191,7 @@ export default function FormCreate({ roles }) {
           </button>
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form className="space-y-3">
         <div>
           <label className="font-medium">Name User</label>
           <input
@@ -282,22 +285,23 @@ export default function FormCreate({ roles }) {
             <span className="text-red-500 text-sm italic">{errorRole}</span>
           )}
         </div>
-        <div className="flex flex-col tablet:flex-row justify-start gap-3">
-          <button
-            disabled={isLoading}
-            className="w-fit bg-blue-500 text-white p-2 rounded"
-          >
-            {isLoading ? 'Loading...' : 'Submit'}
-          </button>
-          <button
-            disabled={isLoading}
-            onClick={() => router.back()}
-            className="w-fit bg-red-500 text-white p-2 rounded"
-          >
-            {isLoading ? 'Loading...' : 'Cancel'}
-          </button>
-        </div>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        <button
+          disabled={isLoading}
+          onClick={handleSubmit}
+          className="w-fit bg-blue-500 text-white p-2 rounded"
+        >
+          {isLoading ? 'Loading...' : 'Submit'}
+        </button>
+        <button
+          disabled={isLoading}
+          onClick={() => router.back()}
+          className="w-fit bg-red-500 text-white p-2 rounded"
+        >
+          {isLoading ? 'Loading...' : 'Cancel'}
+        </button>
+      </div>
     </div>
   );
 }

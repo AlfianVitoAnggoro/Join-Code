@@ -2,11 +2,10 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Pagination from './Pagination';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { getUsers } from '@/lib/actions/userAction/index.js';
 
 export default function TableUsers() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const pageUrl = searchParams.get('page');
   const [users, setUsers] = useState([]);
@@ -17,25 +16,20 @@ export default function TableUsers() {
   const [currentData, setCurrentData] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
-  const [isPageLoaded, setPageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
     const getUsersFunction = async () => {
-      try {
-        const res = await getUsers();
-        if (res.success) {
-          setUsers(res.data);
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      const res = await getUsers();
+      const data = res.data || []; // Handle response data appropriately
+      setUsers(data);
     };
+
     getUsersFunction();
     // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
     // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
-    setPageLoaded(true);
-  }, [users]);
+    setIsPageLoaded(true);
+  }, []);
 
   const handleSearch = e => {
     setSearchTerm(e.target.value);
