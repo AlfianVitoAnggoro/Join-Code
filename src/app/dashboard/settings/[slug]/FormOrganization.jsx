@@ -263,7 +263,7 @@ export default function FormOrganization({ users, user }) {
     setIsSuccess(true);
     setMessage('Success, Account has been updated');
     setIsLoading(false);
-    router.refresh();
+    window.location.reload();
   };
 
   return (

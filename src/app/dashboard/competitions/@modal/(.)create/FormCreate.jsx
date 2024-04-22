@@ -4,11 +4,19 @@ import { useEffect, useState } from 'react';
 import { createCompetition } from '@/lib/actions/competitionAction';
 import { useSession } from 'next-auth/react';
 import { getDetailOrganization } from '@/lib/actions/organizationAction';
+import { getCategories } from '@/lib/actions/categoryAction';
+import { getTypes } from '@/lib/actions/typeAction';
+import { getOrganizations } from '@/lib/actions/organizationAction';
 
-export default function FormCreate({ categories, types, organizations }) {
+export default function FormCreate() {
   const { data: session, status } = useSession();
   const currentDate = new Date().toISOString().split('T')[0];
   const router = useRouter('');
+
+  const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+
   const [name, setName] = useState('');
   const [place, setPlace] = useState('');
   const [description, setDescription] = useState('');
@@ -46,6 +54,54 @@ export default function FormCreate({ categories, types, organizations }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState();
   const [message, setMessage] = useState('');
+
+  const getCategoriesData = async () => {
+    try {
+      const res = await getCategories();
+      if (res.success) {
+        const categories = res.data;
+        setCategories(categories);
+      } else {
+        setCategories([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTypesData = async () => {
+    try {
+      const res = await getTypes();
+      if (res.success) {
+        const types = res.data;
+        setTypes(types);
+      } else {
+        setTypes([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getOrganizationsData = async () => {
+    try {
+      const res = await getOrganizations();
+      if (res.success) {
+        const organizations = res.data;
+        setOrganizations(organizations);
+      } else {
+        setOrganizations([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategoriesData();
+    getTypesData();
+    getOrganizationsData();
+  }, []);
 
   useEffect(() => {
     const getOrganization = async () => {
@@ -250,8 +306,10 @@ export default function FormCreate({ categories, types, organizations }) {
     setIsSuccess(true);
     setMessage('Success, Competition have been created');
     setIsLoading(false);
-    router.push('/dashboard/competitions');
-    router.refresh();
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
   return (
     <div className="p-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
@@ -522,14 +580,28 @@ export default function FormCreate({ categories, types, organizations }) {
             </div>
           </div>
         </div>
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={handleSubmit}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

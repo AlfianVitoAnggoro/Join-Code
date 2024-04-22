@@ -1,4 +1,3 @@
-import { getDetailCompetition } from '@/lib/actions/competitionAction';
 import Form from './Form';
 
 export const metadata = {
@@ -23,15 +22,12 @@ export const metadata = {
 };
 
 export default async function DetailCompetitionPage({ params }) {
-  const response = await getDetailCompetition(params.id);
-  const competition = response.data;
-
   return (
     <div className="flex-1 bg-mainColor px-3 mb-5">
       <div className="pt-3 mb-3">
         <h2 className="text-2xl font-medium">Detail Competition</h2>
       </div>
-      <Form competition={competition} id={params.id} />
+      <Form id={params.id} />
     </div>
   );
 }

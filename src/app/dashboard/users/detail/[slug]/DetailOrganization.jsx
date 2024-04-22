@@ -7,7 +7,7 @@ export default async function DetailOrganization(props) {
     <div className="grid grid-cols-5 gap-2">
       <div className="col-span-5 tablet:col-span-1">
         <Image
-          src={`/images/avatars/${user.avatar}`}
+          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`}
           width={50}
           height={50}
           alt="image-user"

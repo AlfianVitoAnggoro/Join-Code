@@ -20,8 +20,10 @@ export default function Form({ slug }) {
       setIsLoading(false);
       return;
     }
+    setSuccess(true);
+    setMessage('Success, User has been deleted');
     setIsLoading(false);
-    router.push('/dashboard/users');
+    router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
@@ -44,20 +46,25 @@ export default function Form({ slug }) {
         Are you sure, you want to delete this data ?
       </h3>
       <div className="flex flex-col tablet:flex-row justify-start gap-3">
-        <button
-          disabled={isLoading}
-          onClick={handleDelete}
-          className="w-fit bg-blue-500 text-white p-2 rounded"
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
-        <button
-          disabled={isLoading}
-          onClick={() => router.back()}
-          className="w-fit bg-red-500 text-white p-2 rounded"
-        >
-          {isLoading ? 'Loading...' : 'Cancel'}
-        </button>
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleDelete}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
       </div>
     </div>
   );

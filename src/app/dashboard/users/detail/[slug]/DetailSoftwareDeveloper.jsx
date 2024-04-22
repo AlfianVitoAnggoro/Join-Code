@@ -7,7 +7,7 @@ export default async function DetailsoftwareDevelopers(props) {
     <div className="grid grid-cols-5 gap-2">
       <div className="col-span-5 tablet:col-span-1">
         <Image
-          src={`/images/avatars/${user.avatar}`}
+          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`}
           width={50}
           height={50}
           alt="image-user"
@@ -115,7 +115,7 @@ export default async function DetailsoftwareDevelopers(props) {
           <h3 className="text-lg font-medium">Badge :</h3>
           {user?.softwareDevelopers?.badge?.image ? (
             <Image
-              src={`/images/badges/${user?.softwareDevelopers?.badge?.image}`}
+              src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${user?.softwareDevelopers?.badge?.image}`}
               width={100}
               height={100}
               alt="image-badge"

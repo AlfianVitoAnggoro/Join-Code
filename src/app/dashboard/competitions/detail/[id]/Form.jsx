@@ -9,9 +9,14 @@ import {
   acceptTeamCompetition,
   // updateStatusTeamCompetition,
 } from '@/lib/actions/teamCompetitionAction';
-export default function Form({ competition, id }) {
+import { getDetailCompetition } from '@/lib/actions/competitionAction';
+
+export default function Form({ id }) {
   moment.locale('id');
   const { data: session, status } = useSession();
+
+  const [competition, setCompetition] = useState();
+
   const [acceptedMaxTeam, setAcceptedMaxTeam] = useState(false);
   const [
     statusUpdateButtonByCompetitionDate,
@@ -24,6 +29,20 @@ export default function Form({ competition, id }) {
 
   const [isPageLoaded, setPageLoaded] = useState(false);
   useEffect(() => {
+    const getCompetitionData = async () => {
+      try {
+        const res = await getDetailCompetition(id);
+        if (res?.success) {
+          const competition = res?.data;
+          setCompetition(competition);
+        } else {
+          setCompetition({});
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCompetitionData();
     // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
     // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
     setPageLoaded(true);
@@ -43,17 +62,17 @@ export default function Form({ competition, id }) {
   }, [session, status, competition?.organization?.user?.nickname, router]);
 
   useEffect(() => {
-    const checkAcceptedMaxTeam = competition.teams.filter(team => {
-      return team.isAccepted == true;
+    const checkAcceptedMaxTeam = competition?.teams?.filter(team => {
+      return team?.isAccepted == true;
     });
-    if (Number(checkAcceptedMaxTeam.length) == Number(competition.maxTeam)) {
+    if (Number(checkAcceptedMaxTeam?.length) == Number(competition?.maxTeam)) {
       setAcceptedMaxTeam(true);
     }
 
-    if (competition.startDate && competition.endDate) {
+    if (competition?.startDate && competition?.endDate) {
       const currentDate = new Date();
-      const startDate = new Date(competition.startDate);
-      const endDate = new Date(competition.endDate);
+      const startDate = new Date(competition?.startDate);
+      const endDate = new Date(competition?.endDate);
 
       const isActiveCompetition =
         currentDate >= startDate && currentDate <= endDate;
@@ -74,7 +93,10 @@ export default function Form({ competition, id }) {
     setSuccess(true);
     setMessage('Succes, Team has been accepted');
     setIsLoading(false);
-    router.refresh();
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
 
   // const handleUpdateStatusTeamCompetition = async teamId => {
@@ -255,8 +277,8 @@ export default function Form({ competition, id }) {
             </tr>
           </thead>
           <tbody>
-            {competition?.teams.length > 0 ? (
-              competition?.teams.map((team, index) => (
+            {competition?.teams?.length > 0 ? (
+              competition?.teams?.map((team, index) => (
                 <tr
                   className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
                   key={index}

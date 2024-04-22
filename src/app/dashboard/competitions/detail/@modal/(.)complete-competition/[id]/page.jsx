@@ -3,7 +3,6 @@ const Modal = dynamic(() =>
   import('../../../../../../../components/core/Modal'),
 );
 import FormSubmit from './FormSubmit';
-import { getTeamCompetitionByFilter } from '@/lib/actions/teamCompetitionAction';
 
 export const metadata = {
   metadataBase: new URL(
@@ -26,19 +25,14 @@ export const metadata = {
   },
 };
 
-export default async function CompleteCompetitionPage(props) {
-  const { params } = props;
-  const responseTeamCompetitionByFilter = await getTeamCompetitionByFilter(
-    params.id,
-  );
-  const teamCompetitions = responseTeamCompetitionByFilter.data;
+export default async function CompleteCompetitionPage({ params }) {
   return (
     <Modal>
       <div className="flex-1 px-3 bg-white rounded-lg">
         <div className="pt-3 mb-3">
           <h2 className="text-2xl font-medium">Complete The Competition</h2>
         </div>
-        <FormSubmit teamCompetitions={teamCompetitions} id={params.id} />
+        <FormSubmit id={params.id} />
       </div>
     </Modal>
   );

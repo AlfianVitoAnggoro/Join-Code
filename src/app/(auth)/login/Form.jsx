@@ -35,13 +35,17 @@ export default function Form() {
         ) {
           e.target.reset();
           router.push('/');
-          router.refresh();
+          setTimeout(() => {
+            window.location.reload();
+          }, [1000]);
           setIsLoading(false);
           return;
         }
         e.target.reset();
         router.push(callbackUrl);
-        router.refresh();
+        setTimeout(() => {
+          window.location.reload();
+        }, [1000]);
         setIsLoading(false);
         return;
       } else {

@@ -21,7 +21,7 @@ export default function TableUsers() {
   useEffect(() => {
     const getUsersFunction = async () => {
       const res = await getUsers();
-      const data = res.data || []; // Handle response data appropriately
+      const data = res?.data || []; // Handle response data appropriately
       setUsers(data);
     };
 

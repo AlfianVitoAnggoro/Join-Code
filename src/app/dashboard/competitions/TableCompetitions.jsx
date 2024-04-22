@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import Pagination from './Pagination';
 import { useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { getCompetition } from '@/lib/actions/competitionAction/index.js';
 
-export default function TableCompetitions({ competitionsData }) {
+export default function TableCompetitions() {
   const { data: session, status } = useSession();
+  const [competitionsData, setCompetitionsData] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const searchParams = useSearchParams();
   const pageUrl = searchParams.get('page');
@@ -17,12 +19,23 @@ export default function TableCompetitions({ competitionsData }) {
   const [currentData, setCurrentData] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
-  const [isPageLoaded, setPageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
+    const getCompetitionsFunction = async () => {
+      const res = await getCompetition();
+      if (res.success) {
+        const data = res?.data || []; // Handle response data appropriately
+        setCompetitionsData(data);
+      } else {
+        setCompetitionsData([]);
+      }
+    };
+
+    getCompetitionsFunction();
     // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
     // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
-    setPageLoaded(true);
+    setIsPageLoaded(true);
   }, []);
 
   useEffect(() => {
@@ -133,6 +146,16 @@ export default function TableCompetitions({ competitionsData }) {
             </tr>
           </thead>
           <tbody>
+            {currentData?.length == 0 && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Not any competitions at this time
+                </td>
+              </tr>
+            )}
             {currentData?.map((competition, index) => (
               <tr
                 className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"

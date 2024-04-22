@@ -131,8 +131,10 @@ export default function FormUpdate({ badge }) {
     setSuccess(true);
     setMessage('Success, Badge has been updated');
     setIsLoading(false);
-    router.push(`/dashboard/badges`);
-    router.refresh();
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
 
   return (
@@ -149,7 +151,7 @@ export default function FormUpdate({ badge }) {
           </button>
         </div>
       )}
-      <form action="" className="space-y-3">
+      <form className="space-y-3">
         <div className="space-y-2">
           <label className="font-medium">Image</label>
           <Image
@@ -208,14 +210,28 @@ export default function FormUpdate({ badge }) {
             onChange={e => setPoint(e.target.value)}
           />
         </div>
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={handleSubmit}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

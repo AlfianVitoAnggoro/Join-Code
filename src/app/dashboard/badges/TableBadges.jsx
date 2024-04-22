@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import Pagination from './Pagination';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { getBadge } from '@/lib/actions/badgeAction';
 
-export default function TableBadges({ badges }) {
+export default function TableBadges() {
   const searchParams = useSearchParams();
   const pageUrl = searchParams.get('page');
+  const [badges, setBadges] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(Number(pageUrl) ? Number(pageUrl) : 1);
   const [totalData, setTotalData] = useState(0);
@@ -15,12 +17,19 @@ export default function TableBadges({ badges }) {
   const [currentData, setCurrentData] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
-  const [isPageLoaded, setPageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
+    const getBadgesFunction = async () => {
+      const res = await getBadge();
+      const data = res?.data || []; // Handle response data appropriately
+      setBadges(data);
+    };
+
+    getBadgesFunction();
     // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
     // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
-    setPageLoaded(true);
+    setIsPageLoaded(true);
   }, []);
 
   const handleSearch = e => {
@@ -112,6 +121,16 @@ export default function TableBadges({ badges }) {
             </tr>
           </thead>
           <tbody>
+            {currentData?.length == 0 && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Not any users at this time
+                </td>
+              </tr>
+            )}
             {currentData?.map((badge, index) => (
               <tr
                 className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"

@@ -1,4 +1,3 @@
-import { getBadge } from '@/lib/actions/badgeAction';
 import TableBadges from './TableBadges';
 import { Suspense } from 'react';
 
@@ -24,13 +23,10 @@ export const metadata = {
 };
 
 export default async function BadgesDashboardPages() {
-  const badgesData = await getBadge();
-  const badges = badgesData.data;
-
   return (
     <div className="flex-1 min-h-screen bg-mainColor">
       <Suspense fallback={<div>Loading...</div>}>
-        <TableBadges badges={badges} />
+        <TableBadges />
       </Suspense>
     </div>
   );

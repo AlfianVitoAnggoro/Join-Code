@@ -1,4 +1,3 @@
-import { getCompetition } from '@/lib/actions/competitionAction/index.js';
 import TableCompetitions from './TableCompetitions';
 import { Suspense } from 'react';
 
@@ -23,13 +22,10 @@ export const metadata = {
   },
 };
 export default async function CompetitionsDashboardPages() {
-  const competitionsData = await getCompetition();
-  const competitions = competitionsData.data;
-
   return (
     <div className="flex-1 min-h-screen bg-mainColor">
       <Suspense fallback={<div>Loading...</div>}>
-        <TableCompetitions competitionsData={competitions} />
+        <TableCompetitions />
       </Suspense>
     </div>
   );
