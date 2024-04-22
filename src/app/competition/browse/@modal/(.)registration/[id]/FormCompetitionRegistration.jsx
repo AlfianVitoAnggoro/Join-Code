@@ -52,7 +52,7 @@ export default function FormCompetitionRegistration({
     setMembers(updatedMembers);
     const name = user?.name.indexOf(' ');
     const firstName = user?.name.substring(0, name);
-    setName(firstName + ' ' + 'Team');
+    setName(firstName || '' + ' ' + 'Team');
   }, [user]);
 
   const handleMemberChange = (index, value) => {
@@ -213,9 +213,11 @@ export default function FormCompetitionRegistration({
 
     setIsSuccess(true);
     setMessage('Success, Your team has been registered');
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
     setIsLoading(false);
-    router.push(`/competition/browse/${competitionId}`);
-    router.refresh();
   };
 
   return (
@@ -318,14 +320,28 @@ export default function FormCompetitionRegistration({
             </div>
           </div>
         )}
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={handleSubmit}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

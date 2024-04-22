@@ -139,7 +139,7 @@ export default function TableCompetitions() {
         <table className="table-auto w-full overflow-x-auto">
           <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
             <tr>
-              <th className="py-3">NO</th>
+              <th className="py-3 text-center">NO</th>
               <th className="py-3">Name</th>
               <th className="py-3">Organization</th>
               <th className="py-3 text-center">Action</th>
@@ -161,7 +161,7 @@ export default function TableCompetitions() {
                 className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
                 key={index}
               >
-                <td className="py-2 whitespace-nowrap">
+                <td className="py-2 whitespace-nowrap text-center">
                   {startIndex + index + 1}
                 </td>
                 <td className="py-2 whitespace-nowrap text-wrap">
@@ -177,13 +177,15 @@ export default function TableCompetitions() {
                   >
                     Detail
                   </Link>
-                  <Link
-                    href={`/dashboard/competitions/update/${competition.competitionId}`}
-                    className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
-                  >
-                    Update
-                  </Link>
-                  {isPageLoaded && (
+                  {!competition?.isCompleted && (
+                    <Link
+                      href={`/dashboard/competitions/update/${competition.competitionId}`}
+                      className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
+                    >
+                      Update
+                    </Link>
+                  )}
+                  {isPageLoaded && !competition?.isCompleted && (
                     <Link
                       href={`/dashboard/competitions/delete/${competition.competitionId}`}
                       scroll={false}

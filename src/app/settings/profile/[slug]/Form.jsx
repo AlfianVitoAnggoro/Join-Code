@@ -186,7 +186,7 @@ export default function Form({ user, skills }) {
     }
 
     const res = await updateSoftwareDeveloper(session?.user?.userId, data);
-    console.log(res);
+
     if (res?.success) {
       // update session
       const dataUpdateSession = {

@@ -13,17 +13,17 @@ export default function Form({ id }) {
     const res = await deleteCompetition(id);
     if (!res.success) {
       setSuccess(false);
-      setMessage('Failed, Competition cannot be deleted');
+      setMessage(res.message);
       setIsLoading(false);
       return;
     }
     setSuccess(true);
     setMessage('Success, Competition has been deleted');
-    setIsLoading(false);
     router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
+    setIsLoading(false);
   };
   return (
     <div className=" w-full h-full">

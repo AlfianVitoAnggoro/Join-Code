@@ -154,22 +154,23 @@ export default function FormSubmit({ id }) {
           <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
             {isLoading && <p className="italic text-neutral-500">Loading...</p>}
             {!isLoading && (
-              <button
-                disabled={isLoading}
-                className="w-full bg-blue-500 text-white py-2 rounded"
-                onClick={e => handleSubmit(e)}
-              >
-                {isLoading ? 'Loading...' : 'Submit'}
-              </button>
-            )}
-            {!isLoading && (
-              <button
-                disabled={isLoading}
-                onClick={() => router.back()}
-                className="w-fit bg-red-500 text-white p-2 rounded"
-              >
-                {isLoading ? 'Loading...' : 'Cancel'}
-              </button>
+              <>
+                <button
+                  disabled={isLoading}
+                  className="w-fit bg-blue-500 text-white p-2 rounded"
+                  onClick={e => handleSubmit(e)}
+                >
+                  {isLoading ? 'Loading...' : 'Submit'}
+                </button>
+
+                <button
+                  disabled={isLoading}
+                  onClick={() => router.back()}
+                  className="w-fit bg-red-500 text-white p-2 rounded"
+                >
+                  {isLoading ? 'Loading...' : 'Cancel'}
+                </button>
+              </>
             )}
           </div>
         </>

@@ -3,8 +3,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { getCompetitionByRegistrationDate } from '@/lib/actions/competitionAction';
 
-export default function Content({ competitionsData }) {
+export default function Content() {
   const disableLayout = ['/competition/browse'];
   disableLayout.push(...['/competition/browse.*']);
   const regexRoutes = disableLayout.map(route => new RegExp(`^${route}$`));
@@ -23,8 +24,24 @@ export default function Content({ competitionsData }) {
   const pathname = usePathname();
 
   // Search
+  const [competitionsData, setCompetitionsData] = useState([]);
   const [competitions, setCompetitions] = useState(competitionsData);
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const getCompetitionsData = async () => {
+      const nowDate = new Date();
+      const res = await getCompetitionByRegistrationDate(nowDate);
+      if (res.success) {
+        const data = res.data;
+        setCompetitionsData(data);
+      } else {
+        setCompetitionsData([]);
+      }
+    };
+
+    getCompetitionsData();
+  }, []);
 
   useEffect(() => {
     if (search == '') {

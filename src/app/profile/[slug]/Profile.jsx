@@ -68,7 +68,7 @@ export default function Profile({ user }) {
 
               <div className="flex justify-start items-center gap-3 mt-2">
                 <Image
-                  src={`/images/badges/${user?.softwareDevelopers?.badge?.image}`}
+                  src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${user?.softwareDevelopers?.badge?.image}`}
                   alt={user?.softwareDevelopers?.badge?.name}
                   width={200}
                   height={200}

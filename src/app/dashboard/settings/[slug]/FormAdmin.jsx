@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { updateAdmin } from '@/lib/actions/adminAction';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function FormAdmin({ users, user }) {
+  const { update } = useSession();
   const [avatar, setAvatar] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [name, setName] = useState(user?.name || '');
@@ -150,10 +152,20 @@ export default function FormAdmin({ users, user }) {
       setIsLoading(false);
       return;
     }
+
+    const dataUpdateSession = {
+      name: name,
+    };
+
+    if (data.avatar != undefined) {
+      dataUpdateSession.avatar = data.avatar;
+    }
+
+    update(dataUpdateSession);
     setIsSuccess(true);
     setMessage('Success, Account has been updated');
     setIsLoading(false);
-    window.location.reload();
+    router.refresh();
   };
 
   return (

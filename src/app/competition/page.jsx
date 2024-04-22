@@ -1,4 +1,3 @@
-import { getCompetitionByRegistrationDate } from '@/lib/actions/competitionAction';
 import Content from './Content';
 
 export const metadata = {
@@ -23,13 +22,9 @@ export const metadata = {
 };
 
 export default async function CompetitionPage() {
-  const nowDate = new Date();
-  const responseCompetition = await getCompetitionByRegistrationDate(nowDate);
-  const competitions = responseCompetition.data;
-
   return (
     <>
-      <Content competitionsData={competitions} />
+      <Content />
     </>
   );
 }

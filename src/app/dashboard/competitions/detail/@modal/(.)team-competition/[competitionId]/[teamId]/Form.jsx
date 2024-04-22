@@ -2,6 +2,7 @@
 import { getDetailTeamCompetition } from '@/lib/actions/teamCompetitionAction';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Form({ competitionId, teamId }) {
   const router = useRouter();
@@ -39,9 +40,13 @@ export default function Form({ competitionId, teamId }) {
           <div className="flex flex-col">
             <h3 className="text-lg font-medium text-wrap">Link Project :</h3>
             {teamCompetition?.projectLink ? (
-              <p className="text-base font-normal">
+              <Link
+                href={teamCompetition?.projectLink}
+                target="_blank"
+                className="text-base font-normal text-blue-500"
+              >
                 {teamCompetition?.projectLink}
-              </p>
+              </Link>
             ) : (
               <p className="text-base font-normal text-neutral-500">
                 belum tersedia
@@ -53,9 +58,13 @@ export default function Form({ competitionId, teamId }) {
               Link Repository :
             </h3>
             {teamCompetition?.repositoryLink ? (
-              <p className="text-base font-normal">
+              <Link
+                href={teamCompetition?.repositoryLink}
+                target="_blank"
+                className="text-base font-normal text-blue-500"
+              >
                 {teamCompetition?.repositoryLink}
-              </p>
+              </Link>
             ) : (
               <p className="text-base font-normal text-neutral-500">
                 belum tersedia
@@ -65,13 +74,13 @@ export default function Form({ competitionId, teamId }) {
           <div className="flex flex-col">
             <h3 className="text-lg font-medium">Bukti Pembayaran :</h3>
             {teamCompetition?.proofOfPayment ? (
-              <a
+              <Link
                 href={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/proofOfPayments/public/${teamCompetition?.proofOfPayment}`}
                 className="text-base font-normal text-blue-500"
                 target="_blank"
               >
                 File Bukti Pembayaran
-              </a>
+              </Link>
             ) : (
               <p className="text-base font-normal text-neutral-500">
                 belum tersedia

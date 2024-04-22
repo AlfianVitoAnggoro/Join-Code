@@ -106,7 +106,7 @@ export default function UpdateOrganization({ users, user }) {
     setIsSuccess(true);
     setMessage('Success, Account has been updated');
     setIsLoading(false);
-    window.location.reload();
+    router.refresh();
   };
 
   const handleUploadAvatar = async () => {

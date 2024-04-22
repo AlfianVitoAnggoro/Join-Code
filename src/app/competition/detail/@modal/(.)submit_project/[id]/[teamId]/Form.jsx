@@ -104,8 +104,11 @@ export default function Form({ competitionId, teamId }) {
     setIsSuccess(true);
     setMessage('Success, Project has been submitted');
     setIsLoading(false);
-    router.push(`/competition/detail/${competitionId}/${teamId}`);
-    router.refresh();
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
+    setIsLoading(false);
   };
 
   return (
@@ -155,15 +158,28 @@ export default function Form({ competitionId, teamId }) {
             </span>
           )}
         </div>
-
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={handleSubmit}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

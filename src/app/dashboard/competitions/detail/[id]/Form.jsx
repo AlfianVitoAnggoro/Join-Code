@@ -52,10 +52,13 @@ export default function Form({ id }) {
   useEffect(() => {
     if (session && status === 'authenticated') {
       if (session?.user?.role === 'Organization') {
-        if (
-          session?.user?.nickname !== competition?.organization?.user?.nickname
-        ) {
-          router.back();
+        if (competition) {
+          if (
+            session?.user?.nickname !==
+            competition?.organization?.user?.nickname
+          ) {
+            router.back();
+          }
         }
       }
     }
@@ -93,7 +96,6 @@ export default function Form({ id }) {
     setSuccess(true);
     setMessage('Succes, Team has been accepted');
     setIsLoading(false);
-    router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
@@ -290,10 +292,30 @@ export default function Form({ id }) {
                     {team?.team?.name ? team?.team?.name : ''}
                   </td>
                   <td className="py-2 text-center whitespace-nowrap">
-                    {team?.projectLink ? team?.projectLink : ''}
+                    {team?.projectLink ? (
+                      <Link
+                        href={team?.projectLink}
+                        target="_blank"
+                        className="text-base font-normal text-blue-500"
+                      >
+                        {team?.projectLink}
+                      </Link>
+                    ) : (
+                      ''
+                    )}
                   </td>
                   <td className="py-2 text-center whitespace-nowrap">
-                    {team?.repositoryLink ? team?.repositoryLink : ''}
+                    {team?.repositoryLink ? (
+                      <Link
+                        href={team?.repositoryLink}
+                        target="_blank"
+                        className="text-base font-normal text-blue-500"
+                      >
+                        {team?.repositoryLink}
+                      </Link>
+                    ) : (
+                      ''
+                    )}
                   </td>
                   <td className="py-2 text-center whitespace-nowrap">
                     {team?.ranking ? team?.ranking : ''}

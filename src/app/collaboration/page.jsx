@@ -1,4 +1,3 @@
-import { getSoftwareDevelopers } from '@/lib/actions/softwareDeveloperAction';
 import Content from './Content';
 
 export const metadata = {
@@ -23,13 +22,10 @@ export const metadata = {
 };
 
 export default async function CollaborationPages() {
-  const responseSoftwareDevelopers = await getSoftwareDevelopers();
-  const softwareDevelopers = responseSoftwareDevelopers?.data;
-
   return (
     <div className="relative min-h-screen py-3 laptop:mt-20">
       <div className="max-w-[1024px] mx-auto px-10">
-        <Content softwareDevelopersData={softwareDevelopers} />
+        <Content />
       </div>
     </div>
   );

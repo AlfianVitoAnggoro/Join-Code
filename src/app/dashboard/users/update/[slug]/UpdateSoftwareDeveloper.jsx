@@ -216,7 +216,7 @@ export default function UpdateSoftwareDeveloper({ users, user, skills }) {
     setIsSuccess(true);
     setMessage('Success, Account has been updated');
     setIsLoading(false);
-    window.location.reload();
+    router.refresh();
   };
 
   return (

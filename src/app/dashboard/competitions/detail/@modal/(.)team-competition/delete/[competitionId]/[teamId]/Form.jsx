@@ -26,7 +26,7 @@ export default function Form({ competitionId, teamId }) {
     router.back();
     setTimeout(() => {
       window.location.reload();
-    });
+    }, [1000]);
   };
   return (
     <div className=" w-full h-full">

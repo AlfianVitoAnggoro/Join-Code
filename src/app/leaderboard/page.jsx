@@ -1,4 +1,3 @@
-import { getLeaderboardFilterByDate } from '@/lib/actions/leaderboardAction';
 import Table from './Table';
 
 export const metadata = {
@@ -23,13 +22,10 @@ export const metadata = {
 };
 
 export default async function LeaderboardPages() {
-  const nowDate = new Date();
-  const response = await getLeaderboardFilterByDate(nowDate);
-  const leaderboard = response.data;
   return (
     <div className="relative min-h-screen py-3 laptop:mt-20">
       <div className="max-w-[1024px] mx-auto px-10">
-        <Table leaderboard={leaderboard} />
+        <Table />
       </div>
     </div>
   );

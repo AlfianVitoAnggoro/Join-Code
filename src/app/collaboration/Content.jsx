@@ -2,12 +2,25 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { getSoftwareDevelopers } from '@/lib/actions/softwareDeveloperAction';
 
-export default function Content({ softwareDevelopersData }) {
-  const [softwareDevelopers, setSoftwareDevelopers] = useState(
-    softwareDevelopersData,
-  );
+export default function Content() {
+  const [softwareDevelopersData, setSoftwareDevelopersData] = useState([]);
+  const [softwareDevelopers, setSoftwareDevelopers] = useState([]);
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const getSoftwareDevelopersData = async () => {
+      const res = await getSoftwareDevelopers();
+      if (res?.success) {
+        const softwareDevelopers = res?.data;
+        setSoftwareDevelopersData(softwareDevelopers);
+      } else {
+        setSoftwareDevelopersData([]);
+      }
+    };
+    getSoftwareDevelopersData();
+  }, []);
 
   useEffect(() => {
     if (search == '') {

@@ -172,11 +172,11 @@ export default function FormCreate({ roles }) {
     setRole('');
     setSuccess(true);
     setMessage('Success, User has been created');
-    setIsLoading(false);
     router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
+    setIsLoading(false);
   };
 
   return (

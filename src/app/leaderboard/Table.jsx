@@ -2,10 +2,27 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { getLeaderboardFilterByDate } from '@/lib/actions/leaderboardAction';
 
-export default function Table({ leaderboard }) {
+export default function Table() {
   const { data: session, status } = useSession();
+  const [leaderboard, setLeaderboard] = useState({});
   const [userLoginLeaderboard, setUserLoginLeaderboard] = useState();
+
+  useEffect(() => {
+    const getLeaderboardData = async () => {
+      const nowDate = new Date();
+      const response = await getLeaderboardFilterByDate(nowDate);
+      if (response.success) {
+        const data = response.data;
+        setLeaderboard(data);
+      } else {
+        setLeaderboard({});
+      }
+    };
+
+    getLeaderboardData();
+  }, []);
 
   useEffect(() => {
     if (session && status === 'authenticated') {
@@ -19,7 +36,7 @@ export default function Table({ leaderboard }) {
       );
 
       // Temukan data pengguna berdasarkan softwareDeveloperId
-      const targetUserIndex = sortedLeaderboard.findIndex(
+      const targetUserIndex = sortedLeaderboard?.findIndex(
         softwareDeveloper =>
           softwareDeveloper?.softwareDeveloper?.user?.nickname ===
           session?.user?.nickname,
@@ -63,6 +80,16 @@ export default function Table({ leaderboard }) {
         <div className="overflow-y-auto min-h-max max-h-60">
           <table className="table-auto min-w-full rounded-lg">
             <tbody>
+              {leaderboard?.softwareDevelopers?.length == 0 && (
+                <tr className="even:bg-gray-100 odd:bg-gray-200 hover:bg-gray-300 transition-colors duration-200">
+                  <td
+                    colSpan={3}
+                    className="text-center text-neutral-500 italic py-2"
+                  >
+                    Not any Software Developers
+                  </td>
+                </tr>
+              )}
               {leaderboard?.softwareDevelopers?.map(
                 (softwareDeveloper, index) => (
                   <tr
@@ -108,41 +135,53 @@ export default function Table({ leaderboard }) {
         <div>
           <table className="table-auto min-w-full rounded-lg">
             <tfoot>
-              <tr className="bg-neutral-700 text-white hover:bg-neutral-800 font-bold text-left tracking-wider transition-colors duration-200">
-                <td className="px-2 tablet:px-6 py-4 whitespace-nowrap w-[15%]">
-                  {userLoginLeaderboard?.ranking}{' '}
-                </td>
-                <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
-                        userLoginLeaderboard?.softwareDeveloper?.user?.avatar ||
-                        'default-avatar.png'
-                      }`}
-                      width={50}
-                      height={50}
-                      alt="Avatar"
-                      className="rounded-full object-cover w-5 h-5 tablet:w-10 tablet:h-10"
-                      priority
-                    />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-sm tablet:text-base font-semibold text-wrap">
-                        {
-                          userLoginLeaderboard?.softwareDeveloper?.user?.name
-                            .trim()
-                            .split(' ')[0]
-                        }
-                      </p>
-                      <p className="text-xs tablet:text-sm text-neutral-400 text-wrap hidden tablet:block">
-                        {userLoginLeaderboard?.softwareDeveloper?.user?.email}
-                      </p>
+              {!userLoginLeaderboard && (
+                <tr className="bg-neutral-700 text-white hover:bg-neutral-800 font-bold text-left tracking-wider transition-colors duration-200">
+                  <td
+                    colSpan={3}
+                    className="text-center text-neutral-500 italic py-2"
+                  >
+                    User login not available
+                  </td>
+                </tr>
+              )}
+              {userLoginLeaderboard && leaderboard?.softwareDevelopers && (
+                <tr className="bg-neutral-700 text-white hover:bg-neutral-800 font-bold text-left tracking-wider transition-colors duration-200">
+                  <td className="px-2 tablet:px-6 py-4 whitespace-nowrap w-[15%]">
+                    {userLoginLeaderboard?.ranking}{' '}
+                  </td>
+                  <td className="px-5 tablet:px-6 py-4 whitespace-nowrap w-[65%]">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                          userLoginLeaderboard?.softwareDeveloper?.user
+                            ?.avatar || 'default-avatar.png'
+                        }`}
+                        width={50}
+                        height={50}
+                        alt="Avatar"
+                        className="rounded-full object-cover w-5 h-5 tablet:w-10 tablet:h-10"
+                        priority
+                      />
+                      <div className="flex flex-col gap-1">
+                        <p className="text-sm tablet:text-base font-semibold text-wrap">
+                          {
+                            userLoginLeaderboard?.softwareDeveloper?.user?.name
+                              .trim()
+                              .split(' ')[0]
+                          }
+                        </p>
+                        <p className="text-xs tablet:text-sm text-neutral-400 text-wrap hidden tablet:block">
+                          {userLoginLeaderboard?.softwareDeveloper?.user?.email}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td className="text-xs tablet:text-sm px-2 tablet:px-6 py-4 whitespace-nowrap w-[20%]">
-                  {userLoginLeaderboard?.point_leaderboard}
-                </td>
-              </tr>
+                  </td>
+                  <td className="text-xs tablet:text-sm px-2 tablet:px-6 py-4 whitespace-nowrap w-[20%]">
+                    {userLoginLeaderboard?.point_leaderboard}
+                  </td>
+                </tr>
+              )}
             </tfoot>
           </table>
         </div>

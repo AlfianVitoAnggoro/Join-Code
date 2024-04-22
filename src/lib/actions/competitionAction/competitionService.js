@@ -83,11 +83,19 @@ async function createCompetitionService(data) {
 }
 
 async function deleteCompetitionService(competitionId) {
-  const competition = await prisma.competition.delete({
+  const teamCompetition = await prisma.teamCompetition.deleteMany({
     where: {
       competitionId: Number(competitionId),
     },
   });
+
+  const competition = await prisma.competition.delete({
+    where: {
+      competitionId: Number(competitionId),
+      isCompleted: false,
+    },
+  });
+
   return competition;
 }
 

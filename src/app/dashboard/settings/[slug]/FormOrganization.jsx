@@ -3,7 +3,9 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { updateOrganization } from '@/lib/actions/organizationAction';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 export default function FormOrganization({ users, user }) {
+  const { update } = useSession();
   const [avatar, setAvatar] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [name, setName] = useState(user?.name || '');
@@ -260,10 +262,19 @@ export default function FormOrganization({ users, user }) {
       return;
     }
 
+    const dataUpdateSession = {
+      name: name,
+    };
+
+    if (data.avatar != undefined) {
+      dataUpdateSession.avatar = data.avatar;
+    }
+
+    update(dataUpdateSession);
     setIsSuccess(true);
     setMessage('Success, Account has been updated');
     setIsLoading(false);
-    window.location.reload();
+    router.refresh();
   };
 
   return (
