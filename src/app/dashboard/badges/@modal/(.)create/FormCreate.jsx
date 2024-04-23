@@ -158,7 +158,7 @@ export default function FormCreate() {
             onChange={handleImageChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Format file must be jpg, max size 1 MB
+            Format file must be jpg, png and jpeg, max size 1 MB
           </span>
           {errorImageFile && (
             <span className="text-red-500 text-sm italic">
