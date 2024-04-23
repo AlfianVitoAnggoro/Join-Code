@@ -149,7 +149,7 @@ export default function UpdateOrganization({ users, user }) {
 
   const handleFileChange = e => {
     const file = e.target.files[0];
-    if (file.type != 'image/jpeg') {
+    if (file.type != 'image/jpeg' && file.type != 'image/png') {
       setErrorAvatar('Type file avatar is not supported!');
     } else if (file.size > 1000000) {
       setErrorAvatar('Size file avatar less than 1 MB!');
@@ -198,7 +198,7 @@ export default function UpdateOrganization({ users, user }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Format file must be jpg, max size 1 MB
+            Format file must be jpg, png and jpeg, max size 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>

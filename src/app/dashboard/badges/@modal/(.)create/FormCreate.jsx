@@ -22,7 +22,7 @@ export default function FormCreate() {
 
   const handleImageChange = e => {
     const file = e.target.files[0];
-    if (file.type != 'image/jpeg') {
+    if (file.type != 'image/jpeg' && file.type != 'image/png') {
       setErrorImageFile('Type file avatar is not supported!');
     } else if (file.size > 1000000) {
       setErrorImageFile('Size file avatar must be less than 1 MB!');

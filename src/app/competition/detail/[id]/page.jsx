@@ -201,6 +201,7 @@ export default async function DetailCompetition({ params }) {
             {competition?.organization?.organizationLink ? (
               <Link
                 href={competition?.organization?.organizationLink}
+                target="_blank"
                 className="text-blue-700 text-sm text-wrap"
               >
                 {competition?.organization?.organizationLink}

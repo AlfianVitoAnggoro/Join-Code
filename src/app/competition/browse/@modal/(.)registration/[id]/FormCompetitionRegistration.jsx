@@ -87,7 +87,7 @@ export default function FormCompetitionRegistration({
 
   const handleProofOfPaymentChange = e => {
     const file = e.target.files[0];
-    if (file?.type != 'image/jpeg') {
+    if (file?.type != 'image/jpeg' && file?.type != 'image/png') {
       setErrorProofOfPaymentFile('Type file is not supported!');
     } else if (file?.size > 1000000) {
       setErrorProofOfPaymentFile('Size file must be less than 1 MB!');
@@ -310,7 +310,7 @@ export default function FormCompetitionRegistration({
                 onChange={handleProofOfPaymentChange}
               />
               <span className="text-neutral-500 text-sm block">
-                Format file must be jpg, max size 1 MB
+                Format file must be jpg,png and jpeg, max size 1 MB
               </span>
               {errorProofOfPaymentFile && (
                 <span className="text-red-500 text-sm italic">

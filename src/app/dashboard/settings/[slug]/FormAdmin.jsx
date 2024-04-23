@@ -92,8 +92,8 @@ export default function FormAdmin({ users, user }) {
 
   const handleFileChange = e => {
     const file = e.target.files[0];
-    if (file?.type != 'image/jpeg') {
-      setErrorAvatar('Type file avatar must be jpeg, png, webp, svg!');
+    if (file?.type != 'image/jpeg' && file?.type != 'image/png') {
+      setErrorAvatar('Type file avatar must be jpeg, jpg, png!');
     } else if (file?.size > 1000000) {
       setErrorAvatar('Size file avatar must be less than 1 MB!');
     } else {
@@ -206,7 +206,7 @@ export default function FormAdmin({ users, user }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Type File must be jpg, Max size file is 1 MB
+            Type File must be jpg, jpeg, png, Max size file is 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>

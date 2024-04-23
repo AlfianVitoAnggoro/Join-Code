@@ -17,7 +17,7 @@ export async function POST(request) {
     });
   }
 
-  const acceptedImageTypes = ['image/jpeg'];
+  const acceptedImageTypes = ['image/jpeg', 'image/png'];
 
   if (!acceptedImageTypes.includes(file.type)) {
     return new Response(

@@ -124,7 +124,7 @@ export default function Form({ user, skills }) {
   const handleFileChange = e => {
     const avatarFile = e.target.files[0];
     if (avatarFile) {
-      if (avatarFile?.type != 'image/jpeg') {
+      if (avatarFile?.type != 'image/jpeg' && avatarFile?.type != 'image/png') {
         setErrorAvatar('Type file is not supported!');
       } else if (avatarFile?.size > 1000000) {
         setErrorAvatar('Size file must be less than 1 MB!');
@@ -247,7 +247,7 @@ export default function Form({ user, skills }) {
             onChange={handleFileChange}
           />
           <span className="text-neutral-500 text-sm block">
-            Format file must be jpg, and max size 1 MB
+            Format file must be jpg, png and jpeg, max size 1 MB
           </span>
           {errorAvatar && (
             <span className="text-red-500 text-sm italic">{errorAvatar}</span>
