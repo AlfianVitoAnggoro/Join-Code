@@ -13,6 +13,7 @@
     "@auth/prisma-adapter": "^1.6.0",
     "@prisma/client": "^5.12.1",
     "@supabase/supabase-js": "^2.42.5",
+    "@vercel/speed-insights": "^1.0.10",
     "axios": "^1.6.8",
     "base64-arraybuffer": "^1.0.2",
     "bcrypt": "^5.1.1",
