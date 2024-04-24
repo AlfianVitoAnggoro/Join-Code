@@ -20,6 +20,8 @@ export default function TableCompetitions() {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [statusFetchData, setStatusFetchData] = useState(false);
 
   useEffect(() => {
     const getCompetitionsFunction = async () => {
@@ -27,9 +29,12 @@ export default function TableCompetitions() {
       if (res.success) {
         const data = res?.data || []; // Handle response data appropriately
         setCompetitionsData(data);
+        setStatusFetchData(true);
       } else {
         setCompetitionsData([]);
+        setStatusFetchData(false);
       }
+      setIsLoading(false);
     };
 
     getCompetitionsFunction();
@@ -146,7 +151,27 @@ export default function TableCompetitions() {
             </tr>
           </thead>
           <tbody>
-            {currentData?.length == 0 && (
+            {isLoading && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Loading...
+                </td>
+              </tr>
+            )}
+            {!isLoading && !statusFetchData && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Failed to load data
+                </td>
+              </tr>
+            )}
+            {!isLoading && statusFetchData && currentData?.length == 0 ? (
               <tr>
                 <td
                   colSpan={4}
@@ -155,48 +180,49 @@ export default function TableCompetitions() {
                   Not any competitions at this time
                 </td>
               </tr>
+            ) : (
+              currentData?.map((competition, index) => (
+                <tr
+                  className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
+                  key={index}
+                >
+                  <td className="py-2 whitespace-nowrap text-center">
+                    {startIndex + index + 1}
+                  </td>
+                  <td className="py-2 whitespace-nowrap text-wrap">
+                    {competition.name}
+                  </td>
+                  <td className="py-2 whitespace-nowrap text-wrap">
+                    {competition.organization.user.name}
+                  </td>
+                  <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
+                    <Link
+                      href={`/dashboard/competitions/detail/${competition.competitionId}`}
+                      className="px-1 py-2 rounded bg-yellow-600 text-white text-xs tablet:text-sm"
+                    >
+                      Detail
+                    </Link>
+                    {!competition?.isCompleted && (
+                      <Link
+                        href={`/dashboard/competitions/update/${competition.competitionId}`}
+                        className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
+                      >
+                        Update
+                      </Link>
+                    )}
+                    {isPageLoaded && !competition?.isCompleted && (
+                      <Link
+                        href={`/dashboard/competitions/delete/${competition.competitionId}`}
+                        scroll={false}
+                        className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
+                      >
+                        Delete
+                      </Link>
+                    )}
+                  </td>
+                </tr>
+              ))
             )}
-            {currentData?.map((competition, index) => (
-              <tr
-                className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
-                key={index}
-              >
-                <td className="py-2 whitespace-nowrap text-center">
-                  {startIndex + index + 1}
-                </td>
-                <td className="py-2 whitespace-nowrap text-wrap">
-                  {competition.name}
-                </td>
-                <td className="py-2 whitespace-nowrap text-wrap">
-                  {competition.organization.user.name}
-                </td>
-                <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
-                  <Link
-                    href={`/dashboard/competitions/detail/${competition.competitionId}`}
-                    className="px-1 py-2 rounded bg-yellow-600 text-white text-xs tablet:text-sm"
-                  >
-                    Detail
-                  </Link>
-                  {!competition?.isCompleted && (
-                    <Link
-                      href={`/dashboard/competitions/update/${competition.competitionId}`}
-                      className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
-                    >
-                      Update
-                    </Link>
-                  )}
-                  {isPageLoaded && !competition?.isCompleted && (
-                    <Link
-                      href={`/dashboard/competitions/delete/${competition.competitionId}`}
-                      scroll={false}
-                      className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
-                    >
-                      Delete
-                    </Link>
-                  )}
-                </td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>

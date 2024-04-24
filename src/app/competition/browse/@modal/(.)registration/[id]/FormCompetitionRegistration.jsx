@@ -155,7 +155,7 @@ export default function FormCompetitionRegistration({
         setErrorMember('');
       }
     }
-  }, [name, members, competition.teams, softwareDevelopers]);
+  }, [name, members, competition?.teams, softwareDevelopers]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -214,7 +214,9 @@ export default function FormCompetitionRegistration({
     setIsSuccess(true);
     setMessage('Success, Your team has been registered');
     router.back();
-    router.refresh();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
     setIsLoading(false);
   };
 
@@ -242,7 +244,7 @@ export default function FormCompetitionRegistration({
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder="Your Team Name"
             value={name}
-            readOnly={competition.maxMemberTeam === 1 ? true : false}
+            readOnly={competition?.maxMemberTeam === 1 ? true : false}
             onChange={e => setName(e.target.value)}
           />
           {errorName && (
@@ -252,7 +254,7 @@ export default function FormCompetitionRegistration({
         <div className="border-b border-black w-full"></div>
         <div className={`space-y-3`}>
           <h3 className="text-xl font-medium">Member of team</h3>
-          {[...Array(Number(competition.maxMemberTeam))].map((_, index) => (
+          {[...Array(Number(competition?.maxMemberTeam))].map((_, index) => (
             <div key={index}>
               <label className="font-medium">Member {index + 1}</label>
               <input
@@ -325,7 +327,7 @@ export default function FormCompetitionRegistration({
           <button
             disabled={isLoading}
             onClick={handleSubmit}
-            className="w-fit bg-blue-500 text-white p-2 rounded"
+            className="w-full tablet:w-fit bg-blue-500 text-white p-2 rounded"
           >
             {isLoading ? 'Loading...' : 'Submit'}
           </button>
@@ -334,7 +336,7 @@ export default function FormCompetitionRegistration({
           <button
             disabled={isLoading}
             onClick={() => router.back()}
-            className="w-fit bg-red-500 text-white p-2 rounded"
+            className="w-full tablet:w-fit bg-red-500 text-white p-2 rounded"
           >
             {isLoading ? 'Loading...' : 'Cancel'}
           </button>

@@ -22,11 +22,11 @@ export default function Form({ competitionId, teamId }) {
     }
     setSuccess(true);
     setMessage('Success, Team has been deleted');
-    setIsLoading(false);
     router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
+    setIsLoading(false);
   };
   return (
     <div className=" w-full h-full">

@@ -52,8 +52,8 @@ export default function FormCompetitionRegistration({
     setMembers(updatedMembers);
     const name = user?.name.indexOf(' ');
     const firstName = user?.name.substring(0, name);
-    setName(firstName + ' ' + 'Team');
-  }, [user, members]);
+    setName(firstName || '' + ' ' + 'Team');
+  }, [user]);
 
   const handleMemberChange = (index, value) => {
     const updatedMembers = [...members]; // Salin array members
@@ -87,12 +87,7 @@ export default function FormCompetitionRegistration({
 
   const handleProofOfPaymentChange = e => {
     const file = e.target.files[0];
-    if (
-      file?.type != 'image/jpeg' &&
-      file?.type != 'image/png' &&
-      file?.type != 'image/webp' &&
-      file?.type != 'image/svg'
-    ) {
+    if (file?.type != 'image/jpeg' && file?.type != 'image/png') {
       setErrorProofOfPaymentFile('Type file is not supported!');
     } else if (file?.size > 1000000) {
       setErrorProofOfPaymentFile('Size file must be less than 1 MB!');
@@ -160,7 +155,7 @@ export default function FormCompetitionRegistration({
         setErrorMember('');
       }
     }
-  }, [name, members, competition.teams, softwareDevelopers]);
+  }, [name, members, competition?.teams, softwareDevelopers]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -218,9 +213,11 @@ export default function FormCompetitionRegistration({
 
     setIsSuccess(true);
     setMessage('Success, Your team has been registered');
+    router.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
     setIsLoading(false);
-    router.push(`/competition/browse/${competitionId}`);
-    router.refresh();
   };
 
   return (
@@ -247,7 +244,7 @@ export default function FormCompetitionRegistration({
             className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder="Your Team Name"
             value={name}
-            readOnly={competition.maxMemberTeam === 1 ? true : false}
+            readOnly={competition?.maxMemberTeam === 1 ? true : false}
             onChange={e => setName(e.target.value)}
           />
           {errorName && (
@@ -257,7 +254,7 @@ export default function FormCompetitionRegistration({
         <div className="border-b border-black w-full"></div>
         <div className={`space-y-3`}>
           <h3 className="text-xl font-medium">Member of team</h3>
-          {[...Array(Number(competition.maxMemberTeam))].map((_, index) => (
+          {[...Array(Number(competition?.maxMemberTeam))].map((_, index) => (
             <div key={index}>
               <label className="font-medium">Member {index + 1}</label>
               <input
@@ -313,7 +310,7 @@ export default function FormCompetitionRegistration({
                 onChange={handleProofOfPaymentChange}
               />
               <span className="text-neutral-500 text-sm block">
-                Format file must be jpeg/svg/webp/png, max size 1 MB
+                Format file must be jpg,png and jpeg, max size 1 MB
               </span>
               {errorProofOfPaymentFile && (
                 <span className="text-red-500 text-sm italic">
@@ -323,14 +320,28 @@ export default function FormCompetitionRegistration({
             </div>
           </div>
         )}
-        <button
-          disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-          onClick={handleSubmit}
-        >
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
       </form>
+      <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
+        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="w-fit bg-blue-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+        )}
+        {!isLoading && (
+          <button
+            disabled={isLoading}
+            onClick={() => router.back()}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

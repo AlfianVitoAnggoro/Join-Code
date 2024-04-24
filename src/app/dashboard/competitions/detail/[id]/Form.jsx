@@ -95,10 +95,10 @@ export default function Form({ id }) {
     }
     setSuccess(true);
     setMessage('Succes, Team has been accepted');
-    setIsLoading(false);
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
+    setIsLoading(false);
   };
 
   // const handleUpdateStatusTeamCompetition = async teamId => {

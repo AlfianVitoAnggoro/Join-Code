@@ -275,7 +275,10 @@ export default function Content({ user }) {
                           </div>
                           <div className="w-full py-5 h-56">
                             <p className="text-ellipsis overflow-clip text-base h-40">
-                              {competition?.competition?.description}
+                              {competition?.competition?.description?.substring(
+                                0,
+                                250,
+                              ) + '...'}
                             </p>
                           </div>
                         </Link>

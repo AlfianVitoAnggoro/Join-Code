@@ -14,9 +14,9 @@ export default function Content({ competitionId }) {
   const [competition, setCompetition] = useState({});
   // CheckUser
   const [checkUserHasBeenRegisteredState, setCheckUserHasBeenRegisteredState] =
-    useState(false);
+    useState();
   const [checkCompetitionIsMaxTeamState, setCheckCompetitionIsMaxTeamState] =
-    useState(false);
+    useState();
 
   const [isPageLoaded, setPageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState();

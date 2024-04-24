@@ -85,11 +85,11 @@ export default function FormSubmit({ id }) {
 
     setSuccess(true);
     setMessage('Success, Competition has been completed');
-    setIsLoading(false);
     router.back();
     setTimeout(() => {
       window.location.reload();
     }, [1000]);
+    setIsLoading(false);
   };
   return (
     <div className="py-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
@@ -157,7 +157,7 @@ export default function FormSubmit({ id }) {
               <>
                 <button
                   disabled={isLoading}
-                  className="w-fit bg-blue-500 text-white p-2 rounded"
+                  className="w-full tablet:w-fit bg-blue-500 text-white p-2 rounded"
                   onClick={e => handleSubmit(e)}
                 >
                   {isLoading ? 'Loading...' : 'Submit'}
@@ -166,7 +166,7 @@ export default function FormSubmit({ id }) {
                 <button
                   disabled={isLoading}
                   onClick={() => router.back()}
-                  className="w-fit bg-red-500 text-white p-2 rounded"
+                  className="w-full tablet:w-fit bg-red-500 text-white p-2 rounded"
                 >
                   {isLoading ? 'Loading...' : 'Cancel'}
                 </button>

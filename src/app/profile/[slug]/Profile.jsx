@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 export default function Profile({ user }) {
   const [filter, setFilter] = useState('');
-  const [teams, setTeams] = useState();
+  const [teams, setTeams] = useState([]);
 
   useEffect(() => {
     if (filter === '') {
@@ -309,9 +309,12 @@ export default function Profile({ user }) {
                               </div>
                             </div>
                           </div>
-                          <div className="w-full py-5 h-56">
-                            <p className="text-ellipsis overflow-clip text-base h-40">
-                              {competition?.competition?.description}
+                          <div className="w-full py-5 h-fit">
+                            <p className="text-ellipsis overflow-clip text-base max-h-fit">
+                              {competition?.competition?.description?.substring(
+                                0,
+                                250,
+                              ) + '...'}
                             </p>
                           </div>
                         </Link>

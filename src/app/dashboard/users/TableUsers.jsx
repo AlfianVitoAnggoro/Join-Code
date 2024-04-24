@@ -17,12 +17,21 @@ export default function TableUsers() {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(10);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [statusFetchData, setStatusFetchData] = useState(false);
 
   useEffect(() => {
     const getUsersFunction = async () => {
       const res = await getUsers();
-      const data = res?.data || []; // Handle response data appropriately
-      setUsers(data);
+      if (res.success) {
+        const data = res?.data; // Handle response data appropriately
+        setUsers(data);
+        setStatusFetchData(true);
+      } else {
+        setUsers([]);
+        setStatusFetchData(false);
+      }
+      setIsLoading(false);
     };
 
     getUsersFunction();
@@ -122,9 +131,28 @@ export default function TableUsers() {
               <th className="py-3 text-center">Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {currentData?.length == 0 && (
+            {isLoading && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Loading...
+                </td>
+              </tr>
+            )}
+            {!isLoading && !statusFetchData && (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="text-center text-neutral-500 italic py-2"
+                >
+                  Failed to fetch data
+                </td>
+              </tr>
+            )}
+            {!isLoading && statusFetchData && currentData?.length == 0 ? (
               <tr>
                 <td
                   colSpan={5}
@@ -133,49 +161,50 @@ export default function TableUsers() {
                   Not any users at this time
                 </td>
               </tr>
-            )}
-            {currentData?.map((user, index) => (
-              <tr
-                className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
-                key={index}
-              >
-                <td className="py-2 whitespace-nowrap text-center">
-                  {startIndex + index + 1}
-                </td>
-                <td className="py-2 whitespace-nowrap text-wrap">
-                  {user.name}
-                </td>
-                <td className="py-2 whitespace-nowrap text-wrap">
-                  {user.email}
-                </td>
-                <td className="py-2 whitespace-nowrap text-wrap">
-                  {user.role.name}
-                </td>
-                <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
-                  <Link
-                    href={`/dashboard/users/detail/${user.nickname}`}
-                    className="px-1 py-2 rounded bg-yellow-600 text-white text-xs tablet:text-sm"
-                  >
-                    Detail
-                  </Link>
-                  <Link
-                    href={`/dashboard/users/update/${user.nickname}`}
-                    className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
-                  >
-                    Update
-                  </Link>
-                  {isPageLoaded && (
+            ) : (
+              currentData?.map((user, index) => (
+                <tr
+                  className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
+                  key={index}
+                >
+                  <td className="py-2 whitespace-nowrap text-center">
+                    {startIndex + index + 1}
+                  </td>
+                  <td className="py-2 whitespace-nowrap text-wrap">
+                    {user.name}
+                  </td>
+                  <td className="py-2 whitespace-nowrap text-wrap">
+                    {user.email}
+                  </td>
+                  <td className="py-2 whitespace-nowrap text-wrap">
+                    {user.role.name}
+                  </td>
+                  <td className="py-2 whitespace-nowrap flex flex-col tablet:flex-row justify-center items-center gap-y-1 tablet:gap-x-1 tablet:gap-y-0">
                     <Link
-                      href={`/dashboard/users/delete/${user.nickname}`}
-                      scroll={false}
-                      className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
+                      href={`/dashboard/users/detail/${user.nickname}`}
+                      className="px-1 py-2 rounded bg-yellow-600 text-white text-xs tablet:text-sm"
                     >
-                      Delete
+                      Detail
                     </Link>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    <Link
+                      href={`/dashboard/users/update/${user.nickname}`}
+                      className="px-1 py-2 rounded bg-blue-600 text-white text-xs tablet:text-sm"
+                    >
+                      Update
+                    </Link>
+                    {isPageLoaded && (
+                      <Link
+                        href={`/dashboard/users/delete/${user.nickname}`}
+                        scroll={false}
+                        className="px-1 py-2 rounded bg-red-600 text-white text-xs tablet:text-sm"
+                      >
+                        Delete
+                      </Link>
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
