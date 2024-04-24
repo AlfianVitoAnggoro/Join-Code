@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
 import { Suspense } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function RootLayout({ children }) {
   const disableNavbar = ['/dashboard'];
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           {!shouldDisableNavbar(pathname) && <Footer />}
           {!shouldDisableNavbar(pathname) && <NavbarBottom />}
+          <Analytics />
           <SpeedInsights />
         </SessionProvider>
       </body>
