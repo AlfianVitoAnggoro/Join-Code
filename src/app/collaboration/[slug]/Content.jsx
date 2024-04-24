@@ -16,7 +16,9 @@ export default function Content({ user }) {
               <Image
                 width={100}
                 height={100}
-                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`}
+                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                  user?.avatar || 'default-avatar.png'
+                }`}
                 alt="avatar"
                 priority
                 className="rounded-full w-36 h-36 tablet:w-56 tablet:h-56 object-cover"
@@ -198,7 +200,10 @@ export default function Content({ user }) {
                           <div className="grid grid-cols-1 tablet:grid-cols-3 gap-3">
                             <div className="col-span-1 flex justify-center items-center">
                               <Image
-                                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.competition?.organization?.user?.avatar}`}
+                                src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                                  competition?.competition?.organization?.user
+                                    ?.avatar || 'default-avatar.png'
+                                }`}
                                 width={50}
                                 height={50}
                                 alt="avatar"

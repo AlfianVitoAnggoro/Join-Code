@@ -104,9 +104,7 @@ export default function Form({ competitionId, teamId }) {
     setIsSuccess(true);
     setMessage('Success, Project has been submitted');
     router.back();
-    setTimeout(() => {
-      window.location.reload();
-    }, [1000]);
+    router.refresh();
     setIsLoading(false);
   };
 

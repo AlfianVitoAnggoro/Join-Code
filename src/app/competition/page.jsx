@@ -1,5 +1,3 @@
-import Content from './Content';
-
 export const metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
@@ -23,8 +21,12 @@ export const metadata = {
 
 export default async function CompetitionPage() {
   return (
-    <>
-      <Content />
-    </>
+    <div className="hidden col-span-3 laptop:flex flex-col gap-3">
+      <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+        <p className="text-neutral-500 italic">
+          You have not chosen a competition yet
+        </p>
+      </div>
+    </div>
   );
 }

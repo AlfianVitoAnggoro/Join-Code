@@ -230,7 +230,9 @@ export default function Form({ user, skills }) {
             src={
               avatar
                 ? avatar
-                : `https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${user?.avatar}`
+                : `https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                    user?.avatar || 'default-avatar.png'
+                  }`
             }
             width={50}
             height={50}

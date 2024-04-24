@@ -33,7 +33,9 @@ export default async function DetailCompetition({ params }) {
     <div className="col-span-5 flex flex-col gap-3">
       <div className="bg-white rounded p-3">
         <Image
-          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.organization?.user?.avatar}`}
+          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+            competition?.organization?.user?.avatar || 'default-avatar.png'
+          }`}
           width={50}
           height={50}
           alt="avatar"
@@ -178,7 +180,9 @@ export default async function DetailCompetition({ params }) {
         <h2 className="text-2xl font-bold">About Organization</h2>
         <div className="flex flex-col tablet:flex-row gap-y-2 tablet:gap-y-0 tablet:gap-x-3 py-2">
           <Image
-            src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.organization?.user?.avatar}`}
+            src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+              competition?.organization?.user?.avatar || 'default-avatar.png'
+            }`}
             width={50}
             height={50}
             alt="avatar"

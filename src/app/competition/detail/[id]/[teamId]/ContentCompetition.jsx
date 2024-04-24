@@ -75,7 +75,9 @@ export default function ContentCompetition({
     <>
       <div className="bg-white rounded p-3">
         <Image
-          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${competition?.organization?.user?.avatar}`}
+          src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+            competition?.organization?.user?.avatar || 'default-avatar.png'
+          }`}
           width={50}
           height={50}
           alt="avatar"

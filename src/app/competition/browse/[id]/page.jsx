@@ -1,7 +1,3 @@
-import {
-  getCompetitionByRegistrationDate,
-  getDetailCompetition,
-} from '@/lib/actions/competitionAction';
 import Content from './Content';
 
 export const metadata = {
@@ -25,20 +21,10 @@ export const metadata = {
   },
 };
 
-export default async function BrowseCompetition({ params }) {
-  const nowDate = new Date();
-  const responseCompetitions = await getCompetitionByRegistrationDate(nowDate);
-  const competitions = responseCompetitions.data;
-  const responseDetailCompetition = await getDetailCompetition(params.id);
-  const competition = responseDetailCompetition.data;
-
+export default async function Page({ params }) {
   return (
     <>
-      <Content
-        competitionsData={competitions}
-        competition={competition}
-        competitionId={params.id}
-      />
+      <Content competitionId={params.id} />
     </>
   );
 }

@@ -214,9 +214,7 @@ export default function FormCompetitionRegistration({
     setIsSuccess(true);
     setMessage('Success, Your team has been registered');
     router.back();
-    setTimeout(() => {
-      window.location.reload();
-    }, [1000]);
+    router.refresh();
     setIsLoading(false);
   };
 

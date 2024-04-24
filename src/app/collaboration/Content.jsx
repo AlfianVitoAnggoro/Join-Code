@@ -7,17 +7,23 @@ import { getSoftwareDevelopers } from '@/lib/actions/softwareDeveloperAction';
 export default function Content() {
   const [softwareDevelopersData, setSoftwareDevelopersData] = useState([]);
   const [softwareDevelopers, setSoftwareDevelopers] = useState([]);
+  const [statusFetchData, setStatusFetchData] = useState(false);
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const getSoftwareDevelopersData = async () => {
       const res = await getSoftwareDevelopers();
       if (res?.success) {
         const softwareDevelopers = res?.data;
         setSoftwareDevelopersData(softwareDevelopers);
+        setStatusFetchData(true);
       } else {
         setSoftwareDevelopersData([]);
+        setStatusFetchData(false);
       }
+      setIsLoading(false);
     };
     getSoftwareDevelopersData();
   }, []);
@@ -67,75 +73,93 @@ export default function Content() {
             : 'grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 dekstop:grid-cols-4'
         }  gap-3 rounded border-y border-gray-200`}
       >
-        {softwareDevelopers?.length == 0 && (
+        {isLoading && (
+          <div className="flex justify-center mt-10">
+            <p className="text-neutral-500 text-center text-base italic">
+              Loading...
+            </p>
+          </div>
+        )}
+
+        {!isLoading && !statusFetchData && (
+          <div className="flex justify-center mt-10">
+            <p className="text-neutral-500 text-center text-base italic">
+              Failed to load software developers
+            </p>
+          </div>
+        )}
+        {!isLoading && statusFetchData && softwareDevelopers?.length == 0 ? (
           <div className="flex justify-center mt-10">
             <p className="text-neutral-500 text-center text-base italic">
               Software Developers are not available for collaboration at this
               time{' '}
             </p>
           </div>
-        )}
-        {softwareDevelopers?.map((softwareDeveloper, index) => {
-          return (
-            <div
-              className="bg-white border-2 border-gray-200 rounded-lg hover:shadow-black hover:shadow-md relative w-full"
-              key={index}
-            >
-              <Link
-                href={`/collaboration/${softwareDeveloper?.user?.nickname}`}
+        ) : (
+          softwareDevelopers?.map((softwareDeveloper, index) => {
+            return (
+              <div
+                className="bg-white border-2 border-gray-200 rounded-lg hover:shadow-black hover:shadow-md relative w-full"
+                key={index}
               >
-                <div className="w-full h-24 bg-gray-400 rounded-t-lg">
-                  <Image
-                    width={50}
-                    height={50}
-                    src="/images/login.svg"
-                    alt={softwareDeveloper?.user?.name}
-                    priority
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {softwareDeveloper?.statusCollaboration && (
-                  <div className="absolute top-0 left-0 bg-green-700 text-white p-1 px-2 rounded">
-                    <p className="text-xs">#OPENTOCOLLABORATE</p>
+                <Link
+                  href={`/collaboration/${softwareDeveloper?.user?.nickname}`}
+                >
+                  <div className="w-full h-24 bg-gray-400 rounded-t-lg">
+                    <Image
+                      width={50}
+                      height={50}
+                      src="/images/login.svg"
+                      alt={softwareDeveloper?.user?.name}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                )}
-                <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
-                  <Image
-                    width={50}
-                    height={50}
-                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${softwareDeveloper?.user?.avatar}`}
-                    alt="avatar"
-                    priority
-                    className="rounded-full w-24 h-24 object-cover"
-                  />
-                </div>
-                <div className="flex justify-center items-center flex-col mt-12 m-2">
-                  <h3 className="font-bold text-center">
-                    {softwareDeveloper?.user?.name}
-                  </h3>
-                  {softwareDeveloper?.skills?.length > 0 ? (
-                    <p className="text-xs text-black text-center text-ellipsis overflow-hidden w-52 h-8 mt-1">
-                      {softwareDeveloper?.skills
-                        .map(skill => skill?.skill?.name)
-                        .join(', ')}
-                    </p>
-                  ) : (
-                    <p className="text-xs text-neutral-500 text-center text-ellipsis overflow-hidden w-52 h-8 mt-1 ">
-                      Skills have not been available
-                    </p>
+                  {softwareDeveloper?.statusCollaboration && (
+                    <div className="absolute top-0 left-0 bg-green-700 text-white p-1 px-2 rounded">
+                      <p className="text-xs">#OPENTOCOLLABORATE</p>
+                    </div>
                   )}
-                  <Image
-                    src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${softwareDeveloper?.badge?.image}`}
-                    alt={softwareDeveloper?.badge?.name}
-                    width={150}
-                    height={150}
-                    className="w-16 h-16 object-contain my-1"
-                  ></Image>
-                </div>
-              </Link>
-            </div>
-          );
-        })}
+                  <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
+                    <Image
+                      width={50}
+                      height={50}
+                      src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/avatars/public/${
+                        softwareDeveloper?.user?.avatar || 'default-avatar.png'
+                      }`}
+                      alt="avatar"
+                      priority
+                      className="rounded-full w-24 h-24 object-cover bg-neutral-500"
+                    />
+                  </div>
+                  <div className="flex justify-center items-center flex-col mt-12 m-2">
+                    <h3 className="font-bold text-center">
+                      {softwareDeveloper?.user?.name}
+                    </h3>
+                    {softwareDeveloper?.skills?.length > 0 ? (
+                      <p className="text-xs text-black text-center text-ellipsis overflow-hidden w-52 h-8 mt-1">
+                        {softwareDeveloper?.skills
+                          .map(skill => skill?.skill?.name)
+                          .join(', ')}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-neutral-500 text-center text-ellipsis overflow-hidden w-52 h-8 mt-1 ">
+                        Skills have not been available
+                      </p>
+                    )}
+                    <Image
+                      src={`https://atzxitftejquqppfauyh.supabase.co/storage/v1/object/public/badges/public/${softwareDeveloper?.badge?.image}`}
+                      alt={softwareDeveloper?.badge?.name}
+                      width={150}
+                      height={150}
+                      className="w-16 h-16 object-contain my-1"
+                    ></Image>
+                  </div>
+                </Link>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
