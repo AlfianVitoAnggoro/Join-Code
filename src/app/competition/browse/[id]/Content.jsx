@@ -6,53 +6,33 @@ import moment from 'moment';
 import 'moment/locale/id';
 import { useSession } from 'next-auth/react';
 import { getDetailUser } from '@/lib/actions/userAction';
-import { getDetailCompetition } from '@/lib/actions/competitionAction';
 
-export default function Content({ competitionId }) {
+export default function Content({ competition, competitionId }) {
   moment.locale('id');
   const { data: session, status } = useSession();
-  const [competition, setCompetition] = useState({});
+  // const [competition, setCompetition] = useState({});
   // CheckUser
   const [checkUserHasBeenRegisteredState, setCheckUserHasBeenRegisteredState] =
     useState();
   const [checkCompetitionIsMaxTeamState, setCheckCompetitionIsMaxTeamState] =
     useState();
-
-  const [isPageLoaded, setPageLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState();
-
-  useEffect(() => {
-    // Fungsi ini akan dipanggil ketika komponen telah dipasang (mounted)
-    // Di sinilah kita dapat menandai bahwa halaman telah berhasil dimuat
-    setPageLoaded(true);
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  const [statusFetchData, setStatusFetchData] = useState();
+  const [checkValidate, setCheckValidate] = useState();
 
   useEffect(() => {
-    const getDetailCompetitionFunction = async () => {
+    const checkCompetition = () => {
       setIsLoading(true);
-      const response = await getDetailCompetition(competitionId);
-      if (response?.success) {
-        const competitionData = response.data;
-        const checkTeamIsAccepted = competitionData?.teams?.filter(teams => {
-          return teams?.isAccepted === true;
-        });
-
-        if (
-          Number(checkTeamIsAccepted?.length) ===
-          Number(competitionData?.maxTeam)
-        ) {
-          setCheckCompetitionIsMaxTeamState(true);
-        }
-        setCompetition(competitionData);
+      if (competition) {
+        setStatusFetchData(true);
       } else {
-        setCompetition({});
+        setStatusFetchData(false);
       }
       setIsLoading(false);
     };
 
-    getDetailCompetitionFunction();
-  }, [competitionId]);
-  // Id Detail
+    checkCompetition();
+  }, [competition, competitionId]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -71,14 +51,33 @@ export default function Content({ competitionId }) {
               );
 
             setCheckUserHasBeenRegisteredState(checkUserHasBeenRegistered);
+            setCheckValidate(true);
           }
         }
       } catch (error) {
         console.log(error);
       }
     };
+
     checkUser();
   }, [session, status, competitionId, competition]);
+
+  useEffect(() => {
+    const checkIsFulllyTeam = () => {
+      const checkTeamIsAccepted = competition?.teams?.filter(teams => {
+        return teams?.isAccepted === true;
+      });
+
+      if (
+        Number(checkTeamIsAccepted?.length) === Number(competition?.maxTeam)
+      ) {
+        setCheckCompetitionIsMaxTeamState(true);
+      }
+      setCheckValidate(true);
+    };
+
+    checkIsFulllyTeam();
+  }, [competition, competitionId]);
 
   return (
     <div className="col-span-5 laptop:col-span-3 flex flex-col gap-3">
@@ -87,7 +86,12 @@ export default function Content({ competitionId }) {
           <p className="text-neutral-500 italic">Loading...</p>
         </div>
       )}
-      {!isLoading && !competition ? (
+      {!isLoading && !statusFetchData && (
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+          <p className="text-neutral-500 italic">Failed to load...</p>
+        </div>
+      )}
+      {!isLoading && statusFetchData && !competition ? (
         <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
           <p className="text-neutral-500 italic">Competition is not found</p>
         </div>
@@ -126,7 +130,7 @@ export default function Content({ competitionId }) {
                   Competition has been completed
                 </p>
               )}
-              {isPageLoaded &&
+              {checkValidate &&
                 !checkUserHasBeenRegisteredState &&
                 !checkCompetitionIsMaxTeamState &&
                 !competition?.isCompleted && (

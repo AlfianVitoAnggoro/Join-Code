@@ -1,4 +1,5 @@
 import Content from './Content';
+import { getDetailCompetition } from '@/lib/actions/competitionAction';
 
 export const metadata = {
   metadataBase: new URL(
@@ -22,9 +23,11 @@ export const metadata = {
 };
 
 export default async function Page({ params }) {
+  const response = await getDetailCompetition(params.id);
+  const competition = response?.data || {};
   return (
     <>
-      <Content competitionId={params.id} />
+      <Content competition={competition} competitionId={params.id} />
     </>
   );
 }
