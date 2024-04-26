@@ -5,8 +5,9 @@ import { completeCompetition } from '@/lib/actions/competitionAction';
 import { getTeamCompetitionByFilter } from '@/lib/actions/teamCompetitionAction';
 
 export default function FormSubmit({ id }) {
-  const [teamCompetitions, setTeamCompetitions] = useState([]);
+  const [teamCompetitions, setTeamCompetitions] = useState();
   const [ranking, setRanking] = useState([]);
+  const [loadingFetchData, setLoadingFetchData] = useState(true);
   // Load Handling
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState();
@@ -14,12 +15,17 @@ export default function FormSubmit({ id }) {
 
   useEffect(() => {
     const getTeamCompetitionsFunction = async () => {
-      const res = await getTeamCompetitionByFilter(id);
-      if (res.success) {
-        const teamCompetitions = res.data || [];
-        setTeamCompetitions(teamCompetitions);
-      } else {
-        setTeamCompetitions([]);
+      try {
+        setLoadingFetchData(true);
+        const res = await getTeamCompetitionByFilter(id);
+        if (res.success) {
+          const teamCompetitions = res.data || [];
+          setTeamCompetitions(teamCompetitions);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingFetchData(false);
       }
     };
 
@@ -91,6 +97,12 @@ export default function FormSubmit({ id }) {
     }, [1000]);
     setIsLoading(false);
   };
+
+  const handleBack = () => {
+    setIsLoading(true);
+    router.back();
+    setIsLoading(false);
+  };
   return (
     <div className="py-3 overflow-y-auto max-h-[80vh] min-h-[fit] w-[70vw]">
       {message !== '' && (
@@ -105,20 +117,38 @@ export default function FormSubmit({ id }) {
           </button>
         </div>
       )}
-      {teamCompetitions.length === 0 ? (
+      {loadingFetchData && (
+        <p className="text-neutral-500 italic text-lg pb-2">Loading...</p>
+      )}
+      {!loadingFetchData && !teamCompetitions && (
+        <>
+          <p className="text-neutral-500 italic text-lg pb-2">
+            Load Fetch Data
+          </p>
+          <button
+            disabled={isLoading}
+            onClick={handleBack}
+            className="w-fit bg-red-500 text-white p-2 rounded"
+          >
+            {isLoading ? 'Loading...' : 'Cancel'}
+          </button>
+        </>
+      )}
+      {!loadingFetchData && teamCompetitions?.length === 0 && (
         <>
           <p className="text-neutral-500 italic text-lg pb-2">
             Nothing team have finished or submit project
           </p>
           <button
             disabled={isLoading}
-            onClick={() => router.back()}
+            onClick={handleBack}
             className="w-fit bg-red-500 text-white p-2 rounded"
           >
             {isLoading ? 'Loading...' : 'Cancel'}
           </button>
         </>
-      ) : (
+      )}
+      {!loadingFetchData && teamCompetitions.length > 0 && (
         <>
           <form className="space-y-3">
             <div className="flex flex-col gap-3">
@@ -165,7 +195,7 @@ export default function FormSubmit({ id }) {
 
                 <button
                   disabled={isLoading}
-                  onClick={() => router.back()}
+                  onClick={handleBack}
                   className="w-full tablet:w-fit bg-red-500 text-white p-2 rounded"
                 >
                   {isLoading ? 'Loading...' : 'Cancel'}

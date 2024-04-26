@@ -24,7 +24,7 @@ export const metadata = {
 
 export default async function Page({ params }) {
   const response = await getDetailCompetition(params.id);
-  const competition = response?.data || {};
+  const competition = response?.data;
   return (
     <>
       <Content competition={competition} competitionId={params.id} />

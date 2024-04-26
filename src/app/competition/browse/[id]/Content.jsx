@@ -10,33 +10,18 @@ import { getDetailUser } from '@/lib/actions/userAction';
 export default function Content({ competition, competitionId }) {
   moment.locale('id');
   const { data: session, status } = useSession();
-  // const [competition, setCompetition] = useState({});
   // CheckUser
   const [checkUserHasBeenRegisteredState, setCheckUserHasBeenRegisteredState] =
     useState();
   const [checkCompetitionIsMaxTeamState, setCheckCompetitionIsMaxTeamState] =
     useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [statusFetchData, setStatusFetchData] = useState();
-  const [checkValidate, setCheckValidate] = useState();
-
-  useEffect(() => {
-    const checkCompetition = () => {
-      setIsLoading(true);
-      if (competition) {
-        setStatusFetchData(true);
-      } else {
-        setStatusFetchData(false);
-      }
-      setIsLoading(false);
-    };
-
-    checkCompetition();
-  }, [competition, competitionId]);
+  const [checkValidate, setCheckValidate] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
       try {
+        setIsLoading(true);
         if (session && status === 'authenticated') {
           const res = await getDetailUser(session?.user?.nickname);
           if (res?.success) {
@@ -51,18 +36,16 @@ export default function Content({ competition, competitionId }) {
               );
 
             setCheckUserHasBeenRegisteredState(checkUserHasBeenRegistered);
-            setCheckValidate(true);
           }
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
+        setCheckValidate(true);
       }
     };
 
-    checkUser();
-  }, [session, status, competitionId, competition]);
-
-  useEffect(() => {
     const checkIsFulllyTeam = () => {
       const checkTeamIsAccepted = competition?.teams?.filter(teams => {
         return teams?.isAccepted === true;
@@ -73,11 +56,11 @@ export default function Content({ competition, competitionId }) {
       ) {
         setCheckCompetitionIsMaxTeamState(true);
       }
-      setCheckValidate(true);
     };
 
     checkIsFulllyTeam();
-  }, [competition, competitionId]);
+    checkUser();
+  }, [session, status, competitionId, competition]);
 
   return (
     <div className="col-span-5 laptop:col-span-3 flex flex-col gap-3">
@@ -86,16 +69,13 @@ export default function Content({ competition, competitionId }) {
           <p className="text-neutral-500 italic">Loading...</p>
         </div>
       )}
-      {!isLoading && !statusFetchData && (
-        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
-          <p className="text-neutral-500 italic">Failed to load...</p>
-        </div>
-      )}
-      {!isLoading && statusFetchData && !competition ? (
+
+      {!isLoading && checkValidate && !competition && (
         <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
           <p className="text-neutral-500 italic">Competition is not found</p>
         </div>
-      ) : (
+      )}
+      {!isLoading && competition && checkValidate && (
         <>
           <div className="bg-white rounded p-3">
             <Image

@@ -22,8 +22,9 @@ export default function Form({ id }) {
     statusUpdateButtonByCompetitionDate,
     setStatusUpdateButtonByCompetitionDate,
   ] = useState(false);
+  const [loadingFetchData, setLoadingFetchData] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState();
   const [success, setSuccess] = useState();
   const [message, setMessage] = useState('');
 
@@ -31,15 +32,16 @@ export default function Form({ id }) {
   useEffect(() => {
     const getCompetitionData = async () => {
       try {
+        setLoadingFetchData(true);
         const res = await getDetailCompetition(id);
         if (res?.success) {
           const competition = res?.data;
           setCompetition(competition);
-        } else {
-          setCompetition({});
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoadingFetchData(false);
       }
     };
     getCompetitionData();
@@ -129,228 +131,249 @@ export default function Form({ id }) {
           </button>
         </div>
       )}
-      <div className="flex flex-col laptop:flex-row gap-2">
-        <div className="basis-1/2 space-y-2">
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Name of competition :</h3>
-            {competition?.name ? (
-              <p className="text-base font-normal">{competition?.name}</p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum ada nama kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Place of competition :</h3>
-            {competition?.place ? (
-              <p className="text-base font-normal">{competition.place}</p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan lokasi kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Organization :</h3>
-            {competition?.organization?.user?.name ? (
-              <p className="text-base font-normal">
-                {competition?.organization?.user?.name}
-              </p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan organisasi pemilik kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Max member of team :</h3>
-            {competition?.maxMemberTeam ? (
-              <p className="text-base font-normal">
-                {competition?.maxMemberTeam}
-              </p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan maksimal member
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Max team of competition :</h3>
-            {competition?.maxTeam ? (
-              <p className="text-base font-normal">{competition?.maxTeam}</p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan maksimal team
-              </p>
-            )}
-          </div>
+      {loadingFetchData && (
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+          <p className="text-neutral-500 italic">Loading...</p>
         </div>
-        <div className="basis-1/2 space-y-2">
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Category :</h3>
-            {competition?.category?.name ? (
-              <p className="text-base font-normal">
-                {competition?.category?.name}
-              </p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan kategori kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Type :</h3>
-            {competition?.type?.name ? (
-              <p className="text-base font-normal">{competition?.type?.name}</p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan tipe kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Fee of registration :</h3>
-            {competition?.registrationFee >= 0 ? (
-              competition.registrationFee != 0 ? (
-                <p className="text-base font-normal">
-                  Rp. {competition?.registrationFee}
-                </p>
-              ) : (
-                <p className="text-base font-normal">Free</p>
-              )
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan harga pendaftaran kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Registration Date :</h3>
-            {competition?.registrationStartDate &&
-            competition?.registrationEndDate ? (
-              <p className="text-base font-normal">
-                {moment(competition?.registrationStartDate).format('ll')} -{' '}
-                {moment(competition?.registrationEndDate).format('ll')}
-              </p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan tanggal awal dan akhir pendaftaran kompetisi
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium">Competition Date :</h3>
-            {competition?.startDate && competition?.endDate ? (
-              <p className="text-base font-normal">
-                {moment(competition?.startDate).format('ll')} -{' '}
-                {moment(competition?.endDate).format('ll')}
-              </p>
-            ) : (
-              <p className="text-base text-neutral-500 font-normal">
-                belum menentukan tanggal awal dan akhir kompetisi
-              </p>
-            )}
-          </div>
+      )}
+      {!loadingFetchData && !competition && (
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+          <p className="text-neutral-500 italic">Failed load data</p>
         </div>
-      </div>
-      <div className="flex flex-col">
-        <h3 className="text-lg font-medium">Description :</h3>
-        {competition?.description ? (
-          <p className="text-base font-normal">{competition?.description}</p>
-        ) : (
-          <p className="text-base text-neutral-500 font-normal">
-            belum menentukan deskripsi kompetisi
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col w-full overflow-auto">
-        <h3 className="text-lg font-medium">Team Competition :</h3>
-        <table className="table-auto overflow-x-auto w-full">
-          <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
-            <tr>
-              <th className="py-3 text-center">NO</th>
-              <th className="py-3 text-center">Name</th>
-              <th className="py-3 text-center">Link Project</th>
-              <th className="py-3 text-center">Link Repository</th>
-              <th className="py-3 text-center">Ranking</th>
-              <th className="py-3 text-center">Accepted</th>
-              <th className="py-3 text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {competition?.teams?.length > 0 ? (
-              competition?.teams?.map((team, index) => (
-                <tr
-                  className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
-                  key={index}
-                >
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {index + 1}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {team?.team?.name ? team?.team?.name : ''}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {team?.projectLink ? (
-                      <Link
-                        href={team?.projectLink}
-                        target="_blank"
-                        className="text-base font-normal text-blue-500"
-                      >
-                        {team?.projectLink}
-                      </Link>
-                    ) : (
-                      ''
-                    )}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {team?.repositoryLink ? (
-                      <Link
-                        href={team?.repositoryLink}
-                        target="_blank"
-                        className="text-base font-normal text-blue-500"
-                      >
-                        {team?.repositoryLink}
-                      </Link>
-                    ) : (
-                      ''
-                    )}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {team?.ranking ? team?.ranking : ''}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap">
-                    {competition?.isCompleted || acceptedMaxTeam ? (
-                      team?.isAccepted ? (
-                        'Yes'
-                      ) : (
-                        'No'
-                      )
-                    ) : team?.isAccepted ? (
-                      'Yes'
-                    ) : (
-                      <button
-                        disabled={isLoading}
-                        className="px-2 py-1 bg-green-600 text-white rounded"
-                        onClick={() => handleAcceptTeam(team.teamId)}
-                      >
-                        {isLoading ? 'Loading...' : 'Accepted'}
-                      </button>
-                    )}
-                  </td>
-                  <td className="py-2 text-center whitespace-nowrap space-x-2">
-                    {isPageLoaded && (
-                      <Link
-                        href={`/dashboard/competitions/detail/team-competition/${id}/${team?.teamId}`}
-                        scroll={false}
-                        className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
-                      >
-                        Detail
-                      </Link>
-                    )}
+      )}
+      {!loadingFetchData && competition && (
+        <>
+          <div className="flex flex-col laptop:flex-row gap-2">
+            <div className="basis-1/2 space-y-2">
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Name of competition :</h3>
+                {competition?.name ? (
+                  <p className="text-base font-normal">{competition?.name}</p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum ada nama kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Place of competition :</h3>
+                {competition?.place ? (
+                  <p className="text-base font-normal">{competition.place}</p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan lokasi kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Organization :</h3>
+                {competition?.organization?.user?.name ? (
+                  <p className="text-base font-normal">
+                    {competition?.organization?.user?.name}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan organisasi pemilik kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Max member of team :</h3>
+                {competition?.maxMemberTeam ? (
+                  <p className="text-base font-normal">
+                    {competition?.maxMemberTeam}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan maksimal member
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">
+                  Max team of competition :
+                </h3>
+                {competition?.maxTeam ? (
+                  <p className="text-base font-normal">
+                    {competition?.maxTeam}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan maksimal team
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="basis-1/2 space-y-2">
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Category :</h3>
+                {competition?.category?.name ? (
+                  <p className="text-base font-normal">
+                    {competition?.category?.name}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan kategori kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Type :</h3>
+                {competition?.type?.name ? (
+                  <p className="text-base font-normal">
+                    {competition?.type?.name}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan tipe kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Fee of registration :</h3>
+                {competition?.registrationFee >= 0 ? (
+                  competition.registrationFee != 0 ? (
+                    <p className="text-base font-normal">
+                      Rp. {competition?.registrationFee}
+                    </p>
+                  ) : (
+                    <p className="text-base font-normal">Free</p>
+                  )
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan harga pendaftaran kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Registration Date :</h3>
+                {competition?.registrationStartDate &&
+                competition?.registrationEndDate ? (
+                  <p className="text-base font-normal">
+                    {moment(competition?.registrationStartDate).format('ll')} -{' '}
+                    {moment(competition?.registrationEndDate).format('ll')}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan tanggal awal dan akhir pendaftaran
+                    kompetisi
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-medium">Competition Date :</h3>
+                {competition?.startDate && competition?.endDate ? (
+                  <p className="text-base font-normal">
+                    {moment(competition?.startDate).format('ll')} -{' '}
+                    {moment(competition?.endDate).format('ll')}
+                  </p>
+                ) : (
+                  <p className="text-base text-neutral-500 font-normal">
+                    belum menentukan tanggal awal dan akhir kompetisi
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <h3 className="text-lg font-medium">Description :</h3>
+            {competition?.description ? (
+              <p className="text-base font-normal">
+                {competition?.description}
+              </p>
+            ) : (
+              <p className="text-base text-neutral-500 font-normal">
+                belum menentukan deskripsi kompetisi
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col w-full overflow-auto">
+            <h3 className="text-lg font-medium">Team Competition :</h3>
+            <table className="table-auto overflow-x-auto w-full">
+              <thead className="bg-white text-black font-bold text-sm text-left uppercase tracking-wider border-b border-gray-200">
+                <tr>
+                  <th className="py-3 text-center">NO</th>
+                  <th className="py-3 text-center">Name</th>
+                  <th className="py-3 text-center">Link Project</th>
+                  <th className="py-3 text-center">Link Repository</th>
+                  <th className="py-3 text-center">Ranking</th>
+                  <th className="py-3 text-center">Accepted</th>
+                  <th className="py-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {competition?.teams?.length > 0 ? (
+                  competition?.teams?.map((team, index) => (
+                    <tr
+                      className="odd:bg-neutral-100 even:bg-neutral-200 hover:bg-neutral-300 transition-colors duration-200 border-b border-gray-200"
+                      key={index}
+                    >
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {index + 1}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {team?.team?.name ? team?.team?.name : ''}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {team?.projectLink ? (
+                          <Link
+                            href={team?.projectLink}
+                            target="_blank"
+                            className="text-base font-normal text-blue-500"
+                          >
+                            {team?.projectLink}
+                          </Link>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {team?.repositoryLink ? (
+                          <Link
+                            href={team?.repositoryLink}
+                            target="_blank"
+                            className="text-base font-normal text-blue-500"
+                          >
+                            {team?.repositoryLink}
+                          </Link>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {team?.ranking ? team?.ranking : ''}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap">
+                        {competition?.isCompleted || acceptedMaxTeam ? (
+                          team?.isAccepted ? (
+                            'Yes'
+                          ) : (
+                            'No'
+                          )
+                        ) : team?.isAccepted ? (
+                          'Yes'
+                        ) : (
+                          <button
+                            disabled={isLoading}
+                            className="px-2 py-1 bg-green-600 text-white rounded"
+                            onClick={() => handleAcceptTeam(team.teamId)}
+                          >
+                            {isLoading ? 'Loading...' : 'Accepted'}
+                          </button>
+                        )}
+                      </td>
+                      <td className="py-2 text-center whitespace-nowrap space-x-2">
+                        {isPageLoaded && (
+                          <Link
+                            href={`/dashboard/competitions/detail/team-competition/${id}/${team?.teamId}`}
+                            scroll={false}
+                            className="px-1 py-2 rounded bg-yellow-600 text-white w-16 text-sm"
+                          >
+                            Detail
+                          </Link>
+                        )}
 
-                    {/* {team?.isAccepted &&
+                        {/* {team?.isAccepted &&
                       !competition?.isCompleted &&
                       team?.statusTeamCompetitionId == 2 &&
                       statusUpdateButtonByCompetitionDate && (
@@ -363,38 +386,43 @@ export default function Form({ id }) {
                           Update
                         </button>
                       )} */}
-                    {isPageLoaded && !competition?.isCompleted && (
-                      <Link
-                        href={`/dashboard/competitions/detail/team-competition/delete/${id}/${team?.teamId}`}
-                        scroll={false}
-                        className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
-                      >
-                        Delete
-                      </Link>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={7} className="py-2 text-center whitespace-nowrap">
-                  Belum ada daftar team competition
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      {isPageLoaded && !competition?.isCompleted && (
-        <div>
-          <Link
-            href={`/dashboard/competitions/detail/complete-competition/${id}`}
-            scroll={false}
-            className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
-          >
-            Complete The Competition
-          </Link>
-        </div>
+                        {isPageLoaded && !competition?.isCompleted && (
+                          <Link
+                            href={`/dashboard/competitions/detail/team-competition/delete/${id}/${team?.teamId}`}
+                            scroll={false}
+                            className="px-1 py-2 rounded bg-red-600 text-white w-16 text-sm"
+                          >
+                            Delete
+                          </Link>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="py-2 text-center whitespace-nowrap"
+                    >
+                      Belum ada daftar team competition
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {isPageLoaded && !competition?.isCompleted && (
+            <div>
+              <Link
+                href={`/dashboard/competitions/detail/complete-competition/${id}`}
+                scroll={false}
+                className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
+              >
+                Complete The Competition
+              </Link>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

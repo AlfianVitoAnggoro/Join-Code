@@ -1,6 +1,5 @@
 import { getDetailCompetition } from '@/lib/actions/competitionAction';
 import ContentCompetition from './ContentCompetition';
-import ContentOrganization from './ContentOrganization';
 
 export const metadata = {
   metadataBase: new URL(
@@ -33,7 +32,6 @@ export default async function DetailCompetitionTeam({ params }) {
         competitionId={params.id}
         teamId={params.teamId}
       />
-      <ContentOrganization competition={competition} />
     </div>
   );
 }

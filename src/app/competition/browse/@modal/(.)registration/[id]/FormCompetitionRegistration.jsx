@@ -17,6 +17,7 @@ export default function FormCompetitionRegistration({
   const [proofOfPaymentFile, setProofOfPaymentFile] = useState(null);
   const [name, setName] = useState('');
   const [members, setMembers] = useState([]);
+  const [loadingFetchData, setLoadingFetchData] = useState();
 
   // Error Handle
   const [errorName, setErrorName] = useState('');
@@ -32,14 +33,17 @@ export default function FormCompetitionRegistration({
   useEffect(() => {
     const fetchUserDetail = async () => {
       try {
+        setLoadingFetchData(true);
         if (session && status === 'authenticated') {
-          const res = await getDetailUser(session.user.nickname);
-          setUser(res.data);
+          const res = await getDetailUser(session?.user?.nickname);
+          setUser(res?.data);
         } else {
           router.push('/login');
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoadingFetchData(false);
       }
     };
 
@@ -115,9 +119,9 @@ export default function FormCompetitionRegistration({
       members.forEach((collaborationId, index) => {
         if (collaborationId) {
           // Lakukan pemeriksaan apakah collaboration ID ada pada pengguna yang valid
-          const collaborationIdMatch = softwareDevelopers.find(
+          const collaborationIdMatch = softwareDevelopers?.find(
             softwareDeveloper =>
-              softwareDeveloper.collaborationId == collaborationId,
+              softwareDeveloper?.collaborationId == collaborationId,
           );
 
           if (!collaborationIdMatch) {
@@ -156,6 +160,12 @@ export default function FormCompetitionRegistration({
       }
     }
   }, [name, members, competition?.teams, softwareDevelopers]);
+
+  const handleBack = () => {
+    setIsLoading(true);
+    router.back();
+    setIsLoading(false);
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -234,96 +244,111 @@ export default function FormCompetitionRegistration({
           </button>
         </div>
       )}
-      <form action="" className={`space-y-3`}>
-        <div>
-          <label className="font-medium">Team Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            placeholder="Your Team Name"
-            value={name}
-            readOnly={competition?.maxMemberTeam === 1 ? true : false}
-            onChange={e => setName(e.target.value)}
-          />
-          {errorName && (
-            <span className="text-red-500 text-sm italic">{errorName}</span>
-          )}
+      {loadingFetchData && (
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+          <p className="text-neutral-500 italic">Loading...</p>
         </div>
-        <div className="border-b border-black w-full"></div>
-        <div className={`space-y-3`}>
-          <h3 className="text-xl font-medium">Member of team</h3>
-          {[...Array(Number(competition?.maxMemberTeam))].map((_, index) => (
-            <div key={index}>
-              <label className="font-medium">Member {index + 1}</label>
-              <input
-                type="text"
-                name={`member${index}`}
-                id={`member${index}`}
-                className={`bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                placeholder={`Inputkan Collaboration ID Member ${index + 1}`}
-                readOnly={index === 0 ? true : false}
-                defaultValue={members[index]} // Gunakan nilai dari array members
-                onChange={e => handleMemberChange(index, e.target.value)}
-              />
-              {errorMember && (
-                <span className="text-red-500 text-sm italic">
-                  {errorMember}
-                </span>
-              )}
-            </div>
-          ))}
+      )}
+      {!loadingFetchData && !competition && (
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+          <p className="text-neutral-500 italic">Failed to load data</p>
         </div>
-        <div className="border-b border-black w-full"></div>
-        {competition?.registrationFee !== 0 && (
-          <div className="space-y-3">
-            <h3 className="text-xl font-medium">Pembayaran</h3>
-            <div className="p-3 bg-neutral-200 rounded">
-              <p className="text-lg text-black font-normal">
-                {competition?.organization?.payment?.service}
-              </p>
-              <p className="text-lg text-black font-normal">
-                a/n {competition?.organization?.payment?.name}
-              </p>
-              <p className="text-lg text-black font-normal">
-                {competition?.organization?.payment?.noVirtualAccount}
-              </p>
-            </div>
-            <div>
-              <label className="font-medium">Upload Bukti Pembayaran</label>
-              {proofOfPayment && (
-                <Image
-                  src={proofOfPayment}
-                  alt="preview-proofOfPayment"
-                  width={200}
-                  height={200}
-                  className="w-1/4 h-auto object-cover"
-                />
-              )}
-              <input
-                type="file"
-                name="proofOfPayment"
-                id="proofOfPayment"
-                className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                placeholder="Upload Bukti Pembayaran"
-                onChange={handleProofOfPaymentChange}
-              />
-              <span className="text-neutral-500 text-sm block">
-                Format file must be jpg,png and jpeg, max size 1 MB
-              </span>
-              {errorProofOfPaymentFile && (
-                <span className="text-red-500 text-sm italic">
-                  {errorProofOfPaymentFile}
-                </span>
-              )}
-            </div>
+      )}
+      {!loadingFetchData && competition && (
+        <form action="" className={`space-y-3`}>
+          <div>
+            <label className="font-medium">Team Name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="Your Team Name"
+              value={name}
+              readOnly={competition?.maxMemberTeam === 1 ? true : false}
+              onChange={e => setName(e.target.value)}
+            />
+            {errorName && (
+              <span className="text-red-500 text-sm italic">{errorName}</span>
+            )}
           </div>
-        )}
-      </form>
+          <div className="border-b border-black w-full"></div>
+          <div className={`space-y-3`}>
+            <h3 className="text-xl font-medium">Member of team</h3>
+            {[...Array(Number(competition?.maxMemberTeam))].map((_, index) => (
+              <div key={index}>
+                <label className="font-medium">Member {index + 1}</label>
+                <input
+                  type="text"
+                  name={`member${index}`}
+                  id={`member${index}`}
+                  className={`bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  placeholder={`Inputkan Collaboration ID Member ${index + 1}`}
+                  readOnly={index === 0 ? true : false}
+                  defaultValue={members[index]} // Gunakan nilai dari array members
+                  onChange={e => handleMemberChange(index, e.target.value)}
+                />
+                {errorMember && (
+                  <span className="text-red-500 text-sm italic">
+                    {errorMember}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="border-b border-black w-full"></div>
+          {competition?.registrationFee !== 0 && (
+            <div className="space-y-3">
+              <h3 className="text-xl font-medium">Pembayaran</h3>
+              <div className="p-3 bg-neutral-200 rounded">
+                <p className="text-lg text-black font-normal">
+                  {competition?.organization?.payment?.service}
+                </p>
+                <p className="text-lg text-black font-normal">
+                  a/n {competition?.organization?.payment?.name}
+                </p>
+                <p className="text-lg text-black font-normal">
+                  {competition?.organization?.payment?.noVirtualAccount}
+                </p>
+              </div>
+              <div>
+                <label className="font-medium">Upload Bukti Pembayaran</label>
+                {proofOfPayment && (
+                  <Image
+                    src={proofOfPayment}
+                    alt="preview-proofOfPayment"
+                    width={200}
+                    height={200}
+                    className="w-1/4 h-auto object-cover"
+                  />
+                )}
+                <input
+                  type="file"
+                  name="proofOfPayment"
+                  id="proofOfPayment"
+                  className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  placeholder="Upload Bukti Pembayaran"
+                  onChange={handleProofOfPaymentChange}
+                />
+                <span className="text-neutral-500 text-sm block">
+                  Format file must be jpg,png and jpeg, max size 1 MB
+                </span>
+                {errorProofOfPaymentFile && (
+                  <span className="text-red-500 text-sm italic">
+                    {errorProofOfPaymentFile}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+        </form>
+      )}
+
       <div className="flex flex-col tablet:flex-row justify-start gap-3 py-3">
-        {isLoading && <p className="italic text-neutral-500">Loading...</p>}
-        {!isLoading && (
+        {isLoading && !loadingFetchData && (
+          <p className="italic text-neutral-500">Loading...</p>
+        )}
+        {!isLoading && !loadingFetchData && (
           <button
             disabled={isLoading}
             onClick={handleSubmit}
@@ -332,10 +357,10 @@ export default function FormCompetitionRegistration({
             {isLoading ? 'Loading...' : 'Submit'}
           </button>
         )}
-        {!isLoading && (
+        {!isLoading && !loadingFetchData && (
           <button
             disabled={isLoading}
-            onClick={() => router.back()}
+            onClick={handleBack}
             className="w-full tablet:w-fit bg-red-500 text-white p-2 rounded"
           >
             {isLoading ? 'Loading...' : 'Cancel'}
