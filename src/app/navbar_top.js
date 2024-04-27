@@ -51,6 +51,7 @@ export default function NavbarTop() {
           <div className="hidden laptop:flex justify-between items-center space-x-4">
             <Link
               href="/"
+              onClick={() => setIsOpen(false)}
               className={`mr-3 cursor-pointer ${
                 pathname === '/' ? 'text-black font-semibold' : 'text-black'
               } hover:bg-gray-200 p-1 rounded`}
@@ -59,6 +60,7 @@ export default function NavbarTop() {
             </Link>
             <Link
               href="/collaboration"
+              onClick={() => setIsOpen(false)}
               className={`mr-3 cursor-pointer  ${
                 pathname.startsWith('/collaboration')
                   ? 'text-black font-semibold'
@@ -69,6 +71,7 @@ export default function NavbarTop() {
             </Link>
             <Link
               href="/competition"
+              onClick={() => setIsOpen(false)}
               className={`mr-3 cursor-pointer  ${
                 pathname.startsWith('/competition')
                   ? 'text-black font-semibold'
@@ -81,6 +84,7 @@ export default function NavbarTop() {
             {status === 'authenticated' && (
               <Link
                 href="/leaderboard"
+                onClick={() => setIsOpen(false)}
                 className={`mr-3 cursor-pointer  ${
                   pathname.startsWith('/leaderboard')
                     ? 'text-black font-semibold'
@@ -121,7 +125,7 @@ export default function NavbarTop() {
                 </div>
 
                 <div
-                  className={`absolute right-0 z-20 mt-5 w-48 origin-top-right rounded-md bg-white py-1 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                  className={`absolute right-0 z-20 mt-5 w-48 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none ${
                     isOpen ? 'block' : 'hidden'
                   }`}
                   role="menu"
@@ -130,26 +134,28 @@ export default function NavbarTop() {
                 >
                   <Link
                     href={`/profile/${session?.user?.nickname}`}
-                    className={`block px-4 py-2 text-sm ${
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-4 py-2 text-sm w-full ${
                       pathname.startsWith('/profile')
                         ? 'text-black font-semibold'
                         : 'text-black'
-                    }`}
+                    } hover:bg-gray-200`}
                   >
                     Your Profile
                   </Link>
                   <Link
                     href={`/settings/profile/${session?.user?.nickname}`}
-                    className={`block px-4 py-2 text-sm ${
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-4 py-2 text-sm w-full ${
                       pathname.startsWith('/settings')
                         ? 'text-black font-semibold'
                         : 'text-black'
-                    }`}
+                    } hover:bg-gray-200`}
                   >
                     Settings
                   </Link>
                   <button
-                    className="block px-4 py-2 text-sm text-black cursor-pointer"
+                    className="block px-4 py-2 text-sm text-start w-full text-black cursor-pointer hover:bg-gray-200"
                     onClick={() =>
                       signOut({
                         callbackUrl: `/login`,

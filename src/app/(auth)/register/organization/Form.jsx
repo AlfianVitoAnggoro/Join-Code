@@ -211,6 +211,13 @@ export default function Form() {
     }
 
     const result = await registerOrganization(data);
+    if (!result.success) {
+      setPopUp(true);
+      setSuccess(false);
+      setMessage('Failed, Server error, Please try again!');
+      setIsLoading(false);
+      return;
+    }
 
     setName('');
     setNickname('');
@@ -218,9 +225,9 @@ export default function Form() {
     setPassword('');
     setConfirmPassword('');
     setDocument('');
-    setDocumentFile(null);
+    setDocumentFile({});
     setPopUp(true);
-    setSuccess(result.success);
+    setSuccess(true);
     setMessage('Success, please check your email for verification !!');
     setIsLoading(false);
     router.refresh();

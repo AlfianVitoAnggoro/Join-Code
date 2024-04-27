@@ -149,7 +149,7 @@ export default function Form() {
     if (!result.success) {
       setPopUp(true);
       setSuccess(false);
-      setMessage('Failed, Account has not been created');
+      setMessage('Failed, Server error, Please try again!');
       setIsLoading(false);
       return;
     }
