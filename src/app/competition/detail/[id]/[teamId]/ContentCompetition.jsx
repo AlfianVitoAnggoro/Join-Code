@@ -117,29 +117,26 @@ export default function ContentCompetition({
                 {competition?.organization?.user?.name}
               </p>
             </div>
-            {checkValidate &&
-              teamHaveSubmitProject &&
-              !submitProjectButtonByCompetitionDate &&
-              !teamCompetition?.statusTeamCompetition?.name != 'Registered' && (
-                <p className="text-neutral-500 text-sm italic">
-                  Submit project is not available
-                </p>
-              )}
+
             {isPageLoaded &&
-              checkValidate &&
-              teamCompetition?.statusTeamCompetition?.name == 'Registered' &&
-              submitProjectButtonByCompetitionDate &&
-              !teamHaveSubmitProject && (
-                <div>
-                  <Link
-                    href={`/competition/detail/submit_project/${competitionId}/${teamId}`}
-                    scroll={false}
-                    className="bg-blue-700 text-white rounded px-4 py-2"
-                  >
-                    Submit Project
-                  </Link>
-                </div>
-              )}
+            checkValidate &&
+            teamCompetition?.statusTeamCompetition?.name == 'Registered' &&
+            submitProjectButtonByCompetitionDate &&
+            !teamHaveSubmitProject ? (
+              <div>
+                <Link
+                  href={`/competition/detail/submit_project/${competitionId}/${teamId}`}
+                  scroll={false}
+                  className="bg-blue-700 text-white rounded px-4 py-2"
+                >
+                  Submit Project
+                </Link>
+              </div>
+            ) : (
+              <p className="text-neutral-500 text-sm italic">
+                Submit project is not available
+              </p>
+            )}
             <div className="py-3">
               <h2 className="text-2xl font-semibold">About Competition</h2>
               <div className="flex items-center gap-3 p-1 my-2 bg-neutral-100 rounded">
