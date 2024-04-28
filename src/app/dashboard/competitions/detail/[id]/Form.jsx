@@ -412,11 +412,11 @@ export default function Form({ id }) {
             </table>
           </div>
           {isPageLoaded && !competition?.isCompleted && (
-            <div>
+            <div className="flex justify-end items-center">
               <Link
                 href={`/dashboard/competitions/detail/complete-competition/${id}`}
                 scroll={false}
-                className="px-1 py-2 rounded bg-blue-600 text-white w-16 text-sm"
+                className="px-1 py-2 rounded bg-blue-600 text-white w-max text-sm"
               >
                 Complete The Competition
               </Link>

@@ -81,6 +81,20 @@ export default function Profile({ user }) {
                 </p>
               </div>
               <div className="mt-2">
+                <h2 className="font-semibold text-2xl text-white">
+                  Collaboration ID
+                </h2>
+                {user?.softwareDevelopers?.collaborationId ? (
+                  <p className="text-white mt-1 text-lg">
+                    {user?.softwareDevelopers?.collaborationId}
+                  </p>
+                ) : (
+                  <p className="text-neutral-500 mt-1 text-lg">
+                    Collaboration ID has not been available
+                  </p>
+                )}
+              </div>
+              <div className="mt-2">
                 <h2 className="font-semibold text-2xl text-white">About Me</h2>
                 {user?.softwareDevelopers?.description ? (
                   <p className="text-white mt-1 text-lg">
