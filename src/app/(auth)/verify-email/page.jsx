@@ -41,7 +41,8 @@ export default function Page() {
     setLoading(false);
   }, [email]);
 
-  const handleVerifyEmail = async () => {
+  const handleVerifyEmail = async e => {
+    e.preventDefault();
     setLoading(true);
     if (email && token) {
       const data = {
@@ -68,9 +69,13 @@ export default function Page() {
         setSuccess(false);
         setMessage('Failed to verify email');
       }
+    } else {
+      setSuccess(false);
+      setMessage('Failed, Email and token is not found');
     }
     setIsClickVerifyEmail(true);
     setLoading(false);
+    return;
   };
 
   const handlerResendVerifyEmail = async () => {

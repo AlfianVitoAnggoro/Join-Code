@@ -19,9 +19,8 @@ export default function Form() {
   const [errorName, setErrorName] = useState();
   const [errorNickname, setErrorNickname] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [popUp, setPopUp] = useState(false);
   const [success, setSuccess] = useState();
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState('');
 
   const getUsersData = async () => {
     try {
@@ -44,6 +43,8 @@ export default function Form() {
         setErrorConfirmPassword(
           'Password and Confirm Password must be the same',
         );
+      } else if (password == '') {
+        setErrorConfirmPassword('Password must be filled');
       } else {
         setErrorConfirmPassword('');
       }
@@ -57,6 +58,8 @@ export default function Form() {
         setErrorEmail('Email already used');
       } else if (!emailRegex) {
         setErrorEmail('Email must be ended with "@gmail.com"');
+      } else if (email == '') {
+        setErrorEmail('Email must be filled');
       } else {
         setErrorEmail('');
       }
@@ -84,6 +87,8 @@ export default function Form() {
         setErrorName('Name must be letters');
       } else if (name.length < 5) {
         setErrorName('Name must be more than 5 characters');
+      } else if (name == '') {
+        setErrorName('Name must be filled');
       } else {
         setErrorName('');
       }
@@ -95,19 +100,20 @@ export default function Form() {
   const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);
+
     if (
       name == '' ||
+      nickname == '' ||
       email == '' ||
       password == '' ||
-      confirmPassword == '' ||
-      nickname == ''
+      confirmPassword == ''
     ) {
       if (name == '') {
         setErrorName('Name must be filled');
       }
 
       if (nickname == '') {
-        setErrorName('Nickname must be filled');
+        setErrorNickname('Nickname must be filled');
       }
 
       if (email == '') {
@@ -115,75 +121,61 @@ export default function Form() {
       }
 
       if (password == '' || confirmPassword == '') {
-        setErrorConfirmPassword('Password and Confirm Password must be filled');
+        setErrorConfirmPassword('Password must be filled');
       }
-      setPopUp(true);
+
       setSuccess(false);
-      setMessage('Failed, Form cannot be empty');
-      setIsLoading(false);
-      return;
+      setMessage('Failed, Any form cant be empty');
+    } else {
+      if (
+        errorConfirmPassword != '' ||
+        errorEmail != '' ||
+        errorName != '' ||
+        errorNickname != ''
+      ) {
+        setSuccess(false);
+        setMessage('Failed, please check your input');
+      } else {
+        const data = {
+          name: name,
+          nickname: nickname,
+          email: email,
+          password: password,
+        };
+
+        const result = await registerSoftwareDeveloper(data);
+
+        if (!result.success) {
+          setSuccess(false);
+          setMessage('Failed, Server error, Please try again!');
+        } else {
+          setName('');
+          setNickname('');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          setSuccess(true);
+          setMessage('Success, Please check your email for verification !!');
+          router.refresh();
+        }
+      }
     }
 
-    if (
-      errorConfirmPassword != '' ||
-      errorEmail != '' ||
-      errorName != '' ||
-      errorNickname != ''
-    ) {
-      setPopUp(true);
-      setSuccess(false);
-      setMessage('Failed, please check your input');
-      setIsLoading(false);
-      return;
-    }
-
-    const data = {
-      name: name,
-      nickname: nickname,
-      email: email,
-      password: password,
-    };
-
-    const result = await registerSoftwareDeveloper(data);
-
-    if (!result.success) {
-      setPopUp(true);
-      setSuccess(false);
-      setMessage('Failed, Server error, Please try again!');
-      setIsLoading(false);
-      return;
-    }
-
-    setName('');
-    setNickname('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setPopUp(true);
-    setSuccess(true);
-    setMessage('Success, Please check your email for verification !!');
     setIsLoading(false);
-    router.refresh();
+    return;
   };
   return (
     <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 sm:p-6 lg:p-8 ">
-      {popUp && !success && (
-        <div className="rounded-md bg-red-600 py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2">
-          <p className="text-wrap">{message}</p>{' '}
-          <button
-            className=" font-bold text-xl"
-            onClick={() => setPopUp(false)}
-          >
-            X
-          </button>
-        </div>
-      )}
-      {popUp && success && (
-        <div className="rounded-md bg-green-600 py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2">
+      {message != '' && (
+        <div
+          className={`rounded-md ${
+            success ? 'bg-green-600' : 'bg-red-600'
+          } py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2`}
+        >
           <p className="text-wrap">{message}</p>{' '}
           <button
             className=" font-bold text-2xl"
-            onClick={() => setPopUp(false)}
+            onClick={() => setMessage(false)}
           >
             X
           </button>
@@ -209,7 +201,6 @@ export default function Form() {
             placeholder="Your Name"
             value={name}
             onChange={e => setName(e.target.value)}
-            required
           />
           {errorName && (
             <span className="text-red-500 text-sm italic">{errorName}</span>
@@ -230,7 +221,6 @@ export default function Form() {
             placeholder="Your Nickname"
             value={nickname}
             onChange={e => setNickname(e.target.value)}
-            required
           />
           {errorNickname && (
             <span className="text-red-500 text-sm italic">{errorNickname}</span>
@@ -251,7 +241,6 @@ export default function Form() {
             placeholder="name@email.com"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            required
           />
           {errorEmail && (
             <span className="text-red-500 text-sm italic">{errorEmail}</span>

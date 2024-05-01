@@ -7,17 +7,14 @@ import { useState } from 'react';
 export default function Form() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [popUp, setPopUp] = useState(false);
   const [success, setSuccess] = useState();
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState('');
   const params = useSearchParams();
   const router = useRouter();
   const callbackUrl = params.get('callbackUrl') || '/';
 
   const handleLogin = async e => {
     e.preventDefault();
-    setSuccess();
-    setMessage('');
     setIsLoading(true);
     try {
       const res = await signIn('credentials', {
@@ -38,47 +35,37 @@ export default function Form() {
           setTimeout(() => {
             window.location.reload();
           }, [1000]);
-          setIsLoading(false);
-          return;
+        } else {
+          e.target.reset();
+          router.push(callbackUrl);
+          setTimeout(() => {
+            window.location.reload();
+          }, [1000]);
         }
-        e.target.reset();
-        router.push(callbackUrl);
-        setTimeout(() => {
-          window.location.reload();
-        }, [1000]);
-        setIsLoading(false);
-        return;
       } else {
-        setPopUp(true);
         setSuccess(false);
         setMessage(res.error);
-        setIsLoading(false);
       }
     } catch (err) {
+      setSuccess(false);
       setMessage(err);
     } finally {
       setIsLoading(false);
+      return;
     }
   };
   return (
     <div className="w-full tablet:w-3/6 bg-white shadow-md border border-gray-200 rounded-e-sm p-4 sm:p-6 lg:p-8 my-5">
-      {popUp && !success && (
-        <div className="rounded-md bg-red-600 py-2 px-3 text-sm text-white flex justify-between items-center mb-2">
-          <p className="text-wrap">{message}</p>{' '}
-          <button
-            className=" font-bold text-xl"
-            onClick={() => setPopUp(false)}
-          >
-            X
-          </button>
-        </div>
-      )}
-      {popUp && success && (
-        <div className="rounded-md bg-green-600 py-2 px-3 text-sm text-white flex justify-between items-center mb-2">
+      {message != '' && (
+        <div
+          className={`rounded-md ${
+            success ? 'bg-green-600' : 'bg-red-600'
+          } py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2`}
+        >
           <p className="text-wrap">{message}</p>{' '}
           <button
             className=" font-bold text-2xl"
-            onClick={() => setPopUp(false)}
+            onClick={() => setMessage(false)}
           >
             X
           </button>

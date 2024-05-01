@@ -46,56 +46,48 @@ export default function Form() {
       setSuccess(false);
       setErrorPassword('Password and Confirm Password cannot be empty');
       setMessage('Password cannot be empty');
-      setIsLoading(false);
-      return;
+    } else {
+      if (errorPassword != '') {
+        setSuccess(false);
+        setMessage('Failed, please check your form');
+      } else {
+        const res = await checkEmailVerified(email);
+        if (!res.success) {
+          setSuccess(false);
+          setMessage('Failed, Email is not found');
+        } else {
+          if (!res?.data?.isEmailVerified) {
+            setSuccess(false);
+            setMessage('Failed, email have not been verified');
+            return;
+          } else {
+            const data = {
+              email: email,
+              token: token,
+              newPassword: password,
+            };
+
+            const response = await changePasswordByForgotPassword(data);
+            if (!response?.success) {
+              setSuccess(false);
+              setMessage('Failed, Email or token is invalid or expired');
+              setTimeout(() => {
+                router.push('/forgot-password');
+              }, 2000);
+            } else {
+              e.target.reset();
+              setSuccess(true);
+              setMessage('Success, Password has been changed');
+              setTimeout(() => {
+                router.push('/login');
+              }, 2000);
+            }
+          }
+        }
+      }
     }
 
-    if (errorPassword != '') {
-      setSuccess(false);
-      setMessage('Failed, check your field');
-      setIsLoading(false);
-      return;
-    }
-
-    const res = await checkEmailVerified(email);
-    if (!res.success) {
-      setSuccess(false);
-      setMessage('Failed, email is not found');
-      setIsLoading(false);
-      return;
-    }
-
-    if (!res?.data?.isEmailVerified) {
-      setSuccess(false);
-      setMessage('Failed, email have not been verified');
-      setIsLoading(false);
-      return;
-    }
-
-    const data = {
-      email: email,
-      token: token,
-      newPassword: password,
-    };
-
-    const response = await changePasswordByForgotPassword(data);
-    if (!response?.success) {
-      setSuccess(false);
-      setMessage('Failed, Email or token is invalid or expired');
-      setIsLoading(false);
-      setTimeout(() => {
-        router.push('/forgot-password');
-      }, 2000);
-      return;
-    }
-
-    e.target.reset();
-    setSuccess(true);
-    setMessage('Success, Password has been changed');
     setIsLoading(false);
-    setTimeout(() => {
-      router.push('/login');
-    }, 2000);
     return;
   };
   return (

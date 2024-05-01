@@ -28,9 +28,8 @@ export default function Form() {
 
   // Pop up
   const [isLoading, setIsLoading] = useState(false);
-  const [popUp, setPopUp] = useState(false);
   const [success, setSuccess] = useState();
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState('');
 
   const getUsersData = async () => {
     try {
@@ -141,6 +140,7 @@ export default function Form() {
   const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);
+
     if (
       name == '' ||
       email == '' ||
@@ -154,7 +154,7 @@ export default function Form() {
       }
 
       if (nickname == '') {
-        setErrorName("Nickname can't be empty");
+        setErrorNickname("Nickname can't be empty");
       }
 
       if (email == '') {
@@ -168,90 +168,71 @@ export default function Form() {
       if (document == '') {
         setErrorDocument("Document can't be empty");
       }
-      setPopUp(true);
       setSuccess(false);
-      setMessage('Failed, please check empty input');
-      setIsLoading(false);
-      return;
-    }
-
-    if (
-      errorConfirmPassword != '' ||
-      errorEmail != '' ||
-      errorName != '' ||
-      errorDocument != '' ||
-      errorNickname != ''
-    ) {
-      setPopUp(true);
-      setSuccess(false);
-      setMessage('Failed, please check your input');
-      setIsLoading(false);
-      return;
-    }
-
-    const data = {
-      name: name,
-      nickname: nickname,
-      email: email,
-      password: password,
-      roleId: 2,
-      avatar: 'default-avatar.png',
-    };
-
-    const resUploadDocument = await handleUploadDocument();
-
-    if (resUploadDocument.success) {
-      data.document = resUploadDocument.data;
+      setMessage("Failed, Any form can't be empty");
     } else {
-      setPopUp(true);
-      setSuccess(false);
-      setMessage('Failed, please check your document input');
-      setIsLoading(true);
-      return;
+      if (
+        errorConfirmPassword != '' ||
+        errorEmail != '' ||
+        errorName != '' ||
+        errorDocument != '' ||
+        errorNickname != ''
+      ) {
+        setSuccess(false);
+        setMessage('Failed, please check your input');
+      } else {
+        const data = {
+          name: name,
+          nickname: nickname,
+          email: email,
+          password: password,
+          roleId: 2,
+          avatar: 'default-avatar.png',
+        };
+
+        const resUploadDocument = await handleUploadDocument();
+
+        if (!resUploadDocument.success) {
+          setSuccess(false);
+          setMessage('Failed, please check your document input');
+        } else {
+          data.document = resUploadDocument.data;
+          const result = await registerOrganization(data);
+          if (!result.success) {
+            setSuccess(false);
+            setMessage('Failed, Server error, Please try again!');
+          } else {
+            setName('');
+            setNickname('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            setDocument('');
+            setDocumentFile({});
+            setSuccess(true);
+            setMessage('Success, please check your email for verification !!');
+            router.refresh();
+          }
+        }
+      }
     }
 
-    const result = await registerOrganization(data);
-    if (!result.success) {
-      setPopUp(true);
-      setSuccess(false);
-      setMessage('Failed, Server error, Please try again!');
-      setIsLoading(false);
-      return;
-    }
-
-    setName('');
-    setNickname('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setDocument('');
-    setDocumentFile({});
-    setPopUp(true);
-    setSuccess(true);
-    setMessage('Success, please check your email for verification !!');
     setIsLoading(false);
-    router.refresh();
+    return;
   };
 
   return (
     <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 sm:p-6 lg:p-8">
-      {popUp && !success && (
-        <div className="rounded-md bg-red-600 py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2">
-          <p>{message}</p>{' '}
-          <button
-            className=" font-bold text-xl"
-            onClick={() => setPopUp(false)}
-          >
-            X
-          </button>
-        </div>
-      )}
-      {popUp && success && (
-        <div className="rounded-md bg-green-600 py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2">
-          <p>{message}</p>{' '}
+      {message != '' && (
+        <div
+          className={`rounded-md ${
+            success ? 'bg-green-600' : 'bg-red-600'
+          } py-2 px-3 text-sm text-white flex justify-between gap-x-3 items-center mb-2`}
+        >
+          <p className="text-wrap">{message}</p>{' '}
           <button
             className=" font-bold text-2xl"
-            onClick={() => setPopUp(false)}
+            onClick={() => setMessage(false)}
           >
             X
           </button>
