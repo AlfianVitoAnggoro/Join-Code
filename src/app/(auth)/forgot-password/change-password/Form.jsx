@@ -59,7 +59,6 @@ export default function Form() {
           if (!res?.data?.isEmailVerified) {
             setSuccess(false);
             setMessage('Failed, email have not been verified');
-            return;
           } else {
             const data = {
               email: email,
