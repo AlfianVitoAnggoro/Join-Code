@@ -1,11 +1,17 @@
-import Form from './Form';
+'use client';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 export default function SubmitProjectCompetition({ params }) {
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/competition/detail/' + params.id + '/' + params.teamId);
+  }, []);
   return (
-    <div className="flex-1 px-3 bg-white rounded-lg">
-      <div className="pt-3 mb-3">
-        <h2 className="text-2xl font-medium">Submit Project Competition</h2>
+    <div className="col-span-5 flex flex-col gap-3">
+      <div className="bg-white rounded p-3">
+        <p>Loading...</p>{' '}
       </div>
-      <Form competitionId={params.id} teamId={params.teamId} />
     </div>
   );
 }
