@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function DetailsoftwareDevelopers(props) {
+export default async function DetailsoftwareDeveloper(props) {
   const { user } = props;
   return (
     <div className="grid grid-cols-5 gap-2">

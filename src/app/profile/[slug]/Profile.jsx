@@ -188,7 +188,7 @@ export default function Profile({ user }) {
         </div>
       </div>
       <div className="bg-mainColor">
-        <div className="maax-w-[1024px] min-h-screen mx-auto p-10">
+        <div className="max-w-[1024px] min-h-screen mx-auto p-10">
           <h2 className="text-black text-3xl font-bold">My Competition</h2>
           <div className="flex justify-start tablet:justify-end items-center gap-3">
             <label htmlFor="filter" className="text-lg">

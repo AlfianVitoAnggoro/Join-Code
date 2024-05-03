@@ -118,7 +118,7 @@ export default function Form({ id }) {
   //   router.refresh();
   // };
   return (
-    <div className="p-3 bg-white space-y-3">
+    <div className="p-3 bg-white min-h-screen space-y-3">
       {message !== '' && (
         <div
           className={`rounded-md ${
@@ -137,7 +137,7 @@ export default function Form({ id }) {
         </div>
       )}
       {!loadingFetchData && !competition && (
-        <div className="bg-white rounded p-3 h-screen flex justify-center items-center ">
+        <div className="bg-white rounded p-3 h-screen flex justify-center items-center">
           <p className="text-neutral-500 italic">Failed load data</p>
         </div>
       )}

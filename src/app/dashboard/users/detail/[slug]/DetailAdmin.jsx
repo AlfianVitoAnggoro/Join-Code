@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default async function DetailOrganization(props) {
+export default async function DetailAdmin(props) {
   const { user } = props;
   return (
     <div className="grid grid-cols-5 gap-2">
